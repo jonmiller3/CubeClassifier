@@ -35,35 +35,34 @@ int main (int argc, const char * argv[])
     
     
     // now the data, each bit of data has N values (N = number of variabes = ndim)
-    int eventsA=100;
-    int eventsC=100;
+    int eventsA=10;
+    int eventsC=10;
     int ndim=4;
 
     float* datanorm_in = (float*)malloc(sizeof(cl_float)*(eventsA+eventsC)*ndim);
     
-    
     for (int i=0; i<eventsA; i++) {
         for (int j=0; j<ndim; j++) {
-            datanorm_in[i,j]=(cl_float)2;
+            datanorm_in[i*ndim+j]=(cl_float)2;
+            //std::cout<<i<<" "<<j<<" "<<datanorm_in[i*ndim+j]<<std::endl;
         }
     }
     
-    for (int i=eventsA; i<eventsC; i++) {
+    for (int i=eventsA; i<eventsC+eventsA; i++) {
         for (int j=0; j<ndim; j++) {
-            if ((i+j)%2==0) {
-                datanorm_in[i,j]=(cl_float)1;
+            if ((i+j)%3==0) {
+                datanorm_in[i*ndim+j]=(cl_float)1;
             } else {
-                datanorm_in[i,j]=(cl_float)0;
+                datanorm_in[i*ndim+j]=(cl_float)0;
             }
+            //std::cout<<i<<" "<<j<<" "<<datanorm_in[i*ndim+j]<<std::endl;
         }
     }
-    // data is done
-    
     float* max_in = (float*)malloc(sizeof(cl_float)*ndim);
     float* min_in = (float*)malloc(sizeof(cl_float)*ndim);
     
     for (int j=0; j<ndim; j++) {
-        max_in[j]=2;
+        max_in[j]=4;
         min_in[j]=0;
     }
     
@@ -71,6 +70,13 @@ int main (int argc, const char * argv[])
     // so my idea actually is that I have 2 dimensions for the data (A+B+C) X N
 
     float* datanorm_out = (float*)malloc(sizeof(cl_float)*(eventsA+eventsC)*ndim);
+    /*
+    for (int i=0; i<(eventsC+eventsA); i++) {
+        for (int j=0; j<4; j++) {
+            std::cout<<datanorm_in[i,j]<<" this is "<<i<<" "<<j<<" "<<datanorm_out[i,j]<<std::endl;
+        }
+    }
+     */
     
     // deal with memory going into the cl device
     void* mem_in  = gcl_malloc(sizeof(cl_float) * (eventsA+eventsC) * ndim, datanorm_in,
@@ -121,19 +127,24 @@ int main (int argc, const char * argv[])
         
     }); 
         
-    
-    gcl_free(mem_in);
-    gcl_free(memmax_in);
-    gcl_free(memmin_in);
-    gcl_free(mem_out);
-    free(datanorm_in);
+    std::cout<<" done! "<<std::endl;
     
     // so my idea actually is that I have 2 dimensions for the data (A+B+C) X N 
     // and out would be 3 dimensions, W=(A+B+C) X N X M
     
     // this would be another call to the gpu and fillcube
     
-
+    for (int i=0; i<(eventsC+eventsA); i++) {
+        for (int j=0; j<4; j++) {
+            std::cout<<datanorm_in[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<datanorm_out[i*ndim+j]<<std::endl;
+        }
+    }
+    
+    gcl_free(mem_in);
+    gcl_free(memmax_in);
+    gcl_free(memmin_in);
+    gcl_free(mem_out);
+    free(datanorm_in);
     free(datanorm_out);
     
     // after this I do my multimap

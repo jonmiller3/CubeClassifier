@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6DCA84611636BFBC0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84601636BFBC0091D31F /* main.cpp */; };
-		6DCA84631636BFBC0091D31F /* CubeClassifier.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DCA84621636BFBC0091D31F /* CubeClassifier.1 */; };
+		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; };
+		6DCA84731636BFEE0091D31F /* normdata.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846A1636BFEE0091D31F /* normdata.cl */; };
+		6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846B1636BFEE0091D31F /* fillcube.cl */; };
+		6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846C1636BFEE0091D31F /* calccuberesult.cl */; };
+		6DCA84761636BFEE0091D31F /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846E1636BFEE0091D31F /* Cube.cpp */; };
+		6DCA84771636BFEE0091D31F /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84701636BFEE0091D31F /* Data.cpp */; };
+		6DCA84791636C3480091D31F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCA84781636C3480091D31F /* OpenCL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,7 +23,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				6DCA84631636BFBC0091D31F /* CubeClassifier.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -26,8 +30,16 @@
 
 /* Begin PBXFileReference section */
 		6DCA845C1636BFBC0091D31F /* CubeClassifier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CubeClassifier; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DCA84601636BFBC0091D31F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		6DCA84621636BFBC0091D31F /* CubeClassifier.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CubeClassifier.1; sourceTree = "<group>"; };
+		6DCA84691636BFEE0091D31F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
+		6DCA846A1636BFEE0091D31F /* normdata.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = normdata.cl; sourceTree = SOURCE_ROOT; };
+		6DCA846B1636BFEE0091D31F /* fillcube.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube.cl; sourceTree = SOURCE_ROOT; };
+		6DCA846C1636BFEE0091D31F /* calccuberesult.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = calccuberesult.cl; sourceTree = SOURCE_ROOT; };
+		6DCA846D1636BFEE0091D31F /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = SOURCE_ROOT; };
+		6DCA846E1636BFEE0091D31F /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = SOURCE_ROOT; };
+		6DCA846F1636BFEE0091D31F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = SOURCE_ROOT; };
+		6DCA84701636BFEE0091D31F /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = SOURCE_ROOT; };
+		6DCA84711636BFEE0091D31F /* CubeClassifier.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = CubeClassifier.1; sourceTree = SOURCE_ROOT; };
+		6DCA84781636C3480091D31F /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = ../../../../System/Library/Frameworks/OpenCL.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DCA84791636C3480091D31F /* OpenCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +57,7 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
+				6DCA84781636C3480091D31F /* OpenCL.framework */,
 				6DCA845F1636BFBC0091D31F /* CubeClassifier */,
 				6DCA845D1636BFBC0091D31F /* Products */,
 			);
@@ -60,8 +74,15 @@
 		6DCA845F1636BFBC0091D31F /* CubeClassifier */ = {
 			isa = PBXGroup;
 			children = (
-				6DCA84601636BFBC0091D31F /* main.cpp */,
-				6DCA84621636BFBC0091D31F /* CubeClassifier.1 */,
+				6DCA84691636BFEE0091D31F /* main.cpp */,
+				6DCA846A1636BFEE0091D31F /* normdata.cl */,
+				6DCA846B1636BFEE0091D31F /* fillcube.cl */,
+				6DCA846C1636BFEE0091D31F /* calccuberesult.cl */,
+				6DCA846D1636BFEE0091D31F /* Cube.h */,
+				6DCA846E1636BFEE0091D31F /* Cube.cpp */,
+				6DCA846F1636BFEE0091D31F /* Data.h */,
+				6DCA84701636BFEE0091D31F /* Data.cpp */,
+				6DCA84711636BFEE0091D31F /* CubeClassifier.1 */,
 			);
 			path = CubeClassifier;
 			sourceTree = "<group>";
@@ -117,7 +138,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DCA84611636BFBC0091D31F /* main.cpp in Sources */,
+				6DCA84721636BFEE0091D31F /* main.cpp in Sources */,
+				6DCA84731636BFEE0091D31F /* normdata.cl in Sources */,
+				6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */,
+				6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */,
+				6DCA84761636BFEE0091D31F /* Cube.cpp in Sources */,
+				6DCA84771636BFEE0091D31F /* Data.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
