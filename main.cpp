@@ -205,22 +205,20 @@ int main (int argc, const char * argv[])
         
     });       
 
-    std::map< std::string,float[3]> cubemap;
-    std::map< std::string,float[3]>::iterator cubeit = cubemap.begin();
-    float nullfloat3[3] = {0,0,0};
+    std::map< int[30],float[3]> cubemap;
+    std::map< int[30],float[3]>::iterator cubeit = cubemap.begin();
+    float nullfloat3[3] = {0ar};
     
     for (int i=0; i<(eventsC+eventsA); i++) {
         for (int k=0; k<mdim; k++) {
-            int* varj = new int[ndim+1];
+            int varj[30]= {0};
             varj[0] = k;
             memcpy(&varj[1],&cubeset_out[i*ndim*mdim+k*ndim],sizeof(int)*ndim);
-            std::string varjstr;
-            memcpy(&varjstr, &varj, sizeof(int)*(ndim+1));
-            if (cubemap.find(varjstr)==cubemap.end()){
-                cubemap.insert(cubeit, std::pair< std::string,float[3]>(varjstr,nullfloat3) );
+            if (cubemap.find(varj)==cubemap.end()){
+                cubemap.insert(cubeit, std::pair< int[30],float[3]>(varj,nullfloat3) );
             }
-            cubemap[varjstr][(int)data[i][0]]+=data[i][1];
-            std::cout<<varjstr<<" "<<varj<<" "<<std::endl;
+            cubemap[varj][(int)data[i][0]]+=data[i][1];
+
             for (int j=0; j<ndim; j++) {
             std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
                     " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j+ndim*k]<<std::endl;
