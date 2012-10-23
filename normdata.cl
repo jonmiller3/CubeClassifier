@@ -1,14 +1,16 @@
 kernel void normdata(global float* input, global float* max, global float* min, global float* output)
 {
     
-    size_t i = get_global_id(0);
-    size_t j = get_global_id(1);
+    int i = get_global_id(0);
+    int j = get_global_id(1);
     
-    // input is a value that is x1,y1,z1 and so on
-    //output[i,j] = (input[i,j]-min[j])/(max[j]-min[j]);
+    int p = get_global_size(0);
+    int r = get_global_size(1);
+    
+    output[i*p+j]=0;
  
     float trange = max[j]-min[j];
-    float difference = input[i,j]-min[j];
-    output[i,j] = difference/trange;
-    output[i,j] = i;
+    float difference = input[i*r+j]-min[j];
+    output[i*r+j] = difference/trange;
+
 }
