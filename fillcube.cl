@@ -14,7 +14,7 @@ kernel void fillcube(global float* input, global int* output)
     // input is a value that is x1,y1,z1 and so on
     //output[(i*r+j)*q+k]=0;;
     
-    output[i*r*q+j*q+k]=(int)(input[i*r+j]*(k+2));
+    output[i*r*q+r*k+j]=(int)(input[i*r+j]*(k+2));
     
     //output[(i*r+j)*q+k]=k;
     

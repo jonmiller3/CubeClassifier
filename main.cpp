@@ -12,6 +12,7 @@
 #include "normdata.cl.h"
 
 #include <map>
+#include <vector>
 
 
 int main (int argc, const char * argv[])
@@ -42,6 +43,8 @@ int main (int argc, const char * argv[])
     int mdim=3;
     int numsquares=mdim^ndim;
     
+    double data[eventsA+eventsC][2];
+    
     float* datanorm_in = (float*)malloc(sizeof(cl_float)*(eventsA+eventsC)*ndim);
     
     for (int i=0; i<eventsA; i++) {
@@ -49,6 +52,8 @@ int main (int argc, const char * argv[])
             datanorm_in[i*ndim+j]=(cl_float)2;
             //std::cout<<i<<" "<<j<<" "<<datanorm_in[i*ndim+j]<<std::endl;
         }
+        data[i][0]=0;
+        data[i][1]=1;
     }
     
     for (int i=eventsA; i<eventsC+eventsA; i++) {
@@ -60,6 +65,8 @@ int main (int argc, const char * argv[])
             }
             //std::cout<<i<<" "<<j<<" "<<datanorm_in[i*ndim+j]<<std::endl;
         }
+        data[i][0]=1;
+        data[i][1]=1;
     }
     float* max_in = (float*)malloc(sizeof(cl_float)*ndim);
     float* min_in = (float*)malloc(sizeof(cl_float)*ndim);
@@ -197,12 +204,23 @@ int main (int argc, const char * argv[])
         gcl_memcpy(cubeset_out, mem_out, sizeof(cl_int) * (eventsA+eventsC) * ndim * mdim);
         
     });       
+
+    std::map< std::vector<int>,float[3]> cubemap;
+    std::map< std::vector<int>,float[3]>::iterator cubeit = cubemap.begin();
+    float nullfloat3[3] = {0,0,0};
     
     for (int i=0; i<(eventsC+eventsA); i++) {
-        for (int j=0; j<ndim; j++) {
-            for (int k=0; k<mdim; k++) {
+        for (int k=0; k<mdim; k++) {
+            std::vector<int> varj;
+            varj.push_back(k);
+            varj.assign (cubeset_out+i*ndim*mdim+k*ndim,cubeset_out+i*ndim*mdim+k*ndim+ndim);
+            if (cubemap.find(varj)==cubemap.end()){
+                cubemap.insert(cubeit, std::pair<std::vector<int>,float[3]>(varj,nullfloat3) );
+            }
+            cubemap[varj][(int)data[i][0]]+=data[i][1];
+            for (int j=0; j<ndim; j++) {
             std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
-                    " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j*mdim+k]<<std::endl;
+                    " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j+ndim*k]<<std::endl;
             }
         }
     }  
@@ -210,6 +228,9 @@ int main (int argc, const char * argv[])
     free(datanorm_out);
     gcl_free(mem_in);
     gcl_free(mem_out);    
+    
+
+    // I think I want to restructure this so that k and j are mixed around
     
     // after this I do my multimap
     // multimap fills the float3 with the 3D result
