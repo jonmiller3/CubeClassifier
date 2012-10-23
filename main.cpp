@@ -38,7 +38,10 @@ int main (int argc, const char * argv[])
     int eventsA=10;
     int eventsC=10;
     int ndim=4;
-
+    // here we do M^N
+    int mdim=3;
+    int numsquares=mdim^ndim;
+    
     float* datanorm_in = (float*)malloc(sizeof(cl_float)*(eventsA+eventsC)*ndim);
     
     for (int i=0; i<eventsA; i++) {
@@ -127,25 +130,86 @@ int main (int argc, const char * argv[])
         
     }); 
         
-    std::cout<<" done! "<<std::endl;
+
+    gcl_free(mem_in);
+    gcl_free(memmax_in);
+    gcl_free(memmin_in);
+    gcl_free(mem_out);
     
     // so my idea actually is that I have 2 dimensions for the data (A+B+C) X N 
     // and out would be 3 dimensions, W=(A+B+C) X N X M
     
     // this would be another call to the gpu and fillcube
     
+    
     for (int i=0; i<(eventsC+eventsA); i++) {
-        for (int j=0; j<4; j++) {
+        for (int j=0; j<ndim; j++) {
             std::cout<<datanorm_in[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<datanorm_out[i*ndim+j]<<std::endl;
         }
     }
-    
-    gcl_free(mem_in);
-    gcl_free(memmax_in);
-    gcl_free(memmin_in);
-    gcl_free(mem_out);
     free(datanorm_in);
+     
+    mem_in  = gcl_malloc(sizeof(cl_float) * (eventsA+eventsC) * ndim, datanorm_out,
+                                   CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+
+    // so my idea actually is that I have 2 dimensions for the data (A+B+C) X N X M
+    
+    int* cubeset_out = (int*)malloc(sizeof(cl_int) * (eventsA+eventsC) * ndim * mdim);
+    mem_out = gcl_malloc(sizeof(cl_int) * (eventsA+eventsC) * ndim * mdim, NULL,
+                                 CL_MEM_WRITE_ONLY);
+
+    dispatch_sync(queue, ^{
+        
+        size_t wgs;
+        gcl_get_kernel_block_workgroup_info(fillcube_kernel,
+                                            CL_KERNEL_WORK_GROUP_SIZE,
+                                            sizeof(wgs), &wgs, NULL);
+   
+        int dim1_size = (eventsA+eventsC)/wgs;
+        int dim2_size = mdim;
+        int dim3_size = ndim;
+        cl_ndrange range = {
+            3,                     // The number of dimensions to use.
+            
+            
+            {0, 0, 0},             // The offset in each dimension.  We want to
+            // process ALL of our data, so this is 0 for
+            // our test case.                          [7]
+            
+            {eventsA+eventsC, ndim, mdim},    // The global range -- this is how many items
+            // IN TOTAL in each dimension you want to
+            // process.
+            
+            {dim1_size*dim2_size*dim3_size, 0, 0} // The local size of each workgroup.  This
+            // determines the number of workitems per
+            // workgroup.  It indirectly affects the
+            // number of workgroups, since the global
+            // size / local size yields the number of
+            // workgroups.  So in our test case, we will
+            // have NUM_VALUE / wgs workgroups.
+        };
+        
+
+        
+        
+        fillcube_kernel(&range, (cl_float*)mem_in, (cl_int*)mem_out);
+        
+        gcl_memcpy(cubeset_out, mem_out, sizeof(cl_int) * (eventsA+eventsC) * ndim * mdim);
+        
+    });       
+    
+    for (int i=0; i<(eventsC+eventsA); i++) {
+        for (int j=0; j<ndim; j++) {
+            for (int k=0; k<mdim; k++) {
+            std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
+                    " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j*mdim+k]<<std::endl;
+            }
+        }
+    }  
+    
     free(datanorm_out);
+    gcl_free(mem_in);
+    gcl_free(mem_out);    
     
     // after this I do my multimap
     // multimap fills the float3 with the 3D result

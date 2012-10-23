@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "main.cpp"
-         timestampString = "372690771.004425"
+         timestampString = "372695672.293133"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "130"
-         endingLineNumber = "130"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
          landmarkName = "main (int argc, const char * argv[])"
          landmarkType = "7">
       </FileBreakpoint>
@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "main.cpp"
-         timestampString = "372690204.246012"
+         timestampString = "372695672.293133"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "54"
-         endingLineNumber = "54"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
          landmarkName = "main (int argc, const char * argv[])"
          landmarkType = "7">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "main.cpp"
-         timestampString = "372690771.004425"
+         timestampString = "372697749.450384"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "179"
-         endingLineNumber = "179"
+         startingLineNumber = "243"
+         endingLineNumber = "243"
          landmarkName = "main (int argc, const char * argv[])"
          landmarkType = "7">
       </FileBreakpoint>
@@ -56,6 +56,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "39"
          endingLineNumber = "39"
+         landmarkName = "main (int argc, const char * argv[])"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "main.cpp"
+         timestampString = "372698109.311899"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "195"
+         endingLineNumber = "195"
          landmarkName = "main (int argc, const char * argv[])"
          landmarkType = "7">
       </FileBreakpoint>
