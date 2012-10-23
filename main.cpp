@@ -205,19 +205,22 @@ int main (int argc, const char * argv[])
         
     });       
 
-    std::map< std::vector<int>,float[3]> cubemap;
-    std::map< std::vector<int>,float[3]>::iterator cubeit = cubemap.begin();
+    std::map< std::string,float[3]> cubemap;
+    std::map< std::string,float[3]>::iterator cubeit = cubemap.begin();
     float nullfloat3[3] = {0,0,0};
     
     for (int i=0; i<(eventsC+eventsA); i++) {
         for (int k=0; k<mdim; k++) {
-            std::vector<int> varj;
-            varj.push_back(k);
-            varj.assign (cubeset_out+i*ndim*mdim+k*ndim,cubeset_out+i*ndim*mdim+k*ndim+ndim);
-            if (cubemap.find(varj)==cubemap.end()){
-                cubemap.insert(cubeit, std::pair<std::vector<int>,float[3]>(varj,nullfloat3) );
+            int* varj = new int[ndim+1];
+            varj[0] = k;
+            memcpy(&varj[1],&cubeset_out[i*ndim*mdim+k*ndim],sizeof(int)*ndim);
+            std::string varjstr;
+            memcpy(&varjstr, &varj, sizeof(int)*(ndim+1));
+            if (cubemap.find(varjstr)==cubemap.end()){
+                cubemap.insert(cubeit, std::pair< std::string,float[3]>(varjstr,nullfloat3) );
             }
-            cubemap[varj][(int)data[i][0]]+=data[i][1];
+            cubemap[varjstr][(int)data[i][0]]+=data[i][1];
+            std::cout<<varjstr<<" "<<varj<<" "<<std::endl;
             for (int j=0; j<ndim; j++) {
             std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
                     " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j+ndim*k]<<std::endl;
