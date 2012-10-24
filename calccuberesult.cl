@@ -1,6 +1,7 @@
 kernel void calccuberesult(global float3* input, global float3* output)
 {
 
+    // is this defined right?
     size_t i = get_global_id(0);
 
     if (input[i][0]!=0){
@@ -26,4 +27,6 @@ kernel void calccuberesult(global float3* input, global float3* output)
     
     // I think that sqrt works
 
+    // I need to look at the output
+    
 }
