@@ -12,6 +12,8 @@
 #include "normdata.cl.h"
 #include "calccuberesult.cl.h"
 
+#include "Interface.h"
+
 //#include "boost/lexical_cast.hpp"
 //#include "boost/tuple/tuple.hpp"
 //#include "boost/tuple/tuple_comparison.hpp"
@@ -28,6 +30,11 @@ struct float_triple {
 
 int main (int argc, const char * argv[])
 {
+    
+    
+    
+    Interface* interface = new Interface(argc,argv);
+    
     
     // set up to use the gpu
     dispatch_queue_t queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU,
