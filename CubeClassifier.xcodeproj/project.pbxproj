@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; };
+		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; settings = {COMPILER_FLAGS = " -O -Wall -fPIC $(root-config --cflags) $(root-config --libs) $(root-config --glibs)"; }; };
 		6DCA84731636BFEE0091D31F /* normdata.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846A1636BFEE0091D31F /* normdata.cl */; };
 		6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846B1636BFEE0091D31F /* fillcube.cl */; };
 		6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846C1636BFEE0091D31F /* calccuberesult.cl */; };
@@ -94,6 +94,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DCA84661636BFBC0091D31F /* Build configuration list for PBXNativeTarget "CubeClassifier" */;
 			buildPhases = (
+				6DCA849416396B3F0091D31F /* ShellScript */,
 				6DCA84581636BFBC0091D31F /* Sources */,
 				6DCA84591636BFBC0091D31F /* Frameworks */,
 				6DCA845A1636BFBC0091D31F /* CopyFiles */,
@@ -133,6 +134,22 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6DCA849416396B3F0091D31F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/jonathanmiller/icerec_v040200/build/env-shell.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6DCA84581636BFBC0091D31F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -153,7 +170,7 @@
 		6DCA84641636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -180,7 +197,7 @@
 		6DCA84651636BFBC0091D31F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
@@ -200,6 +217,10 @@
 		6DCA84671636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -207,6 +228,10 @@
 		6DCA84681636BFBC0091D31F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -230,6 +255,7 @@
 				6DCA84681636BFBC0091D31F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
