@@ -9,6 +9,12 @@
 #ifndef CubeClassifier_Eval_h
 #define CubeClassifier_Eval_h
 
+class Eval:BaseClassifier {
+    <#instance variables#>
+    
+public:
+    <#member functions#>
+};
 
 
 #endif

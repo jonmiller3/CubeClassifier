@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; settings = {COMPILER_FLAGS = " -O -Wall -fPIC $(root-config --cflags) $(root-config --libs) $(root-config --glibs)"; }; };
+		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; };
 		6DCA84731636BFEE0091D31F /* normdata.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846A1636BFEE0091D31F /* normdata.cl */; };
 		6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846B1636BFEE0091D31F /* fillcube.cl */; };
 		6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846C1636BFEE0091D31F /* calccuberesult.cl */; };
 		6DCA84761636BFEE0091D31F /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846E1636BFEE0091D31F /* Cube.cpp */; };
 		6DCA84771636BFEE0091D31F /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84701636BFEE0091D31F /* Data.cpp */; };
 		6DCA84791636C3480091D31F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCA84781636C3480091D31F /* OpenCL.framework */; };
-		6DCA85DD1639774A0091D31F /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85DC1639774A0091D31F /* Interface.cpp */; };
-		6DCA85E01639B0820091D31F /* Eval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85DF1639B0820091D31F /* Eval.cpp */; };
-		6DCA85E21639B0900091D31F /* Classify.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E11639B0900091D31F /* Classify.cpp */; };
+		6DCA85E8163A96740091D31F /* fillcube2.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E7163A96740091D31F /* fillcube2.cl */; };
+		6DCA85EA163A96820091D31F /* fillcube3.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E9163A96810091D31F /* fillcube3.cl */; };
+		6DCA85ED163AD32D0091D31F /* Interface.h in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85DB163976ED0091D31F /* Interface.h */; };
+		6DCA85EE163AD3320091D31F /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85DC1639774A0091D31F /* Interface.cpp */; };
+		6DCA85F0163DB8EE0091D31F /* fillcubefull.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85EF163DB8EE0091D31F /* fillcubefull.cl */; };
+		6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F2163DB98C0091D31F /* fillcube3full.cl */; };
+		6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F1163DB9810091D31F /* fillcube2full.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +53,13 @@
 		6DCA85DF1639B0820091D31F /* Eval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Eval.cpp; sourceTree = "<group>"; };
 		6DCA85E11639B0900091D31F /* Classify.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Classify.cpp; sourceTree = "<group>"; };
 		6DCA85E31639B09F0091D31F /* Classify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Classify.h; sourceTree = "<group>"; };
+		6DCA85E4163A929A0091D31F /* BaseClassifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseClassifier.cpp; sourceTree = "<group>"; };
+		6DCA85E6163A92A80091D31F /* BaseClassifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseClassifier.h; sourceTree = "<group>"; };
+		6DCA85E7163A96740091D31F /* fillcube2.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube2.cl; sourceTree = "<group>"; };
+		6DCA85E9163A96810091D31F /* fillcube3.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube3.cl; sourceTree = "<group>"; };
+		6DCA85EF163DB8EE0091D31F /* fillcubefull.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcubefull.cl; sourceTree = "<group>"; };
+		6DCA85F1163DB9810091D31F /* fillcube2full.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube2full.cl; sourceTree = "<group>"; };
+		6DCA85F2163DB98C0091D31F /* fillcube3full.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube3full.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +77,7 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
+				6DCA85EC163AD21E0091D31F /* NewCubeClassifier */,
 				6DCA84781636C3480091D31F /* OpenCL.framework */,
 				6DCA845F1636BFBC0091D31F /* CubeClassifier */,
 				6DCA845D1636BFBC0091D31F /* Products */,
@@ -88,8 +100,15 @@
 				6DCA85DF1639B0820091D31F /* Eval.cpp */,
 				6DCA85E11639B0900091D31F /* Classify.cpp */,
 				6DCA85E31639B09F0091D31F /* Classify.h */,
+				6DCA85E4163A929A0091D31F /* BaseClassifier.cpp */,
+				6DCA85E6163A92A80091D31F /* BaseClassifier.h */,
 				6DCA846A1636BFEE0091D31F /* normdata.cl */,
 				6DCA846B1636BFEE0091D31F /* fillcube.cl */,
+				6DCA85EF163DB8EE0091D31F /* fillcubefull.cl */,
+				6DCA85F1163DB9810091D31F /* fillcube2full.cl */,
+				6DCA85F2163DB98C0091D31F /* fillcube3full.cl */,
+				6DCA85E7163A96740091D31F /* fillcube2.cl */,
+				6DCA85E9163A96810091D31F /* fillcube3.cl */,
 				6DCA846C1636BFEE0091D31F /* calccuberesult.cl */,
 				6DCA846D1636BFEE0091D31F /* Cube.h */,
 				6DCA846E1636BFEE0091D31F /* Cube.cpp */,
@@ -100,6 +119,13 @@
 				6DCA85DC1639774A0091D31F /* Interface.cpp */,
 			);
 			path = CubeClassifier;
+			sourceTree = "<group>";
+		};
+		6DCA85EC163AD21E0091D31F /* NewCubeClassifier */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = NewCubeClassifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,15 +196,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DCA85EE163AD3320091D31F /* Interface.cpp in Sources */,
+				6DCA85ED163AD32D0091D31F /* Interface.h in Sources */,
 				6DCA84721636BFEE0091D31F /* main.cpp in Sources */,
 				6DCA84731636BFEE0091D31F /* normdata.cl in Sources */,
 				6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */,
 				6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */,
 				6DCA84761636BFEE0091D31F /* Cube.cpp in Sources */,
 				6DCA84771636BFEE0091D31F /* Data.cpp in Sources */,
-				6DCA85DD1639774A0091D31F /* Interface.cpp in Sources */,
-				6DCA85E01639B0820091D31F /* Eval.cpp in Sources */,
-				6DCA85E21639B0900091D31F /* Classify.cpp in Sources */,
+				6DCA85E8163A96740091D31F /* fillcube2.cl in Sources */,
+				6DCA85EA163A96820091D31F /* fillcube3.cl in Sources */,
+				6DCA85F0163DB8EE0091D31F /* fillcubefull.cl in Sources */,
+				6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */,
+				6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

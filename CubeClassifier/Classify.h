@@ -14,49 +14,46 @@
 #include "normdata.cl.h"
 #include "calccuberesult.cl.h"
 
-class Classify {
-    dispatch_queue_t* queue;
-    void* mem_in;
-    void* mem_out;
-    
-    // only needed for one calc
-    void* memmax_in;
-    void* memmin_in;
+#include <vector>
+#include <map>
+
+#include "BaseClassifier.h"
+#include "Interface.h"
+
+// I need this to inherent..
+
+class Classify:BaseClassifier {
     
     // these are the cubemap
     std::map< std::vector<int>,float_triple> cubemap;
     std::map< std::vector<int>,float_triple>::iterator cubeit;
     
-    // this is to set what kernels to run and gives mdim
-    int cubelevel;
-    int cubesetting;
-    
-    // total number of possible queues
-    int queuenumber;
-    
-    <#instance variables#>
-    
+    // array of edim*2 (setting,weight for each element)
+    double* data;
+    int mdim;
+    int edim;
+    int ndim;
     
 private:
+    // I need queue number, max array, min array, data array
+    void NormData(int,float*,float*,float*);
+    void CreateCubeMap(int*);
+    void CalcCubeResult(int, int, float_triple*);
+    
     
 public:
     // constructor (cubelevel and cubesetting)/deconstructor
-    Classify(int,int);
+    Classify(Interface*);
     ~Classify();
+    void Process();
+    int StartQueue();
     
-    int GetQueueNum(){return queuenumber;}
-    // I need queue number, max array, min array, data array
-    NormData(int,float*,float*,float*);
-    <#member functions#>
+    
+    
 };
 
 #endif
 
 // this is to classify
 
-// I should have multiple versions of the thing here?
-// or just one?
-// I can have multiple runs/qeues/etc?
-
-
-// do I read in data from within classify or from without?
+// one classify, I have multiple base classifier classes where I can run the calc

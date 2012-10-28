@@ -9,6 +9,8 @@
 #include <iostream>
 #include <OpenCL/OpenCL.h>
 #include "fillcube.cl.h"
+#include "fillcube2.cl.h"
+#include "fillcube3.cl.h"
 #include "normdata.cl.h"
 #include "calccuberesult.cl.h"
 
@@ -33,7 +35,7 @@ int main (int argc, const char * argv[])
     
     
     
-    Interface* interface = new Interface(argc,argv);
+    //Interface* interface = new Interface(argc,argv);
     
     
     // set up to use the gpu
@@ -191,7 +193,7 @@ int main (int argc, const char * argv[])
     dispatch_sync(queue, ^{
         
         size_t wgs;
-        gcl_get_kernel_block_workgroup_info(fillcube_kernel,
+        gcl_get_kernel_block_workgroup_info(fillcube2_kernel,
                                             CL_KERNEL_WORK_GROUP_SIZE,
                                             sizeof(wgs), &wgs, NULL);
    
@@ -222,7 +224,7 @@ int main (int argc, const char * argv[])
 
         
         
-        fillcube_kernel(&range, (cl_float*)mem_in, (cl_int*)mem_out);
+        fillcube2_kernel(&range, (cl_float*)mem_in, (cl_int*)mem_out);
         
         gcl_memcpy(cubeset_out, mem_out, sizeof(cl_int) * (eventsA+eventsC) * ndim * mdim);
         

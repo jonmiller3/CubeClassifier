@@ -1,6 +1,6 @@
-kernel void fillcube(global float* input, global int* output)
+kernel void fillcube3(global float* input, global int* output)
 {
-
+    
     
     int i = get_global_id(0);
     int j = get_global_id(1);
@@ -10,7 +10,7 @@ kernel void fillcube(global float* input, global int* output)
     int r = get_global_size(1); 
     int q = get_global_size(2); 
     
-    int mult = k+2;
+    int mult = k*k*k+2;
     
     // input is a value that is x1,y1,z1 and so on
     //output[(i*r+j)*q+k]=0;;
