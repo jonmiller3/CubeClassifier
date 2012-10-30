@@ -10,9 +10,401 @@
 #include <OpenCL/OpenCL.h>
 
 #include "BaseClassifier.h"
-//#include "fillcube.cl"
+#include "fillcube.cl"
 #include "fillcube2.cl"
 #include "fillcube3.cl"
+
+#include "fillcubefull.cl"
+#include "fillcube2full.cl"
+#include "fillcube3full.cl"
+
+int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernal kernel, int id, cl_event gpudone_event){
+    
+    // set the memory here
+
+    
+    // I have float* data_in and int* data_out already done?
+    
+    // I will need to set the memory here
+    
+    
+    
+    
+    // I don't know if I need to do something else to define this
+    cl_command_queue commandQueue = 0;
+
+    
+    // I don't know if I should be using CL_MEM_USE_HOST_PTR
+    
+    
+    // this will be done in general
+    cl_mem input_data = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+				                mem_size_input_data, data_in, &ciErrNum);
+    if (ciErrNum != CL_SUCCESS)
+    {
+        std::cout<<" problem creating buffer "<<std::endl;
+        //shrLog("Error: clCreateBuffer\n");
+        return ciErrNum;
+    }
+    
+    
+    cl_mem output_data = 
+        clCreateBuffer(cxGPUContext, CL_MEM_WRITE_ONLY,  mem_size_output_data, NULL, NULL);
+    
+    
+    clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *) &input_data);
+    clSetKernelArg(kernel, 3, sizeof(cl_mem), (void *) &output_data);
+    
+    // I need to think of how I deal with the min/max arrays, maybe I set this as global
+    // but the special template?
+    
+    
+    //input_size=mem_size_input_data/ciDeviceCount;
+    size_t input_size=mem_size_input_data;
+    
+    //input_offset=0+i*work_size;
+    size_t input_offset=0;
+    
+    // Copy only assigned rows (h_A) from CPU host to GPU device    
+    ciErrNum = clEnqueueCopyBuffer(commandQueue, 
+                                   data_in, // src_buffer
+                                   input_data, // dst_buffer
+                                   input_offset, // src_offset
+                                   0, // dst_offset
+                                   input_size,  // size_of_bytes to copy
+                                   0,  // number_events_in_waitlist
+                                   NULL, /// event_wait_list
+                                   NULL); // event
+	if (ciErrNum != CL_SUCCESS)
+	{
+        std::cout<<" Error: Failure to copy buffer "<<std::endl;
+		//shrLog("clEnqueueCopyBuffer() Error: Failed to copy buffer!\n");
+		return -1;
+	}
+    
+    
+    cl_event GPUExecution;
+    
+    
+    // CL_DEVICE_MAX_COMPUTE_UNITS for wgs?
+    
+    // wgs is the number of threads or something of the GPU
+    size_t wgs;
+    size_t work_size=dim1_size*dim2_size*dim3_size/wgs;
+    size_t globalWorkSize[] = {dim1_size, dim2_size, dim3_size};
+    size_t localWorkSize[] = {work_size, 0, 0};
+    
+    clEnqueueNDRangeKernel(commandQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
+		                   0, NULL, &GPUExecution);
+    clFlush(commandQueue);
+    
+    // Download result from GPU.
+	//cl_event gpudone_event;
+	ciErrNum = clEnqueueReadBuffer(commandQueue, output_data, CL_FALSE, 0, mem_size_output_data, 0, NULL, &gpudone_event);
+	if (ciErrNum != CL_SUCCESS)
+	{
+        std::cout<<" Error: in reading buffer "<<std::endl;
+		//shrLog("clEnqueueReadBuffer() Error: Failed to write buffer!\n");
+		return -1;
+	}
+	// Set callback that will launch another CPU thread to finish the work when the download from GPU has finished
+	//ciErrNum = clSetEventCallback(gpudone_event, CL_COMPLETE, &event_callback, arg);
+    
+    return 0;
+    
+    
+}
+
+int BaseClassifier::ProcessQueue(){
+    
+    char* kernelname;
+    // 
+    if (cubesetting=1){
+        CompileOCLKernel(cdDevices[0], "fillcubefull.cl", &program[0]);
+        kernelname="fillcubefull";
+    } else if (cubesetting==2){
+        kernelname="fillcube2full";
+        CompileOCLKernel(cdDevices[0], "fillcube2full.cl", &program[0]);
+    } else if (cubesetting=3){
+        kernelname="fillcube3full";
+        CompileOCLKernel(cdDevices[0], "fillcube3full.cl", &program[0]);
+        
+    } else {
+        std::cout<<" that setting is undefined "<<std::endl;
+        return -1;
+    }
+    
+    // I should have the data sets here...
+    
+     // these will probably be done in general
+    
+    
+    
+    //
+    
+
+    
+    for (int i=0; i<ciDeviceCount; i++) {
+
+        cl_event gpudone_event; //[ciDeviceCount];
+        // here is where I read in the data set :(
+        
+
+        
+        
+        float* data_in = (float*)malloc(mem_size_input_data);
+        int* data_out = (int*)malloc(mem_size_output_data);   
+        
+        InputData(i,data_in);
+        
+        kernel[i]= clCreateKernel(program[0], kernelname, &ciErrNum);
+        if (ciErrNum != CL_SUCCESS) {
+            std<<cout<<" problem with creating kernel "<<std::endl;
+            return ciErrNum;
+        }
+        ProcessSet(cdDevices[i], cDevicesName[i], kernel[i], i, gpudone_event, data_in, data_out, mem_size_output_data, mem_size_input_data);
+        // maybe this last one needs to be done later
+        clWaitForEvents(ciDeviceCount, gpudone_event);
+    }
+    
+    
+    
+    // I will end up wanting to put in the calccuberesult processing here, as well as the other component?
+    
+    clReleaseContext(cxGPUContext);
+    
+    return 0;
+}
+
+
+int BaseClassifier::StartQueue(){
+    
+    // initialize
+	cpPlatform    = NULL;
+	*cdDevices     = NULL;
+	ciErrNum      = CL_SUCCESS;
+	ciDeviceCount = 0;
+    
+    
+    bEnableProfile = false; // This is to enable/disable OpenCL based profiling
+    
+    ciErrNum = oclGetPlatformID(&cpPlatform);
+	if (ciErrNum != CL_SUCCESS)
+	{
+        std::cout<<" failed "<<std::endl;
+		//shrLog("Error: Failed to create OpenCL context!\n");
+		return ciErrNum;
+	}
+    
+    
+    //Retrieve of the available GPU type OpenCL devices
+	ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &ciDeviceCount);
+	cdDevices = (cl_device_id *)malloc(ciDeviceCount * sizeof(cl_device_id) );
+	ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, ciDeviceCount, cdDevices, NULL);
+    
+    // Allocate a buffer array to store the names GPU device(s)
+    char (*cDevicesName)[256] = new char[ciDeviceCount][256];
+    
+    if (ciErrNum != CL_SUCCESS) {
+        std::cout<<" failed "<<std::endl;
+		//shrLog("Error: Failed to create OpenCL context!\n");
+		return ciErrNum;
+	} else {
+		for (int i=0; i<(int)ciDeviceCount; i++) {
+			clGetDeviceInfo(cdDevices[i], CL_DEVICE_NAME, sizeof(cDevicesName[i]), &cDevicesName[i], NULL);
+            std::cout<<"> OpenCL Device "<<cDevicesName[i]<<", cl_device_id: "<<cdDevices[i]<<std::endl;
+		}
+	}
+    
+    
+    //Create the OpenCL context
+	cxGPUContext = clCreateContext(0, ciDeviceCount, cdDevices, NULL, NULL, &ciErrNum);
+	if (ciErrNum != CL_SUCCESS)
+	{
+        std::cout<<" failed "<<std::endl;
+		//shrLog("Error: Failed to create OpenCL context!\n");
+		return ciErrNum;
+	}
+    
+    // we don't need any of these
+    /*
+     if(shrCheckCmdLineFlag(argc, (const char**)argv, "profile"))
+     {
+     bEnableProfile = true;
+     }
+     
+     if(shrCheckCmdLineFlag(argc, (const char**)argv, "device"))
+     {
+     // User specified GPUs
+     char* deviceList;
+     char* deviceStr;
+     char* next_token;
+     shrGetCmdLineArgumentstr(argc, (const char**)argv, "device", &deviceList);
+     */
+    
+    
+    deviceStr = strtok (deviceList," ,.-");
+    
+    
+    ciDeviceCount = 0;
+    
+    while(deviceStr != NULL) 
+    {
+        // get and print the device for this queue
+        cl_device_id device = oclGetDev(cxGPUContext, atoi(deviceStr));
+        if( device == (cl_device_id) -1  ) {
+            std::cout<<" failed "<<std::endl;
+            //shrLog(" Device %s does not exist!\n", deviceStr);
+            return -1;
+        }
+        
+        /*
+         shrLog("Device %s: ", deviceStr);
+         oclPrintDevName(LOGBOTH, device);            
+         shrLog("\n");
+         
+         */
+        std::cout<<" device is "<<deviceStr<<std::endl;
+        
+        ++ciDeviceCount;
+        
+        deviceStr = strtok (NULL," ,.-");
+        
+    }
+    
+    free(deviceList);
+} 
+
+
+std::cout<<" I think that I have produced all the contexts that I need "<<std::endl;
+
+
+// my attempt
+// let's use the Nvidia tools 
+/*
+ int platnumentries;
+ cl_platform_id* platform;
+ cl_uint* num_platforms;
+ sqcheck =  clGetPlatformIDs(platnumentries, platform, num_platforms);
+ if (sqcheck == NULL ) return -1;
+ 
+ // I think this is only useful if I want information
+ // or if I want to run on multiple platforms
+ // I might, so I will keep it
+ 
+ cl_device_id* device;
+ cl_uint* num_devices;
+ // do I make a list? right now let's jsut do one
+ // I just set 10, no reason
+ sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_GPU,10,device,num_devices);
+ 
+ if (sqcheck == CL_DEVICE_NOT_FOUND ) sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_ACCELERATOR,10,device,num_devices);
+ if (sqcheck == CL_DEVICE_NOT_FOUND ) sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_CPU,10,device,num_devices);
+ if (sqcheck == CL_DEVICE_NOT_FOUND ) return -1;
+ 
+ // clGetDeviceInfo
+ // 0 for now
+ size_t device_value_size;
+ cl_uint* device_value;
+ size_t* device_value_size_ret;
+ sqcheck = clGetDeviceInfo (	device[0], CL_DEVICE_MAX_COMPUTE_UNITS ,
+ device_value_size, device_value,
+ device_value_size_ret );
+ 
+ 
+ */
+
+
+
+/*  
+ // set up to use the gpu
+ dispatch_queue_t queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU,
+ NULL);
+ 
+ // set up to use the cpu
+ if (queue == NULL) {
+ queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_CPU, NULL);
+ }    
+ 
+ // I can name it?
+ char name[128];
+ cl_device_id gpu = gcl_get_device_id_with_dispatch_queue(queue);
+ clGetDeviceInfo(gpu, CL_DEVICE_NAME, 128, name, NULL);
+ fprintf(stdout, "Created a dispatch queue using the %s\n", name);
+ */
+
+}
+
+int BaseClassifier::CompileOCLKernel(cl_device_id cdDevices, 
+                                     const char *ocl_source_filename, cl_program *cpProgram){
+    
+    
+    
+    // this is adapted from Nvidia example code
+    
+    size_t program_length;
+    // argv[0] should be some setting... I can just set it
+    const char* source_path = shrFindFilePath(ocl_source_filename, argv[0]);
+    char *source = oclLoadProgSource(source_path,"",&program_length);
+    
+    *cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&source, 
+                                           &program_length, &ciErrNum);
+    
+    
+    
+    if (ciErrNum != CL_SUCCESS) {
+        std::cout<<"Error: Failed to create program\n")<<std::endl;
+		return ciErrNum;
+    } else {
+        std::cout<<"clCreateProgramWithSource "<<cl_source_filename<<" succeeded, program_length="<<program_length<<std::endl;
+    }
+	free(source);
+    
+    // OK, we created program, now it needs to be built
+    cl_build_status build_status;
+    
+	ciErrNum = clBuildProgram(*cpProgram, 0, NULL, "-cl-fast-relaxed-math -cl-nv-verbose", NULL, NULL);
+	if (ciErrNum != CL_SUCCESS)
+	{
+		// write out standard error, Build Log and PTX, then return error
+        std::cout<<" problem "<<std::endl;
+		return ciErrNum;
+    } else {
+        ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevices, CL_PROGRAM_BUILD_STATUS, sizeof(cl_build_status), &build_status, NULL);
+        shrLog("clGetProgramBuildInfo returned: ");
+        if (build_status == CL_SUCCESS) {
+            std::cout<<"CL_SUCCESS"<<std::endl;
+        } else {
+            std::cout<<"CLErrorNumber = "<<ciErrNum<<std::endl;
+        }
+    }
+    
+    // print out the build log, note in the case where there is nothing shown, some OpenCL PTX->SASS caching has happened
+    /*
+    {
+        char *build_log;
+        size_t ret_val_size;
+        ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevices, CL_PROGRAM_BUILD_LOG, 0, NULL, &ret_val_size);
+        if (ciErrNum != CL_SUCCESS) {
+            shrLog("clGetProgramBuildInfo device %d, failed to get the log size at line %d\n", cdDevices, __LINE__);
+        }
+        build_log = (char *)malloc(ret_val_size+1);
+        ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevices, CL_PROGRAM_BUILD_LOG, ret_val_size, build_log, NULL);
+        if (ciErrNum != CL_SUCCESS) {
+            shrLog("clGetProgramBuildInfo device %d, failed to get the build log at line %d\n", cdDevices, __LINE__);
+        }
+        // to be carefully, terminate with \0
+        // there's no information in the reference whether the string is 0 terminated or not
+        build_log[ret_val_size] = '\0';
+        shrLog("%s\n", build_log );
+    }
+     */
+    return 0;  
+    
+}
+
+
+
 
 void BaseClassifier::NormData(int qnum, int dim1_size, int dim2_size, float* datanorm_out){
     

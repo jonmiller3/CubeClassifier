@@ -45,9 +45,7 @@ public:
     // constructor (cubelevel and cubesetting)/deconstructor
     Classify(Interface*);
     ~Classify();
-    void Process();
-    int StartQueue();
-    
+    void Process();    
     
     
 };

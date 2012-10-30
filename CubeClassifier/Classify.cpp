@@ -131,57 +131,5 @@ Classify::Classify(Interface*){
     
 }
 
-int Classify::StartQueue(){
 
-    cl_int sqcheck;
-    
-    
-    int platnumentries;
-    cl_platform_id* platform;
-    cl_uint* num_platforms;
-    sqcheck =  clGetPlatformIDs(platnumentries, platform, num_platforms);
-    if (sqcheck == NULL ) return -1;
-    
-    // I think this is only useful if I want information
-    // or if I want to run on multiple platforms
-    // I might, so I will keep it
-    
-    cl_device_id* device;
-    cl_uint* num_devices;
-    // do I make a list? right now let's jsut do one
-    // I just set 10, no reason
-    sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_GPU,10,device,num_devices);
 
-    if (sqcheck == CL_DEVICE_NOT_FOUND ) sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_ACCELERATOR,10,device,num_devices);
-    if (sqcheck == CL_DEVICE_NOT_FOUND ) sqcheck = clGetDeviceIDs(platform[0],CL_DEVICE_TYPE_CPU,10,device,num_devices);
-    if (sqcheck == CL_DEVICE_NOT_FOUND ) return -1;
-    
-    // clGetDeviceInfo
-    // 0 for now
-    size_t device_value_size;
-    cl_uint* device_value;
-    size_t* device_value_size_ret;
-    sqcheck = clGetDeviceInfo (	device[0], CL_DEVICE_MAX_COMPUTE_UNITS ,
-                            device_value_size, device_value,
-                            device_value_size_ret );
-
-    
-    
-    
-    
-    // set up to use the gpu
-    dispatch_queue_t queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU,
-                                                       NULL);
-    
-    // set up to use the cpu
-    if (queue == NULL) {
-        queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_CPU, NULL);
-    }    
-    
-    // I can name it?
-    char name[128];
-    cl_device_id gpu = gcl_get_device_id_with_dispatch_queue(queue);
-    clGetDeviceInfo(gpu, CL_DEVICE_NAME, 128, name, NULL);
-    fprintf(stdout, "Created a dispatch queue using the %s\n", name);
-    
-}

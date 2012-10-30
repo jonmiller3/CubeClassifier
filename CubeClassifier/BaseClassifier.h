@@ -16,14 +16,35 @@
 #include "normdata.cl.h"
 #include "calccuberesult.cl.h"
 
+#include "fillcubefull.cl.h"
+#include "fillcube2full.cl.h"
+#include "fillcube3full.cl.h"
+
 struct float_triple {
     float x[3];
 };
 
+// I think you do it like this:
+#define MAX_GPU_COUNT 16
+
 class BaseClassifier {
 
 public:
-    dispatch_queue_t* queue;
+    
+    // new CL variables
+    cl_context       cxGPUContext;
+    cl_kernel        kernel[MAX_GPU_COUNT];
+    cl_program       program[MAX_GPU_COUNT];
+    
+    
+    cl_platform_id  cpPlatform;
+	cl_device_id   *cdDevices;
+	cl_int          ciErrNum;
+	cl_uint         ciDeviceCount;
+    
+    bool bEnableProfile;
+    
+    //dispatch_queue_t* queue;
     
     void* mem_in;
     void* mem_out;
@@ -43,6 +64,10 @@ public:
     
     int GetQueueNum(){return queuenumber;}
     void NormData(int, int, int, float*);
+    
+    int CompileOCLKernel(cl_context, cl_device_id, const char*, cl_program*);
+    
+    void StartQueue();
     
     void FillCube(int, int, int, int, int*);
     void FillCube2(int, int, int, int, int*);
