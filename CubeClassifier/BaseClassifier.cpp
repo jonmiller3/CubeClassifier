@@ -18,6 +18,34 @@
 #include "fillcube2full.cl"
 #include "fillcube3full.cl"
 
+// this is really just a dummy method
+// will get overloaded with Classify (combine into map)
+// and Eval (print into output rootfile) methods
+int BaseClassifier::ProcessOutput(int* output_data, int mdim, int ndim, long nevents){
+    
+    
+    
+}
+
+// this is really just the dummy method
+// will get overloaded with Classify and Eval methods
+int BaseClassifier::InputData(long nevents, float* data_in, int ndim){
+
+    // crazily simple
+    for (int i=0; i<nevents; i++) {
+        
+        for (int j=0; j<ndim; j++) {
+            
+            data_in[i*ndim+j]=(cl_float)1;
+                
+            
+        }
+    }
+    
+    return 0;
+    
+}
+
 int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernal kernel, int id, cl_event gpudone_event){
     
     // set the memory here
@@ -87,15 +115,20 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernal
     
     
     // CL_DEVICE_MAX_COMPUTE_UNITS for wgs?
+    // CL_DEVICE_MAX_WORK_ITEM_SIZES
+    // CL_DEVICE_MAX_WORK_GROUP_SIZE
+    
+    size_t workitem_size[3];
+    clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(workitem_size), &workitem_size, NULL);
     
     // wgs is the number of threads or something of the GPU
-    size_t wgs;
-    size_t work_size=dim1_size*dim2_size*dim3_size/wgs;
     size_t globalWorkSize[] = {dim1_size, dim2_size, dim3_size};
-    size_t localWorkSize[] = {work_size, 0, 0};
+    size_t localWorkSize[] = {dim1_size/workitem_size[0], dim2_size/workitem_size[1], 
+        dim3_size/workitem_size[2]};
     
     clEnqueueNDRangeKernel(commandQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
 		                   0, NULL, &GPUExecution);
+    // not sure what this does
     clFlush(commandQueue);
     
     // Download result from GPU.
@@ -115,7 +148,8 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernal
     
 }
 
-int BaseClassifier::ProcessQueue(){
+// this looks like it should be in classify... but it also looks like it should be in baseclassifier
+int BaseClassifier::ProcessQueue(int mdim, int ndim){
     
     char* kernelname;
     // 
@@ -134,40 +168,70 @@ int BaseClassifier::ProcessQueue(){
         return -1;
     }
     
-    // I should have the data sets here...
-    
-     // these will probably be done in general
-    
-    
-    
-    //
-    
 
+    //I would set max/min here
     
-    for (int i=0; i<ciDeviceCount; i++) {
-
-        cl_event gpudone_event; //[ciDeviceCount];
-        // here is where I read in the data set :(
-        
+    bool finishproc = FALSE;
+    // this will be a method in Eval, Classify, and BaseClassify
+    long eventstobeproc = EventsToProcess(); // I actually want this to be Entries in the root files
+    
+    while (eventstobeproc!=0||!finishproc) {
 
         
+        finishproc=FALSE;
+    
+        for (int i=0; i<ciDeviceCount; i++) {
+
+            if (eventstobeproc==0){
+                std::cout<<" all events processed, continueing"<<std::endl;
+                continue;
+                
+            }
+            cl_ulong max_mem_alloc_size;
+            clGetDeviceInfo(cdDevices[i], CL_DEVICE_MAX_MEM_ALLOC_SIZE, sizeof(max_mem_alloc_size), &max_mem_alloc_size, NULL);
+            // remember that I will need to send out mdim*ndim*nevents
+            // and input ndim*nevents
+            // as well as 2*ndim
+            
+            // mem_alloc/ndim/mdim/2 ?... I want a total number of events
+            // I can compare it to how many entries are left
+            
+            cl_event gpudone_event; //[ciDeviceCount];
+            // here is where I read in the data set :(
+            
+            long number_events = max_mem_alloc_size/ndim/mdim/2.;
+            if (number_events>eventstobeproc) number_events=eventstobeproc;
+            // this should be safe?
+            
+            size_t mem_size_input_data = sizeof(cl_float)*number_events*ndim;
+            size_t mem_size_output_data = sizeof(cl_int)*number_events*ndim*mdim;
         
-        float* data_in = (float*)malloc(mem_size_input_data);
-        int* data_out = (int*)malloc(mem_size_output_data);   
+            float* data_in = (float*)malloc(mem_size_input_data);
+            int* data_out = (int*)malloc(mem_size_output_data);   
         
-        InputData(i,data_in);
+            // what if data_in is bigger then the number of events left within the file?
+            InputData(number_events,data_in,ndim);
         
-        kernel[i]= clCreateKernel(program[0], kernelname, &ciErrNum);
-        if (ciErrNum != CL_SUCCESS) {
-            std<<cout<<" problem with creating kernel "<<std::endl;
-            return ciErrNum;
+            kernel[i]= clCreateKernel(program[0], kernelname, &ciErrNum);
+            if (ciErrNum != CL_SUCCESS) {
+                std<<cout<<" problem with creating kernel "<<std::endl;
+                return ciErrNum;
+            }
+            eventstobeproc-=number_events;
+            ProcessSet(cdDevices[i], cDevicesName[i], kernel[i], i, gpudone_event, data_in, data_out, mem_size_output_data, mem_size_input_data);
+            // maybe this last one needs to be done later
+            clWaitForEvents(ciDeviceCount, gpudone_event);
+            // not sure what this does?
+            ProcessOutput(data_out,mdim,ndim,number_events);
         }
-        ProcessSet(cdDevices[i], cDevicesName[i], kernel[i], i, gpudone_event, data_in, data_out, mem_size_output_data, mem_size_input_data);
-        // maybe this last one needs to be done later
-        clWaitForEvents(ciDeviceCount, gpudone_event);
-    }
+        
+        // I need todo the adding the events into the cube array here
+        // or into the output tree
+        // possibly the difference between the codes is primarily this function being overloaded?
+        
+        finishproc=TRUE;
     
-    
+    }    
     
     // I will end up wanting to put in the calccuberesult processing here, as well as the other component?
     

@@ -69,6 +69,15 @@ public:
     
     void StartQueue();
     
+    void ProcessQue(int,int);
+    
+    // I don't know, this is as simple as I could think of it?
+    long EventsToProcess(){return 1000000}
+    int InputData(long, float*, int);
+    int ProcessOutput(int*, int, int, long);
+    
+    int ProcessSet(cl_device_id, char*, cl_kernal, int, cl_event);
+    
     void FillCube(int, int, int, int, int*);
     void FillCube2(int, int, int, int, int*);
     void FillCube3(int, int, int, int, int*);
