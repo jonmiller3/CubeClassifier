@@ -1,4 +1,6 @@
-kernel void fillcube2full(global float* input, global float* max, global float* min, global int* output)
+// I need to think about local versus global (versus private)
+
+kernel void fillcube2full(global const float* input, constant float* max, constant float* min, global int* output)
 {
     
     

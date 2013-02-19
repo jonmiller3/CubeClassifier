@@ -29,7 +29,17 @@ struct float_triple {
 
 class BaseClassifier {
 
+private:
+    
+    // I am not sure what should be private or public?
+    
 public:
+    int CompileOCLKernel(cl_device_id, const char*, cl_program*);
+    
+    float* max_in;
+    float* min_in;
+    
+    cl_command_queue commandQueue;
     
     // new CL variables
     cl_context       cxGPUContext;
@@ -46,41 +56,49 @@ public:
     
     //dispatch_queue_t* queue;
     
-    void* mem_in;
-    void* mem_out;
+    // I might not longer be using these
+    //void* mem_in;
+    //void* mem_out;
     
     // this is to set what kernels to run and gives mdim
     int cubelevel;
+    // setting is needed, level not yet?
     int cubesetting;
     
     // total number of possible queues
     int queuenumber;
    
     // only needed for one calc
-    void* memmax_in;
-    void* memmin_in;
+    // I think I am no longer using this
+    //void* memmax_in;
+    //void* memmin_in;
     
-    BaseClassifier(){}
+    BaseClassifier(){cubesetting=1;}
     
     int GetQueueNum(){return queuenumber;}
-    void NormData(int, int, int, float*);
     
-    int CompileOCLKernel(cl_context, cl_device_id, const char*, cl_program*);
+    // old and outdated
+    //void NormData(int, int, int, float*);
     
     void StartQueue();
     
     void ProcessQue(int,int);
     
     // I don't know, this is as simple as I could think of it?
-    long EventsToProcess(){return 1000000}
+    long EventsToProcess(){return 10000000}
+    SetMaxMin(float* max, float* min, int ndim){for (int i=0; i<ndim; i++){max[i]=1;min[i]=0;}}
     int InputData(long, float*, int);
     int ProcessOutput(int*, int, int, long);
     
-    int ProcessSet(cl_device_id, char*, cl_kernal, int, cl_event);
+    // this tells one device to process... theoretically I can 
+    int ProcessSet(cl_device_id, char*, cl_kernal, int, cl_event, float*, int*, size_t, size_t);
     
-    void FillCube(int, int, int, int, int*);
-    void FillCube2(int, int, int, int, int*);
-    void FillCube3(int, int, int, int, int*);
+    // old and outdated
+    //void FillCube(int, int, int, int, int*);
+    //void FillCube2(int, int, int, int, int*);
+    //void FillCube3(int, int, int, int, int*);
+    
+    
     
 };
 

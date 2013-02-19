@@ -17,7 +17,7 @@
 Interface::Interface(int argc, const char* argv[]){
         
     const char* modestr = argv[1];
-    if (modestr=="Eval"){
+    if (strcmp(modestr,"Eval")){
         mode = 1;
     } else {
         mode = 0;
