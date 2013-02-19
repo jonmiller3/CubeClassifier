@@ -85,13 +85,19 @@ public:
     void ProcessQue(int,int);
     
     // I don't know, this is as simple as I could think of it?
-    long EventsToProcess(){return 10000000}
-    SetMaxMin(float* max, float* min, int ndim){for (int i=0; i<ndim; i++){max[i]=1;min[i]=0;}}
+    long EventsToProcess(){return 10000000;}
+    int SetMaxMin(float* max, float* min, int ndim){
+        for (int i=0; i<ndim; i++){
+            max[i]=1;
+            min[i]=0;
+        }
+        return 0;
+    }
     int InputData(long, float*, int);
     int ProcessOutput(int*, int, int, long);
     
     // this tells one device to process... theoretically I can 
-    int ProcessSet(cl_device_id, char*, cl_kernal, int, cl_event, float*, int*, size_t, size_t);
+    int ProcessSet(cl_device_id, char*, cl_kernel, int, cl_event, float*, int*, size_t, size_t);
     
     // old and outdated
     //void FillCube(int, int, int, int, int*);
