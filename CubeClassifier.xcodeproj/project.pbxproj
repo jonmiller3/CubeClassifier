@@ -21,6 +21,7 @@
 		6DCA85F0163DB8EE0091D31F /* fillcubefull.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85EF163DB8EE0091D31F /* fillcubefull.cl */; };
 		6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F2163DB98C0091D31F /* fillcube3full.cl */; };
 		6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F1163DB9810091D31F /* fillcube2full.cl */; };
+		6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E4163A929A0091D31F /* BaseClassifier.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,7 +78,6 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
-				6DCA85EC163AD21E0091D31F /* NewCubeClassifier */,
 				6DCA84781636C3480091D31F /* OpenCL.framework */,
 				6DCA845F1636BFBC0091D31F /* CubeClassifier */,
 				6DCA845D1636BFBC0091D31F /* Products */,
@@ -119,13 +119,6 @@
 				6DCA85DC1639774A0091D31F /* Interface.cpp */,
 			);
 			path = CubeClassifier;
-			sourceTree = "<group>";
-		};
-		6DCA85EC163AD21E0091D31F /* NewCubeClassifier */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = NewCubeClassifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +202,7 @@
 				6DCA85F0163DB8EE0091D31F /* fillcubefull.cl in Sources */,
 				6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */,
 				6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */,
+				6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +262,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/Win32\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/Win32\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/x64\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -279,6 +277,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/Win32\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/Win32\"",
+					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/x64\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

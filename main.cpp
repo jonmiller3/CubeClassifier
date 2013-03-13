@@ -17,9 +17,11 @@
 //#include "calccuberesult.cl.h"
 
 // new one but not necessary now
-#include "Interface.h"
+//#include "Interface.h"
 
 #include "BaseClassifier.h"
+
+//#include "oclUtils.h"
 
 // not using right now
 //#include "boost/lexical_cast.hpp"
@@ -35,14 +37,17 @@
 // this is just to test
 int main (int argc, const char * argv[])
 {
-  
-    
+
     // just create the class
-    BaseClassifier* bs = new BaseClassifier();
+    BaseClassifier* bs = new BaseClassifier(4,4);
 
     bs->StartQueue();
     
-    bs->ProcessQue(4, 4);
+    printf("I have started the queue");
+    
+    bs->ProcessQueue();
+    
+    printf("I have processed the queue");
     
     delete bs;
     

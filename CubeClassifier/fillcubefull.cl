@@ -1,3 +1,6 @@
+//#include <OpenCL/OpenCL.h>
+
+//kernel void fillcubefull(global const float* input, constant float* max, constant float* min, global int* output)
 kernel void fillcubefull(global const float* input, constant float* max, constant float* min, global int* output)
 {
     

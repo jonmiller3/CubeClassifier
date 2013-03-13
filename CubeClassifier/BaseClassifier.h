@@ -10,15 +10,23 @@
 #define CubeClassifier_BaseClassifier_h
 
 #include <OpenCL/OpenCL.h>
-#include "fillcube.cl.h"
-#include "fillcube2.cl.h"
-#include "fillcube3.cl.h"
-#include "normdata.cl.h"
-#include "calccuberesult.cl.h"
 
-#include "fillcubefull.cl.h"
-#include "fillcube2full.cl.h"
-#include "fillcube3full.cl.h"
+
+//#include "fillcube.cl.h"
+//#include "fillcube.cl"
+//#include "fillcube2.cl.h"
+//#include "fillcube3.cl.h"
+//#include "normdata.cl.h"
+//#include "calccuberesult.cl.h"
+
+
+//#include "fillcubefull.cl.h"
+//#include "fillcube2full.cl.h"
+//#include "fillcube3full.cl.h"
+
+//#include "fillcubefull.cl"
+//#include "fillcube2full.cl"
+//#include "fillcube3full.cl"
 
 struct float_triple {
     float x[3];
@@ -46,11 +54,16 @@ public:
     cl_kernel        kernel[MAX_GPU_COUNT];
     cl_program       program[MAX_GPU_COUNT];
     
+    char (*cDevicesName)[256];
     
     cl_platform_id  cpPlatform;
 	cl_device_id   *cdDevices;
 	cl_int          ciErrNum;
 	cl_uint         ciDeviceCount;
+    
+    
+    int mdim;
+    int ndim;
     
     bool bEnableProfile;
     
@@ -74,18 +87,21 @@ public:
     //void* memmin_in;
     
     BaseClassifier(){cubesetting=1;}
+    BaseClassifier(int nd, int md){cubesetting=2;mdim=md;ndim=nd;}
+
+    
     
     int GetQueueNum(){return queuenumber;}
     
     // old and outdated
     //void NormData(int, int, int, float*);
     
-    void StartQueue();
+    int StartQueue();
     
-    void ProcessQue(int,int);
+    int ProcessQueue();
     
     // I don't know, this is as simple as I could think of it?
-    long EventsToProcess(){return 10000000;}
+    long EventsToProcess(){return 10;}
     int SetMaxMin(float* max, float* min, int ndim){
         for (int i=0; i<ndim; i++){
             max[i]=1;
@@ -93,11 +109,11 @@ public:
         }
         return 0;
     }
-    int InputData(long, float*, int);
-    int ProcessOutput(int*, int, int, long);
+    int InputData(long, float*);
+    int ProcessOutput(int*, long);
     
     // this tells one device to process... theoretically I can 
-    int ProcessSet(cl_device_id, char*, cl_kernel, int, cl_event, float*, int*, size_t, size_t);
+    int ProcessSet(cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
     
     // old and outdated
     //void FillCube(int, int, int, int, int*);
