@@ -7,24 +7,20 @@
 //
 
 #include <iostream>
-#include <OpenCL/OpenCL.h>
 
-//#include <oclUtils.h>
+#ifdef __APPLE__
+    #include <OpenCL/OpenCL.h>
+#else
+    #include <stdio.h>
+    #include <string.h>
+    #include "CL/cl.h"
+    #define FALSE false
+    #define TRUE true
+#endif
 
 
 #include "BaseClassifier.h"
-//#include "fillcube.cl"
-//#include "fillcube2.cl"
-//#include "fillcube3.cl"
 
-
-//#include "fillcubefull.cl"
-//#include "fillcube2full.cl"
-//#include "fillcube3full.cl"
-
-//#include "fillcubefull.cl.h"
-//#include "fillcube2full.cl.h"
-//#include "fillcube3full.cl.h"
 
 
 // this is a tool from NVIDIA
@@ -42,21 +38,21 @@ char* oclLoadProgSource(const char* cFilename, const char* cPreamble, size_t* sz
     FILE* pFileStream = NULL;
     size_t szSourceLength;
     
-    /*
+
     // open the OpenCL source code file
-#ifdef _WIN32   // Windows version
-    if(fopen_s(&pFileStream, cFilename, "rb") != 0) 
-    {       
-        return NULL;
-    }
-#else           // Linux version
-     */
-    pFileStream = fopen(cFilename, "rb");
-    if(pFileStream == 0) 
-    {       
-        return NULL;
-    }
-//#endif
+    #ifdef _WIN32   // Windows version
+        if(fopen_s(&pFileStream, cFilename, "rb") != 0) 
+        {                   
+            return NULL;    
+        }   
+    #else           // Linux version
+
+        pFileStream = fopen(cFilename, "rb");
+        if(pFileStream == 0) 
+        {       
+            return NULL;
+        }
+    #endif
     
     size_t szPreambleLength = strlen(cPreamble);
     
@@ -228,7 +224,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     if (ciErrNum != CL_SUCCESS)
     {
         // there is a problem
-        std::cout<<" problem "<<ciErrNum<<std::endl;
+        std::cout<<" problem with work item size "<<ciErrNum<<std::endl;
     }
     
     size_t maxworkitem_size;
@@ -364,7 +360,11 @@ int BaseClassifier::ProcessQueue(){
             kernelname="fillcubefull";
         } else if (cubesetting==2){
             kernelname="fillcube2full";
-            CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
+            #ifdef __APPLE__
+                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
+            #else
+                CompileOCLKernel(cdDevices[i], "classifier/src_mar12/fillcube2full.cl", &program[i]);
+            #endif
         } else if (cubesetting==3){
             kernelname="fillcube3full";
             CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
@@ -567,17 +567,24 @@ int BaseClassifier::StartQueue(){
     
     //Retrieve of the available GPU type OpenCL devices
     // I am right now using the CPU for debugging purposes
-	ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &ciDeviceCount);
-	cdDevices = (cl_device_id *)malloc(ciDeviceCount * sizeof(cl_device_id) );
-	ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, ciDeviceCount, cdDevices, NULL);
     
+    #ifdef __APPLE__
+        ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &ciDeviceCount);
+        cdDevices = (cl_device_id *)malloc(ciDeviceCount * sizeof(cl_device_id) );
+        ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, ciDeviceCount, cdDevices, NULL);
+    #else
+        ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &ciDeviceCount);
+        cdDevices = (cl_device_id *)malloc(ciDeviceCount * sizeof(cl_device_id) );
+        ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_GPU, ciDeviceCount, cdDevices, NULL);
+    #endif
     // Allocate a buffer array to store the names GPU device(s)
     cDevicesName = new char[ciDeviceCount][256];
     
+    std::cout<<" ready to go"<<ciDeviceCount<<std::endl;
+    
     if (ciErrNum != CL_SUCCESS) 
     {
-        std::cout<<" failed "<<std::endl;
-		//shrLog("Error: Failed to create OpenCL context!\n");
+        std::cout<<" failed to get IDs"<<ciErrNum<<std::endl;
 		return ciErrNum;
 	} else 
     {
@@ -591,61 +598,9 @@ int BaseClassifier::StartQueue(){
 	cxGPUContext = clCreateContext(0, ciDeviceCount, cdDevices, NULL, NULL, &ciErrNum);
 	if (ciErrNum != CL_SUCCESS)
 	{
-        std::cout<<" failed "<<std::endl;
-		//shrLog("Error: Failed to create OpenCL context!\n");
+        std::cout<<" failed to create context"<<ciErrNum<<std::endl;
 		return ciErrNum;
 	}
-    
-    // we don't need any of these
-    /*
-     if(shrCheckCmdLineFlag(argc, (const char**)argv, "profile"))
-     {
-     bEnableProfile = true;
-     }
-     
-     if(shrCheckCmdLineFlag(argc, (const char**)argv, "device"))
-     {
-     // User specified GPUs
-     char* deviceList;
-    char* deviceStr;
-     char* next_token;
-     shrGetCmdLineArgumentstr(argc, (const char**)argv, "device", &deviceList);
-
-
-
-    
-    deviceStr = strtok (deviceList," ,.-");
-    
-            
-    ciDeviceCount = 0;
-    
-    while(deviceStr != NULL) 
-    {
-        // get and print the device for this queue
-        cl_device_id device = oclGetDev(cxGPUContext, atoi(deviceStr));
-        if( device == (cl_device_id) -1  ) {
-            std::cout<<" failed "<<std::endl;
-            //shrLog(" Device %s does not exist!\n", deviceStr);
-            return -1;
-        }
-        
-        
-         shrLog("Device %s: ", deviceStr);
-         oclPrintDevName(LOGBOTH, device);            
-         shrLog("\n");
-         
-         
-        std::cout<<" device is "<<deviceStr<<std::endl;
-        
-        ++ciDeviceCount;
-        
-        deviceStr = strtok (NULL," ,.-");
-        
-    }
-    
-    free(deviceList);
-
-     */
 
     std::cout<<" I think that I have produced all the contexts that I need "<<std::endl;
 
@@ -665,7 +620,7 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
     size_t program_length=0;
     program_length=strlen(ocl_source_filename);
     // argv[0] should be some setting... I can just set it
-//    const char* source_path = shrFindFilePath(ocl_source_filename, argv[0]);
+    
     char *source = oclLoadProgSource(ocl_source_filename,"",&program_length);
     
     //*cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&ocl_source_filename, 
@@ -696,7 +651,7 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
 	if (ciErrNum != CL_SUCCESS)
 	{
 		// write out standard error, Build Log and PTX, then return error
-        std::cout<<" problem "<<ciErrNum<<std::endl;
+        std::cout<<" problem with building program"<<ciErrNum<<std::endl;
 		return ciErrNum;
     } else {
         ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_STATUS, sizeof(cl_build_status), &build_status, NULL);

@@ -7,28 +7,21 @@
 //
 
 #include <iostream>
-#include <OpenCL/OpenCL.h>
 
-// these are the old ones
-//#include "fillcube.cl.h"
-//#include "fillcube2.cl.h"
-//#include "fillcube3.cl.h"
-//#include "normdata.cl.h"
-//#include "calccuberesult.cl.h"
+#ifdef __APPLE__
+    #include <OpenCL/OpenCL.h>
+#else
+    #include <stdio.h>
+    #include <string.h>
+    #include "CL/cl.h"
+    #define FALSE false
+    #define TRUE true
+#endif
 
-// new one but not necessary now
 //#include "Interface.h"
 
+
 #include "BaseClassifier.h"
-
-//#include "oclUtils.h"
-
-// not using right now
-//#include "boost/lexical_cast.hpp"
-//#include "boost/tuple/tuple.hpp"
-//#include "boost/tuple/tuple_comparison.hpp"
-//#include "boost/tuple/tuple_io.hpp"
-
 
 #include <map>
 #include <vector>
