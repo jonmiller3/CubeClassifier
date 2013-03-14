@@ -18,10 +18,9 @@
     #define TRUE true
 #endif
 
-//#include "Interface.h"
-
-
+#include "Interface.h"
 #include "BaseClassifier.h"
+#include "Classify.h"
 
 #include <map>
 #include <vector>
@@ -30,20 +29,29 @@
 // this is just to test
 int main (int argc, const char * argv[])
 {
+    
+    if (argc<2) {
+     
+        printf("I don't have any arguments! %d",argc);
+        
+        Interface* iface = new Interface(argc,argv);
 
-    // just create the class
-    BaseClassifier* bs = new BaseClassifier(4,4);
+        // just create the class
+        Classify* bs = new Classify(iface);
 
-    bs->StartQueue();
+        bs->StartQueue();
     
-    printf("I have started the queue");
+        printf("I have started the queue");
     
-    bs->ProcessQueue();
+        bs->ProcessQueue();
     
-    printf("I have processed the queue");
+        printf("I have processed the queue");
     
-    delete bs;
-    
+        delete bs;
+        
+        delete iface;
+        
+    }
 
     return 0;
 

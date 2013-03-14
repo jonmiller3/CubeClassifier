@@ -339,7 +339,6 @@ int BaseClassifier::ProcessQueue(){
     if (ciErrNum != CL_SUCCESS)
     {
         std::cout<<" problem creating max command queue "<<ciErrNum<<std::endl;       
-	    //shrLog("clCreateCommandQueue() Error %d: Failed to create OpenCL command queue!\n", ciErrNum);
 	    //cutIncrementBarrier(&barrier);
 		return ciErrNum;
     }
@@ -349,24 +348,33 @@ int BaseClassifier::ProcessQueue(){
     size_t mem_size_const_in = sizeof(cl_float)*ndim;
     max_in = (float*)malloc(mem_size_const_in);
     min_in = (float*)malloc(mem_size_const_in);
-    SetMaxMin(max_in,min_in,ndim);
+    SetMaxMin(max_in,min_in);
     
     printf("setting basics\n");
     
     for (int i=0; i<ciDeviceCount; i++){
         char* kernelname;
         if (cubesetting==1){
-            CompileOCLKernel(cdDevices[i], "fillcubefull.cl", &program[i]);
+            #ifdef __APPLE__
+                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcubefull.cl", &program[i]);
+            #else
+                CompileOCLKernel(cdDevices[i], "classifier/src/fillcubefull.cl", &program[i]);  
+            #endif
             kernelname="fillcubefull";
         } else if (cubesetting==2){
             kernelname="fillcube2full";
             #ifdef __APPLE__
                 CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
             #else
-                CompileOCLKernel(cdDevices[i], "classifier/src_mar12/fillcube2full.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], "classifier/src/fillcube2full.cl", &program[i]);
             #endif
         } else if (cubesetting==3){
             kernelname="fillcube3full";
+            #ifdef __APPLE__
+                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube3full.cl", &program[i]);
+            #else
+                CompileOCLKernel(cdDevices[i], "classifier/src/fillcube3full.cl", &program[i]);  
+            #endif
             CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
         
         } else {
@@ -580,7 +588,7 @@ int BaseClassifier::StartQueue(){
     // Allocate a buffer array to store the names GPU device(s)
     cDevicesName = new char[ciDeviceCount][256];
     
-    std::cout<<" ready to go"<<ciDeviceCount<<std::endl;
+    std::cout<<" device count "<<ciDeviceCount<<std::endl;
     
     if (ciErrNum != CL_SUCCESS) 
     {
@@ -623,16 +631,8 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
     
     char *source = oclLoadProgSource(ocl_source_filename,"",&program_length);
     
-    //*cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&ocl_source_filename, 
-    //                                       &program_length, &ciErrNum);
-    
     *cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&source, 
                                            &program_length, &ciErrNum);
-        
-    //*cpProgram = clCreateProgramWithSource(cxGPUContext, 1, (const char **)&KernelSource, 
-    //                                          NULL, &ciErrNum);
-    
-    
     
     if (ciErrNum != CL_SUCCESS) {
         std::cout<<"Error: Failed to create program\n"<<std::endl;

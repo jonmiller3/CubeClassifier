@@ -22,7 +22,7 @@
 
 // I need this to inherent..
 
-class Classify:BaseClassifier {
+class Classify:public BaseClassifier {
     
     // these are the cubemap
     std::map< std::vector<int>,float_triple> cubemap;
@@ -30,23 +30,22 @@ class Classify:BaseClassifier {
     
     // array of edim*2 (setting,weight for each element)
     double* data;
-    int mdim;
     int edim;
-    int ndim;
     
 private:
     // I need queue number, max array, min array, data array
-    void NormData(int,float*,float*,float*);
+    //void NormData(int,float*,float*,float*);
     void CreateCubeMap(int*);
-    void CalcCubeResult(int, int, float_triple*);
+    //void CalcCubeResult(int, int, float_triple*);
     
+    Interface* interface;
     
 public:
-    // constructor (cubelevel and cubesetting)/deconstructor
     Classify(Interface*);
-    ~Classify();
+    ~Classify(){}
     void Process();    
     
+    int InputData();
     
 };
 

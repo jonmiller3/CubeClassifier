@@ -12,22 +12,6 @@
 #include <OpenCL/OpenCL.h>
 
 
-//#include "fillcube.cl.h"
-//#include "fillcube.cl"
-//#include "fillcube2.cl.h"
-//#include "fillcube3.cl.h"
-//#include "normdata.cl.h"
-//#include "calccuberesult.cl.h"
-
-
-//#include "fillcubefull.cl.h"
-//#include "fillcube2full.cl.h"
-//#include "fillcube3full.cl.h"
-
-//#include "fillcubefull.cl"
-//#include "fillcube2full.cl"
-//#include "fillcube3full.cl"
-
 struct float_triple {
     float x[3];
 };
@@ -37,12 +21,10 @@ struct float_triple {
 
 class BaseClassifier {
 
-private:
-    
-    // I am not sure what should be private or public?
-    
-public:
-    int CompileOCLKernel(cl_device_id, const char*, cl_program*);
+// can't access outside, can access with daughters
+protected:  
+
+
     
     float* max_in;
     float* min_in;
@@ -64,15 +46,7 @@ public:
     
     int mdim;
     int ndim;
-    
-    bool bEnableProfile;
-    
-    //dispatch_queue_t* queue;
-    
-    // I might not longer be using these
-    //void* mem_in;
-    //void* mem_out;
-    
+ 
     // this is to set what kernels to run and gives mdim
     int cubelevel;
     // setting is needed, level not yet?
@@ -80,47 +54,45 @@ public:
     
     // total number of possible queues
     int queuenumber;
-   
-    // only needed for one calc
-    // I think I am no longer using this
-    //void* memmax_in;
-    //void* memmin_in;
     
-    BaseClassifier(){cubesetting=1;}
-    BaseClassifier(int nd, int md){cubesetting=2;mdim=md;ndim=nd;}
+    
+    bool bEnableProfile;
 
+    // this is what should be overloaded
+    virtual int InputData(long, float*);
+    virtual long EventsToProcess(){return 10;}
     
-    
-    int GetQueueNum(){return queuenumber;}
-    
-    // old and outdated
-    //void NormData(int, int, int, float*);
-    
-    int StartQueue();
-    
-    int ProcessQueue();
-    
-    // I don't know, this is as simple as I could think of it?
-    long EventsToProcess(){return 10;}
-    int SetMaxMin(float* max, float* min, int ndim){
+    virtual int SetMaxMin(float* max, float* min){
         for (int i=0; i<ndim; i++){
             max[i]=1;
             min[i]=0;
         }
         return 0;
     }
-    int InputData(long, float*);
-    int ProcessOutput(int*, long);
     
+    virtual int ProcessOutput(int*, long);
+    
+    // not sure if this should be private or virtual
     // this tells one device to process... theoretically I can 
     int ProcessSet(cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
     
-    // old and outdated
-    //void FillCube(int, int, int, int, int*);
-    //void FillCube2(int, int, int, int, int*);
-    //void FillCube3(int, int, int, int, int*);
+// can't access outside, can't access with daughters
+private:
+   
+    int CompileOCLKernel(cl_device_id, const char*, cl_program*);
+
+
+// can access outside, can access with daughters    
+public:
     
+    BaseClassifier(){cubesetting=1;}
+    BaseClassifier(int nd, int md){cubesetting=2;mdim=md;ndim=nd;}
+
+    int GetQueueNum(){return queuenumber;}
     
+    int StartQueue();
+    
+    int ProcessQueue();    
     
 };
 

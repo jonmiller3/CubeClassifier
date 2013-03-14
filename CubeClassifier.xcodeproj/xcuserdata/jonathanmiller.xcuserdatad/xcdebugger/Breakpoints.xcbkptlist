@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "CubeClassifier/Interface.cpp"
-         timestampString = "372953910.078748"
+         timestampString = "384971479.490707"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "23"
-         endingLineNumber = "23"
+         startingLineNumber = "25"
+         endingLineNumber = "25"
          landmarkName = "Interface::Interface(int argc, const char* argv[])"
          landmarkType = "5">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "CubeClassifier/BaseClassifier.cpp"
-         timestampString = "384965126.965308"
+         timestampString = "384969333.172204"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "622"
-         endingLineNumber = "622"
+         startingLineNumber = "630"
+         endingLineNumber = "630"
          landmarkName = "BaseClassifier::CompileOCLKernel(cl_device_id cdDevice, const char *ocl_source_filename, cl_program *cpProgram)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -57,20 +57,6 @@
          startingLineNumber = "61"
          endingLineNumber = "61"
          landmarkName = "oclLoadProgSource(const char* cFilename, const char* cPreamble, size_t* szFinalLength)"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "main.cpp"
-         timestampString = "384965126.965308"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "43"
-         endingLineNumber = "43"
-         landmarkName = "main (int argc, const char * argv[])"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -141,6 +127,20 @@
          startingLineNumber = "256"
          endingLineNumber = "256"
          landmarkName = "BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel kernel, long ne, cl_event gpudone_event, float* data_in, int* data_out, size_t mem_size_output_data, size_t mem_size_input_data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "CubeClassifier/Interface.cpp"
+         timestampString = "384971510.865065"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "40"
+         endingLineNumber = "40"
+         landmarkName = "Interface::Interface(int argc, const char* argv[])"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

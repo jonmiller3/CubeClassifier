@@ -16,16 +16,27 @@
 
 Interface::Interface(int argc, const char* argv[]){
         
-    const char* modestr = argv[1];
-    if (strcmp(modestr,"Eval")){
-        mode = 1;
-    } else {
-        mode = 0;
-    }
-    filelist = argv[2];
-    varlist = argv[3];
-    setlist = argv[4];
+    if (argc>1){
     
+        const char* modestr = argv[1];
+        if (strcmp(modestr,"Eval")){
+            mode = 1;
+        } else {
+            mode = 0;
+        }
+        filelist = argv[2];
+        varlist = argv[3];
+        setlist = argv[4];
+    } else {
+        
+        mode=0;
+        filelist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultFileList.txt";
+        varlist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultVarList.txt";
+        setlist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultSettings.txt";
+
+    }
+
+        
     ReadFileList();
     ReadSettingsList();
     ReadVariableList();

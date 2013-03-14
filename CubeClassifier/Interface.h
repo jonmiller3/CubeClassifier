@@ -42,6 +42,14 @@ private:
     
 public:
     Interface(int,const char*[]);
+    Interface(){
+        mode=0;
+        prunestat=0;
+        prunesyst=0;
+        cubelevel=1;
+        cubesetting=1;
+        includeweighting=0;
+    }
     
     int GetMode(){return mode;}
     

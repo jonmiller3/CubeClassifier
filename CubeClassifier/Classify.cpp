@@ -70,6 +70,7 @@ void Classify::CreateCubeMap(int* cubeset_out){
     return;
 }
 
+/*
 // I might need float*
 void Classify::CalcCubeResult(int qnum, int dim1_size, float_triple* result_out){
     
@@ -118,15 +119,27 @@ void Classify::CalcCubeResult(int qnum, int dim1_size, float_triple* result_out)
     return;
     
 }
+ */
 
 
-Classify::Classify(Interface*){
+Classify::Classify(Interface* inputinterface){
     
     // right now this is a big function
     
+    interface=inputinterface;
+    
+    // is mdim just cubelevel?
+    mdim=interface->GetCubeLevel();
+    
+    // obviously
+    cubelevel=interface->GetCubeLevel();
+    cubesetting=interface->GetCubeSetting();
+    
+    // not sure about this, this forces the whole set of names to be used...
+    // but maybe that is right? if you are not interested just don't include them
+    ndim=(interface->GetVarNameList()).size();
     
     // it starts up the queue
-    
     
     
 }

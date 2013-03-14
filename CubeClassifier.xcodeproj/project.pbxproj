@@ -22,6 +22,7 @@
 		6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F2163DB98C0091D31F /* fillcube3full.cl */; };
 		6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F1163DB9810091D31F /* fillcube2full.cl */; };
 		6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E4163A929A0091D31F /* BaseClassifier.cpp */; };
+		6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E11639B0900091D31F /* Classify.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D7E2CE816F22B71005C88AA /* DefaultFileList.txt */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = DefaultFileList.txt; sourceTree = "<group>"; };
+		6D7E2CE916F22C69005C88AA /* DefaultVarList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DefaultVarList.txt; sourceTree = "<group>"; };
+		6D7E2CEB16F22DA4005C88AA /* DefaultSettings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DefaultSettings.txt; sourceTree = "<group>"; };
 		6DCA845C1636BFBC0091D31F /* CubeClassifier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CubeClassifier; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DCA84691636BFEE0091D31F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
 		6DCA846A1636BFEE0091D31F /* normdata.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = normdata.cl; sourceTree = SOURCE_ROOT; };
@@ -78,6 +82,9 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
+				6D7E2CEB16F22DA4005C88AA /* DefaultSettings.txt */,
+				6D7E2CE916F22C69005C88AA /* DefaultVarList.txt */,
+				6D7E2CE816F22B71005C88AA /* DefaultFileList.txt */,
 				6DCA84781636C3480091D31F /* OpenCL.framework */,
 				6DCA845F1636BFBC0091D31F /* CubeClassifier */,
 				6DCA845D1636BFBC0091D31F /* Products */,
@@ -203,6 +210,7 @@
 				6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */,
 				6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */,
 				6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */,
+				6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
