@@ -54,6 +54,7 @@ void Interface::ReadFileList(){
         
         int sstype;
         std::string ssname;
+        std::string sstree;
         
         std::string line;
         
@@ -65,8 +66,10 @@ void Interface::ReadFileList(){
         
         ss>>ssname;
         ss>>sstype;
+        ss>>sstree;
         
         namelist.push_back(ssname);
+        treelist.push_back(sstree);
         typelist.push_back(sstype);
         
     }
@@ -115,26 +118,41 @@ void Interface::ReadSettingsList(){
     std::ifstream myfile;
     myfile.open(setlist.c_str());
     
-    std::string line;
-    std::stringstream ss ( std::stringstream::in | std::stringstream::out );
+    {
+        std::string line;
+        std::stringstream ss ( std::stringstream::in | std::stringstream::out );
         
-    getline(myfile, line);        
-    ss<<line;
+        getline(myfile, line);        
+        ss.str(line);
     
-    ss>>prunestat;
-    ss>>prunesyst;
+        ss>>prunestat;
+        ss>>prunesyst;
         
-    getline(myfile, line);        
-    ss<<line;   
+    }
+    {
+
+        std::string line;
+        std::stringstream ss ( std::stringstream::in | std::stringstream::out );
     
-    ss>>cubesetting;
-    ss>>cubelevel;
+        getline(myfile, line);        
+        ss.str(line);   
     
-    getline(myfile, line);        
-    ss<<line;   
+        ss>>cubesetting;
+        ss>>cubelevel;
     
-    ss>>includeweighting;
+    }
+    {
+
+        std::string line;
+        std::stringstream ss ( std::stringstream::in | std::stringstream::out );
     
+        getline(myfile, line);        
+        ss.str(line);   
+    
+        ss>>includeweighting;
+    
+            
+    }
     myfile.close();
     
 }

@@ -21,6 +21,7 @@ class Interface {
    
     // files
     std::vector<std::string> namelist;
+    std::vector<std::string> treelist;
     std::vector<int> typelist;
     
     // variables
@@ -58,6 +59,7 @@ public:
     int GetCubeLevel(){return cubelevel;}
     int GetCubeSetting(){return cubesetting;}
     int GetWeightSetting(){return includeweighting;}
+    std::vector<std::string> GetTreeList(){return treelist;}
     
     std::vector<std::string> GetNameList(){return namelist;}
     std::vector<int> GetTypeList(){return typelist;}

@@ -1,2 +1,2 @@
-TestSignal.root 0
-TestBackground.root 1
+TestSignal.root 0 treeS
+TestBackground.root 1 treeB

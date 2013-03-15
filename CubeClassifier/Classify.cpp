@@ -9,6 +9,8 @@
 #include <iostream>
 
 #include "Classify.h"
+#include "TFile.h"
+#include "TTree.h"
 
 void Classify::CreateCubeMap(int* cubeset_out){
     
@@ -139,10 +141,103 @@ Classify::Classify(Interface* inputinterface){
     // but maybe that is right? if you are not interested just don't include them
     ndim=(interface->GetVarNameList()).size();
     
-    // it starts up the queue
     
+    currenttfile=0;
+    currentttree=0;
+    currenttype=-1;
+    currentelem=0;
+
+    if (currenttfile==0){
+        std::string filename=interface->GetNameList()[currentelem];
+        currenttfile= new TFile(filename.c_str());
+        currentttree=(TTree*)currenttfile->TDirectory::Get((interface->GetTreeList()[currentelem]).c_str());
+        currenttype=interface->GetTypeList()[currentelem];
+    }
+    
+    
+}
+
+// this is a special 
+// input is number of events
+// output is the data_in that is used in one set of processing
+// I need to keep track of which file is open
+// which files are done
+// where I am in the file
+int Classify::InputData(long nevents, float* data_in){
+     
+    
+    if (currenttfile==0){
+        std::string filename=interface->GetNameList()[currentelem];
+        currenttfile= new TFile(filename.c_str());
+        currentttree=(TTree*)currenttfile->TDirectory::Get((interface->GetTreeList()[currentelem]).c_str());
+        currenttype=interface->GetTypeList()[currentelem];
+    }
+    
+    // let's assume it is root for now
+    // this is maybe not necessary?
+
+    size_t varsize=interface->GetVarNameList().size();
+    float* var = new float[varsize];
+    int i=0;
+    for (std::vector<std::string>::iterator it=interface->GetVarNameList().begin(); it!=interface->GetVarNameList().end(); ++it) {
+
+        std::string varname = *it; 
+        currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
+        
+        i++;
+    }
+
+    
+    long cnum=0;
+    while (cnum<nevents) {
+    
+        currentttree->GetEntry(cnum+enumber);
+        
+        for (i=0; i<varsize; i++) {
+            data_in[cnum*varsize+i]=var[i];
+        }
+        
+        
+        cnum++;
+    }
+    
+    enumber+=nevents;
+    if (nevents!=cnum) printf(" oh no, cnum != nevents! \n");
+    
+    if (enumber==EventsToProcess()) {
+        
+        currenttfile=0;
+        currentelem++;
+    }
+    
+    return 0;
     
 }
 
 
 
+// obvious, but I need to remember that this should be initalized in the constructor
+long Classify::EventsToProcess(){    
+    
+    long val = currentttree->GetEntries();
+    
+    return val;
+}
+
+// very simple, wish there was some nicer way to do this but it goes quickly at least?
+int Classify::SetMaxMin(float* max, float* min){
+    
+    int i=0;
+    
+    std::vector<double>::iterator minit=interface->GetMinList().begin();
+    for (std::vector<double>::iterator maxit=interface->GetMaxList().begin(); maxit!=interface->GetMaxList().end(); ++maxit,++minit) {
+        
+        max[i]=*maxit;
+        min[i]=*minit;
+  
+        i++;
+    }
+    
+    return 0;
+    
+}

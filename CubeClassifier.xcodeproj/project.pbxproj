@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D5E7BB916F2AF1E008722A3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
+		6D5E7BC316F2B309008722A3 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; };
 		6DCA84731636BFEE0091D31F /* normdata.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846A1636BFEE0091D31F /* normdata.cl */; };
 		6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA846B1636BFEE0091D31F /* fillcube.cl */; };
@@ -25,7 +27,33 @@
 		6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E11639B0900091D31F /* Classify.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6D5E7BC016F2AF92008722A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
+			remoteInfo = StartROOT;
+		};
+		6DF37B0716F25763006C5F17 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
+			remoteInfo = StartROOT;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		6D5E7BB316F2AF1E008722A3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		6DCA845A1636BFBC0091D31F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,6 +66,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D5E7BB516F2AF1E008722A3 /* CreateTestTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CreateTestTree; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D5E7BB816F2AF1E008722A3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		6D5E7BBA16F2AF1E008722A3 /* CreateTestTree.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CreateTestTree.1; sourceTree = "<group>"; };
+		6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreateTestTree.cpp; sourceTree = "<group>"; };
+		6D5E7BC416F2B322008722A3 /* CreateTestTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTestTree.h; sourceTree = "<group>"; };
 		6D7E2CE816F22B71005C88AA /* DefaultFileList.txt */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = DefaultFileList.txt; sourceTree = "<group>"; };
 		6D7E2CE916F22C69005C88AA /* DefaultVarList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DefaultVarList.txt; sourceTree = "<group>"; };
 		6D7E2CEB16F22DA4005C88AA /* DefaultSettings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DefaultSettings.txt; sourceTree = "<group>"; };
@@ -68,6 +101,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6D5E7BB216F2AF1E008722A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6DCA84591636BFBC0091D31F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +119,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D5E7BB716F2AF1E008722A3 /* CreateTestTree */ = {
+			isa = PBXGroup;
+			children = (
+				6D5E7BB816F2AF1E008722A3 /* main.cpp */,
+				6D5E7BBA16F2AF1E008722A3 /* CreateTestTree.1 */,
+				6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */,
+				6D5E7BC416F2B322008722A3 /* CreateTestTree.h */,
+			);
+			path = CreateTestTree;
+			sourceTree = "<group>";
+		};
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +138,7 @@
 				6D7E2CE816F22B71005C88AA /* DefaultFileList.txt */,
 				6DCA84781636C3480091D31F /* OpenCL.framework */,
 				6DCA845F1636BFBC0091D31F /* CubeClassifier */,
+				6D5E7BB716F2AF1E008722A3 /* CreateTestTree */,
 				6DCA845D1636BFBC0091D31F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				6DCA845C1636BFBC0091D31F /* CubeClassifier */,
+				6D5E7BB516F2AF1E008722A3 /* CreateTestTree */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,12 +183,46 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXLegacyTarget section */
+		6DF37B0316F256E5006C5F17 /* StartROOT */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 6DF37B0416F256E5006C5F17 /* Build configuration list for PBXLegacyTarget "StartROOT" */;
+			buildPhases = (
+			);
+			buildToolPath = "/Users/jonathanmiller/Desktop/CubeClassifier/env-shell.sh";
+			buildWorkingDirectory = /Users/jonathanmiller/Desktop/CubeClassifier;
+			dependencies = (
+			);
+			name = StartROOT;
+			passBuildSettingsInEnvironment = 1;
+			productName = StartROOT;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
+		6D5E7BB416F2AF1E008722A3 /* CreateTestTree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D5E7BBE16F2AF1E008722A3 /* Build configuration list for PBXNativeTarget "CreateTestTree" */;
+			buildPhases = (
+				6D5E7BB116F2AF1E008722A3 /* Sources */,
+				6D5E7BB216F2AF1E008722A3 /* Frameworks */,
+				6D5E7BB316F2AF1E008722A3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6D5E7BC116F2AF92008722A3 /* PBXTargetDependency */,
+			);
+			name = CreateTestTree;
+			productName = CreateTestTree;
+			productReference = 6D5E7BB516F2AF1E008722A3 /* CreateTestTree */;
+			productType = "com.apple.product-type.tool";
+		};
 		6DCA845B1636BFBC0091D31F /* CubeClassifier */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DCA84661636BFBC0091D31F /* Build configuration list for PBXNativeTarget "CubeClassifier" */;
 			buildPhases = (
-				6DCA849416396B3F0091D31F /* ShellScript */,
 				6DCA84581636BFBC0091D31F /* Sources */,
 				6DCA84591636BFBC0091D31F /* Frameworks */,
 				6DCA845A1636BFBC0091D31F /* CopyFiles */,
@@ -143,6 +230,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6DF37B0816F25763006C5F17 /* PBXTargetDependency */,
 			);
 			name = CubeClassifier;
 			productName = CubeClassifier;
@@ -171,27 +259,22 @@
 			projectRoot = "";
 			targets = (
 				6DCA845B1636BFBC0091D31F /* CubeClassifier */,
+				6DF37B0316F256E5006C5F17 /* StartROOT */,
+				6D5E7BB416F2AF1E008722A3 /* CreateTestTree */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		6DCA849416396B3F0091D31F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
+/* Begin PBXSourcesBuildPhase section */
+		6D5E7BB116F2AF1E008722A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
+				6D5E7BB916F2AF1E008722A3 /* main.cpp in Sources */,
+				6D5E7BC316F2B309008722A3 /* CreateTestTree.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/Users/jonathanmiller/icerec_v040200/build/env-shell.sh";
 		};
-/* End PBXShellScriptBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
 		6DCA84581636BFBC0091D31F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -216,7 +299,88 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6D5E7BC116F2AF92008722A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
+			targetProxy = 6D5E7BC016F2AF92008722A3 /* PBXContainerItemProxy */;
+		};
+		6DF37B0816F25763006C5F17 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
+			targetProxy = 6DF37B0716F25763006C5F17 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6D5E7BBC16F2AF1E008722A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6D5E7BBD16F2AF1E008722A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		6DCA84641636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -267,13 +431,31 @@
 		6DCA84671636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/Win32\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/Win32\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/x64\"",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -282,14 +464,55 @@
 		6DCA84681636BFBC0091D31F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/Win32\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/Win32\"",
-					"\"$(SRCROOT)/CubeClassifier/NVIDIA GPU Computing SDK/shared/lib/x64\"",
+					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
 				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6DF37B0516F256E5006C5F17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6DF37B0616F256E5006C5F17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -297,6 +520,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6D5E7BBE16F2AF1E008722A3 /* Build configuration list for PBXNativeTarget "CreateTestTree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D5E7BBC16F2AF1E008722A3 /* Debug */,
+				6D5E7BBD16F2AF1E008722A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		6DCA84561636BFBC0091D31F /* Build configuration list for PBXProject "CubeClassifier" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -311,6 +542,15 @@
 			buildConfigurations = (
 				6DCA84671636BFBC0091D31F /* Debug */,
 				6DCA84681636BFBC0091D31F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6DF37B0416F256E5006C5F17 /* Build configuration list for PBXLegacyTarget "StartROOT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DF37B0516F256E5006C5F17 /* Debug */,
+				6DF37B0616F256E5006C5F17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,5 @@
+Variable1 0 1
+Variable2 0 1
+Variable3 0 1
+Variable4 0 1
+Variable5 0 1

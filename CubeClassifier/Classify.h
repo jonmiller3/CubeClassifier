@@ -20,6 +20,9 @@
 #include "BaseClassifier.h"
 #include "Interface.h"
 
+#include "TTree.h"
+#include "TFile.h"
+
 // I need this to inherent..
 
 class Classify:public BaseClassifier {
@@ -32,20 +35,40 @@ class Classify:public BaseClassifier {
     double* data;
     int edim;
     
+    // these are the redone methods
+    int InputData(long,float*);
+    long EventsToProcess();
+    int SetMaxMin(float* max, float* min);
+    
+    
 private:
     // I need queue number, max array, min array, data array
+    
+    
+    // no longer needed
     //void NormData(int,float*,float*,float*);
-    void CreateCubeMap(int*);
     //void CalcCubeResult(int, int, float_triple*);
     
+    // this is used in the output
+    void CreateCubeMap(int*);
+ 
     Interface* interface;
+    
+    // variables for keeping track of input
+    TFile* currenttfile;
+    TTree* currentttree;
+    long enumber;
+    int currenttype;
+    int currentelem;
+    
+    
     
 public:
     Classify(Interface*);
     ~Classify(){}
     void Process();    
     
-    int InputData();
+
     
 };
 

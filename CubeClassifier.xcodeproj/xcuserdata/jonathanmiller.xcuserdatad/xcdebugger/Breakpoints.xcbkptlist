@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "CubeClassifier/Classify.h"
-         timestampString = "372953910.078748"
+         timestampString = "384979143.158177"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "28"
-         endingLineNumber = "28"
+         startingLineNumber = "30"
+         endingLineNumber = "30"
          landmarkName = "class Classify"
          landmarkType = "3">
       </FileBreakpoint>
@@ -134,13 +134,27 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "CubeClassifier/Interface.cpp"
-         timestampString = "384971510.865065"
+         filePath = "main.cpp"
+         timestampString = "385000855.120756"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "40"
-         endingLineNumber = "40"
-         landmarkName = "Interface::Interface(int argc, const char* argv[])"
+         startingLineNumber = "46"
+         endingLineNumber = "46"
+         landmarkName = "main (int argc, const char * argv[])"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "CubeClassifier/Interface.cpp"
+         timestampString = "385002657.303509"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
+         landmarkName = "Interface::ReadSettingsList()"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
