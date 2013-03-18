@@ -35,6 +35,8 @@ kernel void fillcube2full(global const float* input, constant float* max, consta
     
     output[i*r*q+r*k+j]=(int)(difference/trange*mult);
     
+    //printf(" result is %d %f \n",output[i*r*q+r*k+j],(difference/trange*mult));
+    
     //output[(i*r+j)*q+k]=k;
     
     //output[0]=k;

@@ -12,22 +12,32 @@
 #include "TFile.h"
 #include "TTree.h"
 
-void Classify::CreateCubeMap(int* cubeset_out){
+int Classify::ProcessOutput(int* output_data, long nevents){
+    
+    this->CreateCubeMap(output_data,nevents);    
+    
+    return 0;
+    
+}
+
+int Classify::CreateCubeMap(int* cubeset_out,long nevents){
     
     float_triple nullfloat3 = {{0,0,0}};
     //int *varj = (int*)malloc(sizeof(int)*(ndim+1));
     //std::string varjstr;
     
-    for (int i=0; i<edim; i++) {
+    for (int i=0; i<nevents; i++) {
         for (int k=0; k<mdim; k++) {
             std::vector<int> varj;
             varj.push_back(k);
             for (int j=0; j<ndim; j++) {
                 varj.push_back(cubeset_out[i*ndim*mdim+k*ndim+j]);
+                
                 /*
                  std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
                  " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j+ndim*k]<<std::endl;
                  */
+                 
             }
             //std::string varjstr;
             //int* varj = (int*)malloc(sizeof(int)*(ndim+1));
@@ -69,7 +79,7 @@ void Classify::CreateCubeMap(int* cubeset_out){
     }  
   
     
-    return;
+    return 0;
 }
 
 /*
@@ -146,13 +156,16 @@ Classify::Classify(Interface* inputinterface){
     currentttree=0;
     currenttype=-1;
     currentelem=0;
+    
+    //maxelem=0;
 
-    if (currenttfile==0){
-        std::string filename=interface->GetNameList()[currentelem];
-        currenttfile= new TFile(filename.c_str());
-        currentttree=(TTree*)currenttfile->TDirectory::Get((interface->GetTreeList()[currentelem]).c_str());
-        currenttype=interface->GetTypeList()[currentelem];
-    }
+    std::string filename=interface->GetNameList()[currentelem];
+    //maxelem=interface->GetNameList().size();
+    currenttfile= new TFile(filename.c_str());
+    std::string treename=interface->GetTreeList()[currentelem];
+    currentttree=(TTree*)gDirectory->Get(treename.c_str());
+    currenttype=interface->GetTypeList()[currentelem];
+
     
     
 }
@@ -178,13 +191,13 @@ int Classify::InputData(long nevents, float* data_in){
 
     size_t varsize=interface->GetVarNameList().size();
     float* var = new float[varsize];
+    std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
-    for (std::vector<std::string>::iterator it=interface->GetVarNameList().begin(); it!=interface->GetVarNameList().end(); ++it) {
+    for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
 
         std::string varname = *it; 
         currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
         
-        i++;
     }
 
     
@@ -219,8 +232,27 @@ int Classify::InputData(long nevents, float* data_in){
 // obvious, but I need to remember that this should be initalized in the constructor
 long Classify::EventsToProcess(){    
     
-    long val = currentttree->GetEntries();
+    long val=0;
     
+    std::vector<std::string> namelist=interface->GetNameList();
+    std::vector<std::string> treelist=interface->GetTreeList();
+    std::vector<std::string>::iterator tt=treelist.begin();
+    for (std::vector<std::string>::iterator it=namelist.begin(); it!=namelist.end(); ++it,++tt){
+        
+        std::string filename=*it;
+        TFile* tfile= new TFile(filename.c_str());
+        std::string treename=*tt;
+        TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
+
+    
+        val += ttree->GetEntries();
+
+    }
+        
+    //val=20;
+   // currentttree->Print();
+    
+    edim=val;
     return val;
 }
 
@@ -229,13 +261,15 @@ int Classify::SetMaxMin(float* max, float* min){
     
     int i=0;
     
-    std::vector<double>::iterator minit=interface->GetMinList().begin();
-    for (std::vector<double>::iterator maxit=interface->GetMaxList().begin(); maxit!=interface->GetMaxList().end(); ++maxit,++minit) {
+    std::vector<double> minlist = interface->GetMinList();
+    std::vector<double> maxlist = interface->GetMaxList();
+    
+    std::vector<double>::iterator minit=minlist.begin();
+    for (std::vector<double>::iterator maxit=maxlist.begin(); maxit!=maxlist.end(); ++maxit,++minit,i++) {
         
         max[i]=*maxit;
         min[i]=*minit;
-  
-        i++;
+ 
     }
     
     return 0;

@@ -92,7 +92,7 @@ int BaseClassifier::ProcessOutput(int* output_data, long nevents){
     for (int i=0; i<nevents; i++) {
         for (int j=0; j<ndim; j++) {
             for (int k=0; k<mdim; k++) {
-                std::cout<<" here is the output"<<k<<" "<<i<<" "<<j<<", I think "<<output_data[i*mdim*ndim+j*mdim+k]<<std::endl;
+                if ((i+j+k)%10==0) std::cout<<" here is the output"<<k<<" "<<i<<" "<<j<<", I think "<<output_data[i*mdim*ndim+j*mdim+k]<<std::endl;
             }
         }
     }

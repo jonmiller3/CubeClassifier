@@ -98,6 +98,8 @@
 		6DCA85EF163DB8EE0091D31F /* fillcubefull.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcubefull.cl; sourceTree = "<group>"; };
 		6DCA85F1163DB9810091D31F /* fillcube2full.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube2full.cl; sourceTree = "<group>"; };
 		6DCA85F2163DB98C0091D31F /* fillcube3full.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube3full.cl; sourceTree = "<group>"; };
+		6DE3663C16F68C8500FDC831 /* DefaultBackground.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultBackground.root; path = CubeClassifier/DefaultBackground.root; sourceTree = "<group>"; };
+		6DE3663D16F68C8500FDC831 /* DefaultSignal.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultSignal.root; path = CubeClassifier/DefaultSignal.root; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,8 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
+				6DE3663C16F68C8500FDC831 /* DefaultBackground.root */,
+				6DE3663D16F68C8500FDC831 /* DefaultSignal.root */,
 				6D7E2CEB16F22DA4005C88AA /* DefaultSettings.txt */,
 				6D7E2CE916F22C69005C88AA /* DefaultVarList.txt */,
 				6D7E2CE816F22B71005C88AA /* DefaultFileList.txt */,
@@ -527,6 +531,7 @@
 				6D5E7BBD16F2AF1E008722A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6DCA84561636BFBC0091D31F /* Build configuration list for PBXProject "CubeClassifier" */ = {
 			isa = XCConfigurationList;

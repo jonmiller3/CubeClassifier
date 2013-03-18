@@ -13,47 +13,15 @@
 int main (int argc, const char * argv[])
 {
 
-    std::string vname1="Variable1";
+    CreateTestTree* signal = new CreateTestTree("DefaultSignal",5);
+    signal->AddVariables(5);
+    signal->Loop(10000, true);
+    signal->WriteROOTFile();
     
-    float v1;
-
-    
-    {
-    
-        TFile* signal = new TFile("TestSignal.root");
-    
-        TTree* tree = new TTree("treeS", "Signal Tree");
-    
-        tree->SetBranch(vname1.c_str(),v1,Form("%s/F",vname1));
-        
-        
-        
-        
-        
-        
-        signal->Close();
-        
-    }
-    
-    
-    
-    
-    
-    {
-        
-        
-        TFile* background = new TFile("TestBackground.root");
-    
-        TTree* tree = new TTree("treeB", "Signal Tree");
-        
-        
-        
-        
-        
-        
-        background->Close();
-        
-    }
+    CreateTestTree* background = new CreateTestTree("DefaultBackground",5);
+    background->AddVariables(5);
+    background->Loop(100000, false);
+    background->WriteROOTFile(); 
     
     return 0;
     

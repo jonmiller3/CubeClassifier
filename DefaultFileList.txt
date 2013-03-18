@@ -1,2 +1,2 @@
-TestSignal.root 0 treeS
-TestBackground.root 1 treeB
+/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/DefaultSignal.root 0 treeDefaultSignal
+/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/DefaultBackground.root 1 treeDefaultBackground

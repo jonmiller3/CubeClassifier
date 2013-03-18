@@ -99,8 +99,8 @@ void Interface::ReadVariableList(){
         ss<<line;
         
         ss>>ssname;
-        ss>>ssmax;
         ss>>ssmin;
+        ss>>ssmax;
         
         varnamelist.push_back(ssname);
         varmaxlist.push_back(ssmax);

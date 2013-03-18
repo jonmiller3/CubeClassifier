@@ -33,15 +33,17 @@ class Classify:public BaseClassifier {
     
     // array of edim*2 (setting,weight for each element)
     double* data;
-    int edim;
+    long edim;
     
     // these are the redone methods
     int InputData(long,float*);
+    int ProcessOutput(int*,long);
     long EventsToProcess();
     int SetMaxMin(float* max, float* min);
     
     
 private:
+    int maxelem;
     // I need queue number, max array, min array, data array
     
     
@@ -50,7 +52,7 @@ private:
     //void CalcCubeResult(int, int, float_triple*);
     
     // this is used in the output
-    void CreateCubeMap(int*);
+    int CreateCubeMap(int*,long);
  
     Interface* interface;
     

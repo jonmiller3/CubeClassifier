@@ -55,6 +55,28 @@
             ReferencedContainer = "container:CubeClassifier.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "LD_LIBRARY_PATH"
+            value = "/Users/jonathanmiller/icerec_v040200/build/lib:/Users/jonathanmiller/icerec_v040200/build/lib/tools:/Users/jonathanmiller/i3/ports//root-v5.28.00/lib:$LD_LIBRARY_PATH"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "PATH"
+            value = "/Users/jonathanmiller/icerec_v040200/build/bin:/Users/jonathanmiller/i3/ports//root-v5.28.00/bin:$_I3_PORTS/bin:$PATH"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "DYLD_LIBRARY_PATH"
+            value = "/Users/jonathanmiller/icerec_v040200/build/lib:/Users/jonathanmiller/icerec_v040200/build/lib/tools:/Users/jonathanmiller/i3/ports//root-v5.28.00/lib:$_I3_PORTS/lib:$DYLD_LIBRARY_PATH"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "ROOTSYS"
+            value = "/Users/jonathanmiller/i3/ports//root-v5.28.00"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
