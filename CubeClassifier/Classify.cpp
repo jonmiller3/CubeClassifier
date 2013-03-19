@@ -65,11 +65,12 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
              */
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i*2+0]]+=data[i*2+1]; // + (*cubeit).second[(int)data[i][0]];
-            
-            std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
-            std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
-            <<" "<<((*cubeit).second).x[1]<<" "<<((*cubeit).second).x[2]<<std::endl;
-            std::cout<<" here it is (2) "<<data[i*2+0]<<" "<<data[i*2+1]<<std::endl;
+            if (i%1000==0){
+                std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
+                std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
+                <<" "<<((*cubeit).second).x[1]<<" "<<((*cubeit).second).x[2]<<std::endl;
+                std::cout<<" here it is (2) "<<data[i*2+0]<<" "<<data[i*2+1]<<std::endl;
+            }
             
             
             /*
@@ -157,6 +158,11 @@ Classify::Classify(Interface* inputinterface){
     currenttype=-1;
     currentelem=0;
     
+    
+    //e0=0;
+    //e1=0;
+    //e2=0;
+    
     //maxelem=0;
 
     std::string filename=interface->GetNameList()[currentelem];
@@ -178,6 +184,7 @@ Classify::Classify(Interface* inputinterface){
 // where I am in the file
 int Classify::InputData(long nevents, float* data_in){
      
+
     
     if (currenttfile==0){
         std::string filename=interface->GetNameList()[currentelem];
@@ -200,8 +207,12 @@ int Classify::InputData(long nevents, float* data_in){
         
     }
 
-    
+    data = new float[nevents*2];    
     long cnum=0;
+    
+    // for now this is just using default, later I will need to set it here
+    float weight=1;
+    
     while (cnum<nevents) {
     
         currentttree->GetEntry(cnum+enumber);
@@ -210,6 +221,12 @@ int Classify::InputData(long nevents, float* data_in){
             data_in[cnum*varsize+i]=var[i];
         }
         
+        data[2*cnum+1]=weight;
+        data[2*cnum+0]=(float)currenttype;
+        
+        //if (currenttype==0) {data0[e0]=var[i];e0++;}
+        //if (currenttype==1) {data1[e1]=var[i];e1++;}
+        //if (currenttype==2) {data2[e2]=var[i];e2++;}
         
         cnum++;
     }
@@ -234,21 +251,36 @@ long Classify::EventsToProcess(){
     
     long val=0;
     
+    long v1=0;
+    long v2=0;
+    long v0=0;
+    
     std::vector<std::string> namelist=interface->GetNameList();
     std::vector<std::string> treelist=interface->GetTreeList();
+    std::vector<int> typelist=interface->GetTypeList();
     std::vector<std::string>::iterator tt=treelist.begin();
-    for (std::vector<std::string>::iterator it=namelist.begin(); it!=namelist.end(); ++it,++tt){
+    std::vector<int>::iterator yt=typelist.begin();
+    for (std::vector<std::string>::iterator it=namelist.begin(); it!=namelist.end(); ++it,++tt,++yt){
         
         std::string filename=*it;
         TFile* tfile= new TFile(filename.c_str());
         std::string treename=*tt;
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
-
-    
+        int typet = *yt;
+        
+        if (typet==0) v0++;
+        if (typet==1) v1++;
+        if (typet==2) v2++;
+        
+        
         val += ttree->GetEntries();
 
     }
         
+    //data0 = new float[v0];
+    //data1 = new float[v1];
+    //data2 = new float[v2];
+    
     //val=20;
    // currentttree->Print();
     

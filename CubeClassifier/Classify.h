@@ -32,7 +32,19 @@ class Classify:public BaseClassifier {
     std::map< std::vector<int>,float_triple>::iterator cubeit;
     
     // array of edim*2 (setting,weight for each element)
-    double* data;
+    
+    
+    /*
+    float* data0; // signal
+    float* data1; // background
+    float* data2; // mc
+    
+    long e1;
+    long e2;
+    long e0;
+     */
+    float* data;
+    
     long edim;
     
     // these are the redone methods
