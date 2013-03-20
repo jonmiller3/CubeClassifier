@@ -23,7 +23,7 @@ int Classify::WriteOutput(){
     
     TFile* outputfile = new TFile("/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/classify_output.root","RECREATE");
     
-    TTree* outputtree = new TTree("classification","Classify Tree");
+    TTree* outputtree = new TTree("classtree","Classify Tree");
     
     float cvar[ndim+1];
     float ratios;
@@ -32,7 +32,7 @@ int Classify::WriteOutput(){
     float numdata;
     float nummc;
     
-    outputtree->Branch("CubeDepth", &cvar[0],"CubeDepth/I");
+    outputtree->Branch("cubedepth", &cvar[0],"cubedepth/F");
     
     int i=1;
     
@@ -82,9 +82,14 @@ int Classify::WriteOutput(){
         
         ratios=numsig/(numdata+numsig);
         
+        // alternate definition
+        //ratios = -expf(numsig)+expf(numdata+numsig);
+        
         if (interface->GetPruneStat()>numdata) continue;
         
         if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneSyst()<abs(0.5-ratiom))) continue;
+        
+        //std::cout<<" ratiotest "<<numsig<<" "<<numdata<<" "<<ratios<<std::endl;
         
         outputtree->Fill();
         
@@ -219,7 +224,6 @@ int Classify::CreateNewTree(){
     currentttree=(TTree*)gDirectory->Get(treename.c_str());
     currenttype=interface->GetTypeList()[currentelem];  
     
-    size_t varsize=interface->GetVarNameList().size();
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {

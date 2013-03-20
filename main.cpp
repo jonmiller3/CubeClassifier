@@ -21,6 +21,7 @@
 #include "Interface.h"
 #include "BaseClassifier.h"
 #include "Classify.h"
+#include "Eval.h"
 
 #include <map>
 #include <vector>

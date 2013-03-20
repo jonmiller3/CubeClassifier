@@ -9,10 +9,16 @@
 #ifndef CubeClassifier_Classify_h
 #define CubeClassifier_Classify_h
 
-#include <OpenCL/OpenCL.h>
-#include "fillcube.cl.h"
-#include "normdata.cl.h"
-#include "calccuberesult.cl.h"
+#ifdef __APPLE__
+    #include <OpenCL/OpenCL.h>
+#else
+    #include <stdio.h>
+    #include <string.h>
+    #include "CL/cl.h"
+    #define FALSE false
+    #define TRUE true
+#endif
+
 
 #include <vector>
 #include <map>

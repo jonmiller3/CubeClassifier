@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D1E1FD816FA2B9D001AB4F0 /* Eval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85DF1639B0820091D31F /* Eval.cpp */; };
 		6D5E7BB916F2AF1E008722A3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
 		6D5E7BC316F2B309008722A3 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 		6DCA84721636BFEE0091D31F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA84691636BFEE0091D31F /* main.cpp */; };
@@ -298,6 +299,7 @@
 				6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */,
 				6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */,
 				6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */,
+				6D1E1FD816FA2B9D001AB4F0 /* Eval.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
