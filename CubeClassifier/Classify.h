@@ -32,17 +32,6 @@ class Classify:public BaseClassifier {
     std::map< std::vector<int>,float_triple>::iterator cubeit;
     
     // array of edim*2 (setting,weight for each element)
-    
-    
-    /*
-    float* data0; // signal
-    float* data1; // background
-    float* data2; // mc
-    
-    long e1;
-    long e2;
-    long e0;
-     */
     float* data;
     
     long edim;
@@ -53,15 +42,15 @@ class Classify:public BaseClassifier {
     long EventsToProcess();
     int SetMaxMin(float* max, float* min);
     
+    // this isn't well protected, but this works for now
+    float* var;
+    
+    // this is just for tests, remove
+    float* test_float;
     
 private:
     int maxelem;
     // I need queue number, max array, min array, data array
-    
-    
-    // no longer needed
-    //void NormData(int,float*,float*,float*);
-    //void CalcCubeResult(int, int, float_triple*);
     
     // this is used in the output
     int CreateCubeMap(int*,long);
@@ -75,12 +64,20 @@ private:
     int currenttype;
     int currentelem;
     
-    
+    int CreateNewTree();
     
 public:
     Classify(Interface*);
     ~Classify(){}
-    void Process();    
+    int Process(){
+        
+        StartQueue();
+        ProcessQueue();
+    
+        return 0;
+        
+    }
+    int WriteOutput();
     
 
     
@@ -89,5 +86,3 @@ public:
 #endif
 
 // this is to classify
-
-// one classify, I have multiple base classifier classes where I can run the calc

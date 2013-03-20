@@ -47,6 +47,8 @@ int main (int argc, const char * argv[])
     
         printf("I have processed the queue");
     
+        bs->WriteOutput();
+        
         delete bs;
         
         delete iface;
