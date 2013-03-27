@@ -67,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D1E1FDA17032827001AB4F0 /* DefaultTest.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultTest.root; path = CubeClassifier/DefaultTest.root; sourceTree = "<group>"; };
+		6D1E1FDB17032861001AB4F0 /* classify_output.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = classify_output.root; path = CubeClassifier/classify_output.root; sourceTree = "<group>"; };
 		6D5E7BB516F2AF1E008722A3 /* CreateTestTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CreateTestTree; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5E7BB816F2AF1E008722A3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		6D5E7BBA16F2AF1E008722A3 /* CreateTestTree.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CreateTestTree.1; sourceTree = "<group>"; };
@@ -136,6 +138,8 @@
 		6DCA84511636BFBC0091D31F = {
 			isa = PBXGroup;
 			children = (
+				6D1E1FDB17032861001AB4F0 /* classify_output.root */,
+				6D1E1FDA17032827001AB4F0 /* DefaultTest.root */,
 				6DE3663C16F68C8500FDC831 /* DefaultBackground.root */,
 				6DE3663D16F68C8500FDC831 /* DefaultSignal.root */,
 				6D7E2CEB16F22DA4005C88AA /* DefaultSettings.txt */,

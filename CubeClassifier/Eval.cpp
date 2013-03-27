@@ -200,7 +200,7 @@ int Eval::GetNewTree(int ctype, int celem){
     currentttree=(TTree*)gDirectory->Get(treename.c_str());
     currenttype=interface->GetTypeList()[celem];  
     
-    if (currenttype!=ctype) {        
+    if (currenttype!=ctype&&currentelem<((interface->GetNameList()).size()-1)) {        
         celem++;
         GetNewTree(ctype,celem);
     }
@@ -440,9 +440,9 @@ int Eval::CreateNewTree(int ctype, int celem){
     std::string filename=interface->GetNameList()[celem];
     std::string treename=interface->GetTreeList()[celem];
 
-    currenttype=interface->GetTypeList()[celem];  
+    int ct=interface->GetTypeList()[celem];  
     
-    if (currenttype!=ctype) {
+    if (ct!=ctype&&currentelem<((interface->GetNameList()).size()-1)) {
         
         celem++;
         CreateNewTree(ctype,celem);

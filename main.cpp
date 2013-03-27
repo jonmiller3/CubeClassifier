@@ -52,7 +52,19 @@ int main (int argc, const char * argv[])
         
         delete bs;
         
-        delete iface;
+        // this is just for the classify test
+        //delete iface;
+        
+        printf("now begin test of eval");
+        
+        Eval* ebs = new Eval(iface);
+        
+        ebs->StartQueue();
+        
+        ebs->ProcessQueue();
+        
+        printf("I have processed the eval queue");
+        
         
     }
 

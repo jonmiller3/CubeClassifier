@@ -193,15 +193,25 @@ Classify::Classify(Interface* inputinterface){
 
 int Classify::CreateNewTree(int ctype){
     
+    
+    
     std::string filename=interface->GetNameList()[currentelem];
     currenttfile= new TFile(filename.c_str());
     std::string treename=interface->GetTreeList()[currentelem];
     currentttree=(TTree*)gDirectory->Get(treename.c_str());
     currenttype=interface->GetTypeList()[currentelem];  
     
-    if (currenttype==ctype) CreateNewTree(ctype);    
-    if (currenttype==-1) CreateNewTree(ctype);
-    
+    // this isn't so neat as I first imagined
+    // this is broken, I need to rethink
+    // basically it keeps going and goes to trees/files that are not applicable
+    if (currenttype==ctype&&currentelem<((interface->GetNameList()).size()-1)) {
+        currentelem++;
+        CreateNewTree(ctype);
+    }
+    if (currenttype==-1&&currentelem<((interface->GetNameList()).size()-1)) {
+        currentelem++;
+        CreateNewTree(ctype);
+    }
     
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
@@ -301,6 +311,8 @@ long Classify::EventsToProcess(){
         std::string treename=*tt;
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
         int typet = *yt;
+        
+        if (typet<0||typet>3) continue;
         
         if (typet==0) v0++;
         if (typet==1) v1++;
