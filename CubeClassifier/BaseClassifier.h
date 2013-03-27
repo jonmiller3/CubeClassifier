@@ -9,12 +9,15 @@
 #ifndef CubeClassifier_BaseClassifier_h
 #define CubeClassifier_BaseClassifier_h
 
-#include <OpenCL/OpenCL.h>
-
-
-struct float_triple {
-    float x[3];
-};
+#ifdef __APPLE__
+    #include <OpenCL/OpenCL.h>
+#else
+    #include <stdio.h>
+    #include <string.h>
+    #include "CL/cl.h"
+    #define FALSE false
+    #define TRUE true
+#endif
 
 // I think you do it like this:
 #define MAX_GPU_COUNT 16

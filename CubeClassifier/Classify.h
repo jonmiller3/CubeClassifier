@@ -31,6 +31,11 @@
 
 // I need this to inherent..
 
+struct float_triple {
+    float x[3];
+};
+
+
 class Classify:public BaseClassifier {
     
     // these are the cubemap
@@ -70,7 +75,7 @@ private:
     int currenttype;
     int currentelem;
     
-    int CreateNewTree();
+    int CreateNewTree(int);
     
 public:
     Classify(Interface*);

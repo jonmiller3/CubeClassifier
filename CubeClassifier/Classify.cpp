@@ -123,37 +123,16 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             varj.push_back(k);
             for (int j=0; j<ndim; j++) {
                 varj.push_back(cubeset_out[i*ndim*mdim+k*ndim+j]);
-                
-                /*
-                 std::cout<<datanorm_out[i*ndim+j]<<" this is "<<i<<" "<<j<<" "<<
-                 " "<<k<<" result "<<cubeset_out[i*ndim*mdim+j+ndim*k]<<std::endl;
-                 */
                  
             }
-            //std::string varjstr;
-            //int* varj = (int*)malloc(sizeof(int)*(ndim+1));
             cubeit=cubemap.begin();
-            //varj[0] = k;
-            //memcpy(&(varj[1]),&(cubeset_out[i*ndim*mdim+k*ndim]),sizeof(int)*ndim);
-            // memmove might be better
-            //memcpy(&varjstr, varj, sizeof(int)*(ndim+1));
-            //std::string varjstr(varj,ndim+1);
-            //varjstr[ndim+2] = '\0';
-            //std::cout<<" string is "<<varjstr.c_str()<<"\n";
             
             // I don't know about this
             if (cubemap.find(varj)==cubemap.end()){
-                //std::cout<<" adding in a new one "<<std::endl;
                 cubemap.insert(cubeit, std::pair< std::vector<int>,float_triple>(varj,nullfloat3) );
             }
             
             
-            
-            /*
-             float cuberes[3]={0};
-             cuberes[(int)data[i][0]] = data[i][1];
-             cubemap[varj]=cuberes;
-             */
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i*2+0]]+=data[i*2+1]; // + (*cubeit).second[(int)data[i][0]];
             if (i%60000==0){
@@ -165,10 +144,6 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
                 <<" "<<test_float[i*5+2]<<" "<<test_float[i*5+3]<<" i is "<<i<<std::endl;
             }
             
-            
-            /*
-             
-             */
         }
     }  
   
@@ -209,20 +184,24 @@ Classify::Classify(Interface* inputinterface){
     
     //maxelem=0;
 
-    CreateNewTree();
+    CreateNewTree(4);
 
     
     
 }
 
 
-int Classify::CreateNewTree(){
+int Classify::CreateNewTree(int ctype){
     
     std::string filename=interface->GetNameList()[currentelem];
     currenttfile= new TFile(filename.c_str());
     std::string treename=interface->GetTreeList()[currentelem];
     currentttree=(TTree*)gDirectory->Get(treename.c_str());
     currenttype=interface->GetTypeList()[currentelem];  
+    
+    if (currenttype==ctype) CreateNewTree(ctype);    
+    if (currenttype==-1) CreateNewTree(ctype);
+    
     
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
@@ -232,7 +211,7 @@ int Classify::CreateNewTree(){
         currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
         
     }    
-    
+        
     return 0;
 }
 
@@ -247,7 +226,7 @@ int Classify::InputData(long nevents, float* data_in){
     // for now this is just using default, later I will need to set it here
     float weight=1;
     
-    if (currenttfile==0) CreateNewTree();
+    if (currenttfile==0) CreateNewTree(4);
         
     weight=1.0/((float)currentttree->GetEntries());
     
@@ -268,7 +247,7 @@ int Classify::InputData(long nevents, float* data_in){
         if (currenttfile==0){
             enumber=-cnum;
             currentelem++;
-            CreateNewTree();
+            CreateNewTree(4);
             
             weight=1.0/((float)currentttree->GetEntries());
 
