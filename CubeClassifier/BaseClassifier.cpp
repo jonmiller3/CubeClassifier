@@ -356,7 +356,7 @@ int BaseClassifier::ProcessQueue(){
         char* kernelname;
         if (cubesetting==1){
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcubefull.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcubefull.cl", &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcubefull.cl", &program[i]);  
             #endif
@@ -364,14 +364,14 @@ int BaseClassifier::ProcessQueue(){
         } else if (cubesetting==2){
             kernelname="fillcube2full";
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcube2full.cl", &program[i]);
             #endif
         } else if (cubesetting==3){
             kernelname="fillcube3full";
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/fillcube3full.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcube3full.cl", &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcube3full.cl", &program[i]);  
             #endif

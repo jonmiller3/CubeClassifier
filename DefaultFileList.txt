@@ -1,4 +1,4 @@
-/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/DefaultSignal.root 0 treeDefaultSignal
-/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/DefaultBackground.root 1 treeDefaultBackground
-/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/classify_output.root -1 classtree
-/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/DefaultTest.root 4 treeDefaultTest
+/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultSignal.root 0 treeDefaultSignal
+/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultBackground.root 1 treeDefaultBackground
+/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/classify_output.root -1 classtree
+/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultTest.root 4 treeDefaultTest

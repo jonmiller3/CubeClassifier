@@ -30,9 +30,9 @@ Interface::Interface(int argc, const char* argv[]){
     } else {
         
         mode=0;
-        filelist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultFileList.txt";
-        varlist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultVarList.txt";
-        setlist="/Users/jonathanmiller/Desktop/CubeClassifier/DefaultSettings.txt";
+        filelist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultFileList.txt";
+        varlist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultVarList.txt";
+        setlist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultSettings.txt";
 
     }
 

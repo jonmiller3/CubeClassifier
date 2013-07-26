@@ -199,8 +199,8 @@
 			buildConfigurationList = 6DF37B0416F256E5006C5F17 /* Build configuration list for PBXLegacyTarget "StartROOT" */;
 			buildPhases = (
 			);
-			buildToolPath = "/Users/jonathanmiller/Desktop/CubeClassifier/env-shell.sh";
-			buildWorkingDirectory = /Users/jonathanmiller/Desktop/CubeClassifier;
+			buildToolPath = "/Users/usmjonathanmiller/Dropbox/CubeClassifier/env-shell.sh";
+			buildWorkingDirectory = /Users/usmjonathanmiller/Dropbox/CubeClassifier;
 			dependencies = (
 			);
 			name = StartROOT;
@@ -252,8 +252,8 @@
 		6DCA84531636BFBC0091D31F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
-				ORGANIZATIONNAME = "Uppsala Vrije Universiteit Brussel";
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = UTFSM;
 			};
 			buildConfigurationList = 6DCA84561636BFBC0091D31F /* Build configuration list for PBXProject "CubeClassifier" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -327,10 +327,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -361,10 +361,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -397,6 +397,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -411,8 +415,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -424,6 +429,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -432,8 +441,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -441,10 +451,11 @@
 		6DCA84671636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -474,10 +485,11 @@
 		6DCA84681636BFBC0091D31F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "/Users/jonathanmiller/i3/ports/root-v5.28.00/include";
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../i3/ports/root-v5.28.00/lib\"/**",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -508,6 +520,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUGGING_SYMBOLS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -521,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
