@@ -21,7 +21,7 @@ int Classify::WriteOutput(){
     
     // latter I want to be able to prune/etc here too?
     
-    TFile* outputfile = new TFile("/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/classify_output.root","RECREATE");
+    TFile* outputfile = new TFile("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/classify_output.root","RECREATE");
     
     TTree* outputtree = new TTree("classtree","Classify Tree");
     
