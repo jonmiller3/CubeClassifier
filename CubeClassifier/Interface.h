@@ -12,6 +12,22 @@
 #include <iostream>
 #include <vector>
 
+struct filelist_struct {
+    
+    std::string name;
+    std::string tree;
+    int type;
+    
+};
+
+struct varlist_struct {
+    std::string varname;
+    double max;
+    double min;
+    
+};
+
+
 class Interface {
   
     int mode;
@@ -36,6 +52,10 @@ class Interface {
     int cubesetting;
     int includeweighting;
     
+    // new way
+    std::vector<filelist_struct> filelistvec;
+    std::vector<varlist_struct> varlistvec;
+    
 private:
     void ReadFileList();
     void ReadSettingsList();
@@ -59,14 +79,25 @@ public:
     int GetCubeLevel(){return cubelevel;}
     int GetCubeSetting(){return cubesetting;}
     int GetWeightSetting(){return includeweighting;}
-    std::vector<std::string> GetTreeList(){return treelist;}
     
+    // these are sort of the old way of doing things
+    std::vector<std::string> GetTreeList(){return treelist;}
     std::vector<std::string> GetNameList(){return namelist;}
     std::vector<int> GetTypeList(){return typelist;}
     
     std::vector<std::string> GetVarNameList(){return varnamelist;}
     std::vector<double> GetMaxList(){return varmaxlist;}
     std::vector<double> GetMinList(){return varminlist;}
+    
+    // new way
+    std::string GetTreeName(int elem){return filelistvec[elem].tree;}
+    std::string GetFileName(int elem){return filelistvec[elem].name;}
+    int GetType(int elem){return filelistvec[elem].type;}
+    
+    std::string GetVarName(int elem){return varlistvec[elem].varname;}
+    double GetMax(int elem){return varlistvec[elem].max;}
+    double GetMin(int elem){return varlistvec[elem].min;}
+    
     
 };
 

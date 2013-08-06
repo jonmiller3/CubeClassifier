@@ -59,7 +59,6 @@ Eval::Eval(Interface* inputinterface){
     
     var = new float[ndim];
     
-    CreateNewTree(4, outelem);
     GetNewTree(4,currentelem);
 
     return;
@@ -328,7 +327,14 @@ long Eval::EventsToProcess(){
 // for now just output it all
 int Eval::ProcessOutput(int* output_data, long nevents){    
     
-    if (outtree==0) CreateNewTree(4,beginelem);
+    // general way of doing it?
+    //if (outtree==0) CreateNewTree(4,beginelem);
+    
+    // particular way of doing it
+    outfile = new TFile("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/results.root","RECREATE");
+    outtree = new TTree("rtree", "Result of Evalulation");
+    
+    // this is just to test!
     
     // this is a bit dangerous
     float ratios[mdim];
@@ -336,19 +342,25 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     float numsig[mdim];
     float numdata[mdim];
     float nummc[mdim];
+    int   elemnum;
     
-    TBranch *numsigb = outtree->Branch("numsig",numsig,"numsig/F");
-    TBranch *numdatab = outtree->Branch("numdata",numdata,"numdata/F");
-    TBranch *nummcb = outtree->Branch("nummc",nummc,"nummc/F");
+    TBranch *mdimb   = outtree->Branch("mdim",&mdim,"mdim/D");
     
-    TBranch *ratiosb = outtree->Branch("ratios",ratios,"ratios/F");
-    TBranch *ratiosm = outtree->Branch("ratiom",ratiom,"ratiom/F");
+    TBranch *numsigb = outtree->Branch("numsig",numsig,"numsig[mdim]/F");
+    TBranch *numdatab = outtree->Branch("numdata",numdata,"numdata[mdim]/F");
+    TBranch *nummcb = outtree->Branch("nummc",nummc,"nummc[mdim]/F");
+    
+    TBranch *ratiosb = outtree->Branch("ratios",ratios,"ratios[mdim]/F");
+    TBranch *ratiosm = outtree->Branch("ratiom",ratiom,"ratiom[mdim]/F");
+    
+    TBranch *elemb   = outtree->Branch("event",&elemnum,"event/D");
     
     // I need some other approach to figure out when to 'stop'
     // I have begin elem?
     long tent = currentttree->GetEntries();
     
     long cnum=0;
+    
     
     while (cnum<nevents) {
         
@@ -410,20 +422,29 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             }
             
         }
+        elemnum=cnum;
 
-        ratiosb->Fill();
-        ratiosm->Fill();
+        // !!!!   Error is in filling the tree, somehow I get nothing but mdim
         
-        numsigb->Fill();
-        numdatab->Fill();
-        nummcb->Fill();
+        // this should work, hides some of the details
+        outtree->Fill();
         
+        
+        //elem->Fill();
+        //ratiosb->Fill();
+        //ratiosm->Fill();
+        
+        //numsigb->Fill();
+        //numdatab->Fill();
+        //nummcb->Fill();
+        cnum++;
     }
     
 
     // dangerous
-    currentttree->Write("",TObject::kOverwrite);
-
+    //outtree->Write("",TObject::kOverwrite);
+    outfile->Write();
+    
     
     beginenum+=cnum;
     if (nevents!=cnum) printf(" oh no, cnum != nevents! \n");
@@ -446,12 +467,14 @@ int Eval::CreateNewTree(int ctype, int celem){
         
         celem++;
         CreateNewTree(ctype,celem);
-    }
+    } else {
     
     // make sure that I know that I have some other file?
-    std::string fileoutname = Form("friend_%s",filename.c_str());
-    outfile== new TFile(filename.c_str());
-    outtree = new TTree("rtree", "Result of Evalulation");
+        unsigned keyloc = filename.rfind(".");
+        std::string fileoutname = filename.replace(keyloc,5,"friend.root");
+        outfile = new TFile(fileoutname.c_str(),"RECREATE");
+        outtree = new TTree("rtree", "Result of Evalulation");
+    }
     
     return 0;
 }

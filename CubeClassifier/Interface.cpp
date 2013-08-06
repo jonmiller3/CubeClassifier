@@ -68,9 +68,17 @@ void Interface::ReadFileList(){
         ss>>sstype;
         ss>>sstree;
         
+        // old way
         namelist.push_back(ssname);
         treelist.push_back(sstree);
         typelist.push_back(sstype);
+        
+        // new way
+        filelist_struct fl_struct;
+        fl_struct.type=sstype;
+        fl_struct.name=ssname;
+        fl_struct.tree=sstree;
+        filelistvec.push_back(fl_struct);
         
     }
     myfile.close();
@@ -102,9 +110,17 @@ void Interface::ReadVariableList(){
         ss>>ssmin;
         ss>>ssmax;
         
+        // old way
         varnamelist.push_back(ssname);
         varmaxlist.push_back(ssmax);
         varminlist.push_back(ssmin);
+        
+        // new way
+        varlist_struct vl_struct;
+        vl_struct.max=ssmax;
+        vl_struct.min=ssmin;
+        vl_struct.varname=ssname;
+        varlistvec.push_back(vl_struct);
         
     }
     
