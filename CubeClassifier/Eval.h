@@ -84,11 +84,9 @@ private:
     // which could be replaced by non-tree stuff/etc
     int beginelem;
     long beginenum;
-    
+    int LoadCubeMap();
     
     Interface* interface;
-
-    int LoadCubeMap();
     
     // seems useful, would be better to do in general?
     TTree* SelectTree(int);
@@ -97,6 +95,7 @@ public:
     
     Eval(Interface*);
     ~Eval(){}
+    
     int Process(){
         
         LoadCubeMap();

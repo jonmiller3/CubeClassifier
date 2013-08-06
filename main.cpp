@@ -59,9 +59,7 @@ int main (int argc, const char * argv[])
         
         Eval* ebs = new Eval(iface);
         
-        ebs->StartQueue();
-        
-        ebs->ProcessQueue();
+        ebs->Process();
         
         printf("I have processed the eval queue");
         

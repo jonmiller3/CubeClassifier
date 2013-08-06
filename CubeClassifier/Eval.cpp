@@ -253,6 +253,8 @@ int Eval::InputData(long nevents, float* data_in){
             currentelem++;
             GetNewTree(4,currentelem);
             
+            if (outtree!=0) outtree=0; // maybe delete instead?
+            
             weight=1.0/((float)currentttree->GetEntries());
             
             tinfo = currentttree->GetEntry(cnum+enumber);
@@ -333,6 +335,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     // particular way of doing it
     outfile = new TFile("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/results.root","RECREATE");
     outtree = new TTree("rtree", "Result of Evalulation");
+    outtree->AddFriend("treeDefaultTest","/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultTest.root");
     
     // this is just to test!
     
@@ -344,7 +347,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     float nummc[mdim];
     int   elemnum;
     
-    TBranch *mdimb   = outtree->Branch("mdim",&mdim,"mdim/D");
+    TBranch *mdimb   = outtree->Branch("mdim",&mdim,"mdim/I");
     
     TBranch *numsigb = outtree->Branch("numsig",numsig,"numsig[mdim]/F");
     TBranch *numdatab = outtree->Branch("numdata",numdata,"numdata[mdim]/F");
@@ -353,7 +356,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     TBranch *ratiosb = outtree->Branch("ratios",ratios,"ratios[mdim]/F");
     TBranch *ratiosm = outtree->Branch("ratiom",ratiom,"ratiom[mdim]/F");
     
-    TBranch *elemb   = outtree->Branch("event",&elemnum,"event/D");
+    TBranch *elemb   = outtree->Branch("event",&elemnum,"event/I");
     
     // I need some other approach to figure out when to 'stop'
     // I have begin elem?
@@ -423,20 +426,10 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             
         }
         elemnum=cnum;
-
-        // !!!!   Error is in filling the tree, somehow I get nothing but mdim
         
         // this should work, hides some of the details
         outtree->Fill();
         
-        
-        //elem->Fill();
-        //ratiosb->Fill();
-        //ratiosm->Fill();
-        
-        //numsigb->Fill();
-        //numdatab->Fill();
-        //nummcb->Fill();
         cnum++;
     }
     
