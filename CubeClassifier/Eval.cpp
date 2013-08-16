@@ -345,6 +345,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     float numsig[mdim];
     float numdata[mdim];
     float nummc[mdim];
+    int   kdim[mdim];
     int   elemnum;
     
     TBranch *mdimb   = outtree->Branch("mdim",&mdim,"mdim/I");
@@ -355,6 +356,8 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     
     TBranch *ratiosb = outtree->Branch("ratios",ratios,"ratios[mdim]/F");
     TBranch *ratiosm = outtree->Branch("ratiom",ratiom,"ratiom[mdim]/F");
+    
+    TBranch *dimb = outtree->Branch("kdim", kdim, "Kdim[mdim]/I");
     
     TBranch *elemb   = outtree->Branch("event",&elemnum,"event/I");
     
@@ -376,12 +379,18 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             //currentttree->Write("",TObject::kOverwrite);
             
             CreateNewTree(4,beginelem);
-            numsigb = outtree->Branch("numsig",numsig,"numsig/F");
-            numdatab = outtree->Branch("numdata",numdata,"numdata/F");
-            nummcb = outtree->Branch("nummc",nummc,"nummc/F");
+            numsigb = outtree->Branch("numsig",numsig,"numsig[mdim]/F");
+            numdatab = outtree->Branch("numdata",numdata,"numdata[mdim]/F");
+            nummcb = outtree->Branch("nummc",nummc,"nummc[mdim]/F");
             
-            ratiosb = outtree->Branch("ratios",ratios,"ratios/F");
-            ratiosm = outtree->Branch("ratiom",ratiom,"ratiom/F");
+            ratiosb = outtree->Branch("ratios",ratios,"ratios[mdim]/F");
+            ratiosm = outtree->Branch("ratiom",ratiom,"ratiom[mdim]/F");
+            
+            mdimb   = outtree->Branch("mdim",&mdim,"mdim/I");
+
+            dimb = outtree->Branch("kdim", kdim, "Kdim[mdim]/I");
+    
+            elemb   = outtree->Branch("event",&elemnum,"event/I");
             
             // I need to find another approach to get this..
             tent = currentttree->GetEntries();
@@ -391,6 +400,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
         
         for (int k=0; k<mdim; k++) {
             std::vector<int> varj;
+            kdim[k]=k;
             varj.push_back(k);
             for (int j=0; j<ndim; j++) {
                 varj.push_back(output_data[cnum*ndim*mdim+k*ndim+j]);

@@ -234,10 +234,6 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
         // there is a problem
         std::cout<<" problem max size "<<ciErrNum<<std::endl;
     }
-    
-    
-    // ust for CPUs
-    
     printf("what is max %lu",maxworkitem_size);
     
     size_t testworkgroup;
@@ -246,9 +242,12 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     {
         printf("Error: Failed to retrieve kernel work group info! %d\n", ciErrNum);
         return ciErrNum;
+        
     }
-
     printf(" what is workgroup test %lu",testworkgroup);
+    
+    
+    
     
     // wgs is the number of threads or something of the GPU
     // I think that the dim1/dim2/dim3 are the sizes due to mdim/ndim
@@ -261,7 +260,36 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     size_t dim1_size=ne;
     
     size_t globalWorkSize[] = {dim1_size, dim2_size, dim3_size};
-    size_t localWorkSize[] = {1,1,1};
+
+    
+    // now we try to get a more intelligent workgroup size
+    size_t localws=maxworkitem_size/dim2_size/dim3_size;
+    printf("our starting value %lu",localws);
+    
+    // it would be better if I have some sort of recursive function for this
+    // right now it tries first two times and then gives up (=1)
+    if (dim1_size%localws==0){
+        
+        // this is correct
+        localws=localws;
+        
+    } else {
+        
+        
+        size_t remws = dim1_size%localws;
+        printf("got it in second go %lu",remws);
+        if (localws%remws==0) {
+
+            
+        localws=remws;
+        } else {
+            printf("got it in third go %lu ?",localws%remws);
+            
+            localws=1;
+        }
+    }
+    
+    size_t localWorkSize[] = {localws,dim2_size,dim3_size};
     //size_t localWorkSize[] = {dim1_size/workitem_size[0], dim2_size/workitem_size[1], 
     //        dim3_size/workitem_size[2]};
     
@@ -573,10 +601,7 @@ int BaseClassifier::StartQueue(){
     cpPlatform=clPlatformIDs[0];
     // I should be able to handle multiple platforms here
     
-    //Retrieve of the available GPU type OpenCL devices
-    // I am right now using the CPU for debugging purposes
-    
-    #ifdef __APPLE__
+    #ifdef USECPU
         ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &ciDeviceCount);
         cdDevices = (cl_device_id *)malloc(ciDeviceCount * sizeof(cl_device_id) );
         ciErrNum = clGetDeviceIDs(cpPlatform, CL_DEVICE_TYPE_CPU, ciDeviceCount, cdDevices, NULL);
