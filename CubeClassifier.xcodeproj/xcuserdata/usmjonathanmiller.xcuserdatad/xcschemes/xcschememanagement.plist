@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Example.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>StartROOT.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -33,6 +38,16 @@
 			<true/>
 		</dict>
 		<key>6DF37B0316F256E5006C5F17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D037715D17BEA96800C05518</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D037716517BEA9AC00C05518</key>
 		<dict>
 			<key>primary</key>
 			<true/>
