@@ -26,7 +26,9 @@
 		6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85F1163DB9810091D31F /* fillcube2full.cl */; };
 		6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E4163A929A0091D31F /* BaseClassifier.cpp */; };
 		6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA85E11639B0900091D31F /* Classify.cpp */; };
-		D037716917BEA9AC00C05518 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D037716817BEA9AC00C05518 /* main.cpp */; };
+		D00F587917C2B93800AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D037716817BEA9AC00C05518 /* main.cpp */; };
+		D00F589617C2BC4100AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
+		D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +46,14 @@
 			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
 			remoteInfo = StartROOT;
 		};
-		D037716F17BEAAD800C05518 /* PBXContainerItemProxy */ = {
+		D00F585F17C2B8DD00AD99C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
+			remoteInfo = StartROOT;
+		};
+		D00F587D17C2BBE800AD99C6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
 			proxyType = 1;
@@ -72,7 +81,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		D037716417BEA9AC00C05518 /* CopyFiles */ = {
+		D00F587317C2B8DD00AD99C6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D00F589117C2BBE800AD99C6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -120,7 +138,8 @@
 		6DCA85F2163DB98C0091D31F /* fillcube3full.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = fillcube3full.cl; sourceTree = "<group>"; };
 		6DE3663C16F68C8500FDC831 /* DefaultBackground.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultBackground.root; path = CubeClassifier/DefaultBackground.root; sourceTree = "<group>"; };
 		6DE3663D16F68C8500FDC831 /* DefaultSignal.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultSignal.root; path = CubeClassifier/DefaultSignal.root; sourceTree = "<group>"; };
-		D037716617BEA9AC00C05518 /* Example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Example; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00F587717C2B8DD00AD99C6 /* Example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Example; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00F589517C2BBE800AD99C6 /* CreateTestTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CreateTestTree; sourceTree = BUILT_PRODUCTS_DIR; };
 		D037716817BEA9AC00C05518 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D037716A17BEA9AC00C05518 /* Example.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Example.1; sourceTree = "<group>"; };
 		D037719A17BEB3C300C05518 /* results.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = results.root; path = CubeClassifier/results.root; sourceTree = "<group>"; };
@@ -142,7 +161,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D037716317BEA9AC00C05518 /* Frameworks */ = {
+		D00F587A17C2B94D00AD99C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00F588F17C2BBE800AD99C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -187,7 +213,8 @@
 			children = (
 				6DCA845C1636BFBC0091D31F /* CubeClassifier */,
 				6D5E7BB516F2AF1E008722A3 /* CreateTestTree */,
-				D037716617BEA9AC00C05518 /* Example */,
+				D00F587717C2B8DD00AD99C6 /* Example */,
+				D00F589517C2BBE800AD99C6 /* CreateTestTree */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,22 +313,40 @@
 			productReference = 6DCA845C1636BFBC0091D31F /* CubeClassifier */;
 			productType = "com.apple.product-type.tool";
 		};
-		D037716517BEA9AC00C05518 /* Example */ = {
+		D00F585D17C2B8DD00AD99C6 /* CubeClassifier copy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D037716C17BEA9AC00C05518 /* Build configuration list for PBXNativeTarget "Example" */;
+			buildConfigurationList = D00F587417C2B8DD00AD99C6 /* Build configuration list for PBXNativeTarget "CubeClassifier copy" */;
 			buildPhases = (
-				D037716217BEA9AC00C05518 /* Sources */,
-				D037716317BEA9AC00C05518 /* Frameworks */,
-				D037716417BEA9AC00C05518 /* CopyFiles */,
+				D00F587817C2B92A00AD99C6 /* Sources */,
+				D00F587A17C2B94D00AD99C6 /* Frameworks */,
+				D00F587317C2B8DD00AD99C6 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D037717017BEAAD800C05518 /* PBXTargetDependency */,
+				D00F585E17C2B8DD00AD99C6 /* PBXTargetDependency */,
 			);
-			name = Example;
-			productName = Example;
-			productReference = D037716617BEA9AC00C05518 /* Example */;
+			name = "CubeClassifier copy";
+			productName = CubeClassifier;
+			productReference = D00F587717C2B8DD00AD99C6 /* Example */;
+			productType = "com.apple.product-type.tool";
+		};
+		D00F587B17C2BBE800AD99C6 /* CubeClassifier copy 2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00F589217C2BBE800AD99C6 /* Build configuration list for PBXNativeTarget "CubeClassifier copy 2" */;
+			buildPhases = (
+				D00F587E17C2BBE800AD99C6 /* Sources */,
+				D00F588F17C2BBE800AD99C6 /* Frameworks */,
+				D00F589117C2BBE800AD99C6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D00F587C17C2BBE800AD99C6 /* PBXTargetDependency */,
+			);
+			name = "CubeClassifier copy 2";
+			productName = CubeClassifier;
+			productReference = D00F589517C2BBE800AD99C6 /* CreateTestTree */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -328,7 +373,8 @@
 				6DCA845B1636BFBC0091D31F /* CubeClassifier */,
 				6DF37B0316F256E5006C5F17 /* StartROOT */,
 				6D5E7BB416F2AF1E008722A3 /* CreateTestTree */,
-				D037716517BEA9AC00C05518 /* Example */,
+				D00F585D17C2B8DD00AD99C6 /* CubeClassifier copy */,
+				D00F587B17C2BBE800AD99C6 /* CubeClassifier copy 2 */,
 			);
 		};
 /* End PBXProject section */
@@ -366,11 +412,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D037716217BEA9AC00C05518 /* Sources */ = {
+		D00F587817C2B92A00AD99C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D037716917BEA9AC00C05518 /* main.cpp in Sources */,
+				D00F587917C2B93800AD99C6 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00F587E17C2BBE800AD99C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */,
+				D00F589617C2BC4100AD99C6 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,10 +442,15 @@
 			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
 			targetProxy = 6DF37B0716F25763006C5F17 /* PBXContainerItemProxy */;
 		};
-		D037717017BEAAD800C05518 /* PBXTargetDependency */ = {
+		D00F585E17C2B8DD00AD99C6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
-			targetProxy = D037716F17BEAAD800C05518 /* PBXContainerItemProxy */;
+			targetProxy = D00F585F17C2B8DD00AD99C6 /* PBXContainerItemProxy */;
+		};
+		D00F587C17C2BBE800AD99C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
+			targetProxy = D00F587D17C2BBE800AD99C6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -400,6 +460,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = /Users/usmjonathanmiller/IceCube/root/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
@@ -434,6 +495,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = /Users/usmjonathanmiller/IceCube/root/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
@@ -613,17 +675,14 @@
 			};
 			name = Release;
 		};
-		D037716D17BEA9AC00C05518 /* Debug */ = {
+		D00F587517C2B8DD00AD99C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_EMPTY_BODY = YES;
 				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
 				LIBRARY_SEARCH_PATHS = (
-					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 					"$(inherited)",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -644,23 +703,20 @@
 					"-lThread",
 					"-lpthread",
 					"-lm",
-					"-ldl\n\n//:completeSettings",
+					"-ldl",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example;
 			};
 			name = Debug;
 		};
-		D037716E17BEA9AC00C05518 /* Release */ = {
+		D00F587617C2B8DD00AD99C6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_EMPTY_BODY = YES;
 				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
 				LIBRARY_SEARCH_PATHS = (
-					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 					"$(inherited)",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -681,9 +737,77 @@
 					"-lThread",
 					"-lpthread",
 					"-lm",
-					"-ldl\n\n//:completeSettings",
+					"-ldl",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Example;
+			};
+			name = Release;
+		};
+		D00F589317C2BBE800AD99C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
+				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+				);
+				PRODUCT_NAME = CreateTestTree;
+			};
+			name = Debug;
+		};
+		D00F589417C2BBE800AD99C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
+				);
+				OTHER_LDFLAGS = (
+					"-lGui",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+				);
+				PRODUCT_NAME = CreateTestTree;
 			};
 			name = Release;
 		};
@@ -726,13 +850,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D037716C17BEA9AC00C05518 /* Build configuration list for PBXNativeTarget "Example" */ = {
+		D00F587417C2B8DD00AD99C6 /* Build configuration list for PBXNativeTarget "CubeClassifier copy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D037716D17BEA9AC00C05518 /* Debug */,
-				D037716E17BEA9AC00C05518 /* Release */,
+				D00F587517C2B8DD00AD99C6 /* Debug */,
+				D00F587617C2B8DD00AD99C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00F589217C2BBE800AD99C6 /* Build configuration list for PBXNativeTarget "CubeClassifier copy 2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00F589317C2BBE800AD99C6 /* Debug */,
+				D00F589417C2BBE800AD99C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

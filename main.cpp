@@ -4,6 +4,7 @@
 //
 //  Created by Jonathan Miller on 10/22/12.
 //  Copyright (c) 2012 Uppsala Vrije Universiteit Brussel. All rights reserved.
+//  Copyright (c) 2013 Universidad Tecnico Frederico Santa Maria. All rights reserved.
 //
 
 #include <iostream>

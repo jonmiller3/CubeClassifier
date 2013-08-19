@@ -12,7 +12,7 @@
 
 CreateTestTree::CreateTestTree(TString name, int nv){
     
-    TString filename = Form("/Users/jonathanmiller/Desktop/CubeClassifier/CubeClassifier/%s.root",name.Data());
+    TString filename = Form("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/%s.root",name.Data());
     std::cout<<" file name is "<<filename<<std::endl;
     
     file = new TFile(filename,"RECREATE");
