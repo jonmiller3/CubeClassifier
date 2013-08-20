@@ -29,6 +29,7 @@
 		D00F587917C2B93800AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D037716817BEA9AC00C05518 /* main.cpp */; };
 		D00F589617C2BC4100AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
 		D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
+		D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00F589B17C2ED2000AD99C6 /* IO.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,8 @@
 		6DE3663D16F68C8500FDC831 /* DefaultSignal.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultSignal.root; path = CubeClassifier/DefaultSignal.root; sourceTree = "<group>"; };
 		D00F587717C2B8DD00AD99C6 /* Example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Example; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F589517C2BBE800AD99C6 /* CreateTestTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CreateTestTree; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00F589B17C2ED2000AD99C6 /* IO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO.cpp; sourceTree = "<group>"; };
+		D00F589C17C2ED2000AD99C6 /* IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO.h; sourceTree = "<group>"; };
 		D037716817BEA9AC00C05518 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D037716A17BEA9AC00C05518 /* Example.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Example.1; sourceTree = "<group>"; };
 		D037719A17BEB3C300C05518 /* results.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = results.root; path = CubeClassifier/results.root; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 		6DCA845F1636BFBC0091D31F /* CubeClassifier */ = {
 			isa = PBXGroup;
 			children = (
+				D00F589B17C2ED2000AD99C6 /* IO.cpp */,
+				D00F589C17C2ED2000AD99C6 /* IO.h */,
 				6DCA84691636BFEE0091D31F /* main.cpp */,
 				6DCA85DE1639B06D0091D31F /* Eval.h */,
 				6DCA85DF1639B0820091D31F /* Eval.cpp */,
@@ -409,6 +414,7 @@
 				6DF31D5C16D3F8CE001E9151 /* BaseClassifier.cpp in Sources */,
 				6DF37B0216F24773006C5F17 /* Classify.cpp in Sources */,
 				6D1E1FD816FA2B9D001AB4F0 /* Eval.cpp in Sources */,
+				D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

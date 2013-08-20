@@ -78,6 +78,13 @@ void Interface::ReadFileList(){
         fl_struct.type=sstype;
         fl_struct.name=ssname;
         fl_struct.tree=sstree;
+        
+        // I am not sure whether I want to put root in the interface
+        // maybe it would be nice to handle all root calls here
+        // so you just program new interface to handle other types of
+        // files/modes/etc
+        fl_struct.entries=0;
+        
         filelistvec.push_back(fl_struct);
         
     }
@@ -120,6 +127,7 @@ void Interface::ReadVariableList(){
         vl_struct.max=ssmax;
         vl_struct.min=ssmin;
         vl_struct.varname=ssname;
+                
         varlistvec.push_back(vl_struct);
         
     }

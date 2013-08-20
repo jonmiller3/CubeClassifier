@@ -12,19 +12,15 @@
 // very simple, wish there was some nicer way to do this but it goes quickly at least?
 int Eval::SetMaxMin(float* max, float* min){
     
-    int i=0;
+    int ls=interface->GetVarListSize();
     
-    std::vector<double> minlist = interface->GetMinList();
-    std::vector<double> maxlist = interface->GetMaxList();
-    
-    std::vector<double>::iterator minit=minlist.begin();
-    for (std::vector<double>::iterator maxit=maxlist.begin(); maxit!=maxlist.end(); ++maxit,++minit,i++) {
+    for (int i=0; i<ls; i++) {
         
-        max[i]=*maxit;
-        min[i]=*minit;
+        max[i]=interface->GetMax(i);
+        min[i]=interface->GetMin(i);
         
     }
-    
+        
     return 0;
     
 }
@@ -45,21 +41,16 @@ Eval::Eval(Interface* inputinterface){
     
     // not sure about this, this forces the whole set of names to be used...
     // but maybe that is right? if you are not interested just don't include them
-    ndim=(interface->GetVarNameList()).size();
+    ndim=(interface->GetVarListSize());
     
 
-    currenttfile=0;
-    currentttree=0;
-    currenttype=-1;
-    currentelem=0;
+    currentIO=0;
+    outIO=0;
     
-    outfile=0;
-    outtree=0;
-    outelem=0;
+    
+    enumber=0;
     
     var = new float[ndim];
-    
-    GetNewTree(4,currentelem);
 
     return;
 }
@@ -103,23 +94,23 @@ TTree* Eval::SelectTree(int stype){
 
 
 // this loads from the interface
-// once more, this is just root for now
-// later I/student will need to make it work in
-// other formats (root can be annoying)
 int Eval::LoadCubeMap(){
 
     // I am assuming that -1 is the type of Classify Control Root Files
-    TTree* ctree = SelectTree(-1);
+    int conelem = interface->GetNextElem(-1, -1);
     
-    // now load in the variables?
-    // everything is floats
-    // I need to be sure that it gets turned to the 'right' integer
+    IO<TTree, TFile>* controlIO = new IO<TTree, TFile>(interface->GetTreeName(conelem),
+                                                       interface->GetFileName(conelem),conelem,
+                                                       interface->GetType(conelem));
+    
+    
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
         
-        std::string varname = *it; 
-        ctree->SetBranchAddress(varname.c_str(), &(var[i]));
+        std::string varname = *it;
+        controlIO->SetTreeVar(varname.c_str(), <float>(var[i]));
+        //ctree->SetBranchAddress(varname.c_str(), &(var[i]));
         
     }    
     
@@ -130,19 +121,19 @@ int Eval::LoadCubeMap(){
     float ratiom;
     float cubedepth;
     
-    ctree->SetBranchAddress("numsig",&numsig);
-    ctree->SetBranchAddress("nummc",&nummc);
-    ctree->SetBranchAddress("numdata",&numdata);
+    controlIO->SetTreeVar("numsig", <float>numsig);
+    controlIO->SetTreeVar("nummc", <float>nummc);
+    controlIO->SetTreeVar("numdata", <float>numdata);
     
-    ctree->SetBranchAddress("ratios",&ratios);
-    ctree->SetBranchAddress("ratiom",&ratiom);
-    ctree->SetBranchAddress("cubedepth",&cubedepth);
+    controlIO->SetTreeVar("ratios", <float>ratios);
+    controlIO->SetTreeVar("ratiom", <float>ratiom);
+    controlIO->SetTreeVar("cubedepth", <float>cubedepth);
     
     float_q nullfloat5= {{0,0,0,0,0}};
     int tinfo=1;
     i=0;
     while (tinfo>0) {
-        tinfo = ctree->GetEntry(i);
+        tinfo = controlIO->GetEntry(i);
         if (tinfo<1) continue; // not sure if I need this
         
         // let's put in my cuts
@@ -182,36 +173,39 @@ int Eval::LoadCubeMap(){
         i++;
     }
     
-    
-    
-    
-    
     return 0;
 }
 
-// bad name, this should be
-// GetTree or something
-int Eval::GetNewTree(int ctype, int celem){
+// bad name
+int Eval::GetNewTree(int ctype){
     
-    std::string filename=interface->GetNameList()[celem];
-    currenttfile= new TFile(filename.c_str());
-    std::string treename=interface->GetTreeList()[celem];
-    currentttree=(TTree*)gDirectory->Get(treename.c_str());
-    currenttype=interface->GetTypeList()[celem];  
-    
-    if (currenttype!=ctype&&currentelem<((interface->GetNameList()).size()-1)) {        
-        celem++;
-        GetNewTree(ctype,celem);
+    // I don't think this will work because
+    // I destroy currentIO to know that I should
+    // create a new tree
+    int celem=0;
+    if (currentIO=0){
+        celem = -1;
+    } else {
+        int celem = currentIO->GetElement();
     }
+    
+    
+    int newelem = interface->GetNextElem(ctype, celem);
+    
+    currentIO = new IO<TTree, TFile>(interface->GetTreeName(newelem),
+                                     interface->GetFileName(newelem),newelem,
+                                     interface->GetType(newelem));
+    
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     int i=0;
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
         
-        std::string varname = *it; 
-        currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
+        std::string varname = *it;
+        currentIO->SetTreeVar(varname.c_str(), <float>(var[i]));
+
+        //currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
         
     }    
-    
     
     return 0;
 }
@@ -230,7 +224,7 @@ int Eval::InputData(long nevents, float* data_in){
     beginelem=currentelem;
     beginenum=enumber;
     
-    if (currenttfile==0) GetNewTree(4,currentelem);
+    if (currenttfile==0) GetNewTree(4);
     
     weight=1.0/((float)currentttree->GetEntries());
     
@@ -246,32 +240,25 @@ int Eval::InputData(long nevents, float* data_in){
         
         int tinfo = currentttree->GetEntry(cnum+enumber);
         
-        if (tinfo==0) currenttfile=0;
+        if (tinfo==0) currentIO=0;
         
-        if (currenttfile==0){
+        if (currentIO==0){
             enumber=-cnum;
-            currentelem++;
-            GetNewTree(4,currentelem);
+            GetNewTree(4);
             
-            if (outtree!=0) outtree=0; // maybe delete instead?
+            weight=1.0/((float)currentIO->GetEntries());
             
-            weight=1.0/((float)currentttree->GetEntries());
-            
-            tinfo = currentttree->GetEntry(cnum+enumber);
+            tinfo = currentIO->GetEntry(cnum+enumber);
         }
-        if (tinfo==0) currenttfile=0;
+        if (tinfo==0) currentIO=0;
         
         for (int i=0; i<ndim; i++) {
             data_in[cnum*ndim+i]=var[i];
         }
         
         data[2*cnum+1]=weight;
-        data[2*cnum+0]=(float)currenttype;
-        
-        //if (currenttype==0) {data0[e0]=var[i];e0++;}
-        //if (currenttype==1) {data1[e1]=var[i];e1++;}
-        //if (currenttype==2) {data2[e2]=var[i];e2++;}
-        
+        data[2*cnum+0]=(float)currentIO->GetType();
+                
         cnum++;
     }
     
@@ -301,6 +288,7 @@ long Eval::EventsToProcess(){
         std::string filename=*it;
         TFile* tfile= new TFile(filename.c_str());
         std::string treename=*tt;
+        Printf(" input order %s",treename.c_str());
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
         int typet = *yt;
         
@@ -310,13 +298,6 @@ long Eval::EventsToProcess(){
         val += ttree->GetEntries();
         
     }
-    
-    //data0 = new float[v0];
-    //data1 = new float[v1];
-    //data2 = new float[v2];
-    
-    //val=20;
-    // currentttree->Print();
     
     edim=val;
     return val;
@@ -330,12 +311,13 @@ long Eval::EventsToProcess(){
 int Eval::ProcessOutput(int* output_data, long nevents){    
     
     // general way of doing it?
-    //if (outtree==0) CreateNewTree(4,beginelem);
+    if (outIO==0) CreateNewTree(4,beginelem);
+    // this whole bit is still kludgy
     
     // particular way of doing it
-    outfile = new TFile("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/results.root","RECREATE");
-    outtree = new TTree("rtree", "Result of Evalulation");
-    outtree->AddFriend("treeDefaultTest","/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultTest.root");
+    //outfile = new TFile("/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/results.root","RECREATE");
+    //outtree = new TTree("rtree", "Result of Evalulation");
+    //outtree->AddFriend("treeDefaultTest","/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/DefaultTest.root");
     
     // this is just to test!
     
@@ -365,6 +347,10 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     // I have begin elem?
     long tent = currentttree->GetEntries();
     
+    Printf("this is the number of entries %d",tent);
+    Printf("this is the number of events %d",nevents);
+    Printf("this is the name %s",currentttree->GetName());
+    
     long cnum=0;
     
     
@@ -372,13 +358,20 @@ int Eval::ProcessOutput(int* output_data, long nevents){
         
         
         if (tent==cnum+beginenum){
+            Printf("this is the number of entries %d",tent);
+            Printf("this is the number of events %d",cnum);
             
+            outfile->Write();
+
             beginenum-=cnum;
             beginelem++;
             // dangerous
             //currentttree->Write("",TObject::kOverwrite);
             
             CreateNewTree(4,beginelem);
+
+            mdimb   = outtree->Branch("mdim",&mdim,"mdim/I");
+            
             numsigb = outtree->Branch("numsig",numsig,"numsig[mdim]/F");
             numdatab = outtree->Branch("numdata",numdata,"numdata[mdim]/F");
             nummcb = outtree->Branch("nummc",nummc,"nummc[mdim]/F");
@@ -386,7 +379,6 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             ratiosb = outtree->Branch("ratios",ratios,"ratios[mdim]/F");
             ratiosm = outtree->Branch("ratiom",ratiom,"ratiom[mdim]/F");
             
-            mdimb   = outtree->Branch("mdim",&mdim,"mdim/I");
 
             dimb = outtree->Branch("kdim", kdim, "Kdim[mdim]/I");
     
@@ -394,6 +386,9 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             
             // I need to find another approach to get this..
             tent = currentttree->GetEntries();
+
+            Printf("this is the name %s",currentttree->GetName());
+            Printf("this is the number of entries %d",tent);
             
         }
         
@@ -461,23 +456,44 @@ int Eval::ProcessOutput(int* output_data, long nevents){
 // GetTree or something
 int Eval::CreateNewTree(int ctype, int celem){
     
-    std::string filename=interface->GetNameList()[celem];
-    std::string treename=interface->GetTreeList()[celem];
-
-    int ct=interface->GetTypeList()[celem];  
-    
-    if (ct!=ctype&&currentelem<((interface->GetNameList()).size()-1)) {
-        
+    if (interface->GetType(celem)!=ctype){
         celem++;
-        CreateNewTree(ctype,celem);
-    } else {
+        CreateNewTree(ctype, celem);
+    }
+
+    outfile = new TFile((interface->GetOutFileName(celem)).c_str(),"RECREATE");
+    outtree = new TTree("rtree","Result of Evalulation");
+    outtree->AddFriend((interface->GetTreeName(celem)).c_str(),(interface->GetFileName(celem)).c_str());
     
-    // make sure that I know that I have some other file?
-        unsigned keyloc = filename.rfind(".");
-        std::string fileoutname = filename.replace(keyloc,5,"friend.root");
-        outfile = new TFile(fileoutname.c_str(),"RECREATE");
-        outtree = new TTree("rtree", "Result of Evalulation");
+    // I should have a better way of setting the current tree
+    GetNewTree(4, celem);
+    
+    return 0;
+    
+    
+    int newelem = interface->GetNextElem(ctype, celem);
+    
+    outIO = new IO<TTree, TFile>("rtree",
+                                 interface->GetOutFileName(newelem),newelem,
+                                 interface->GetType(newelem));
+    
+    outIO->AddFriend(interface->GetTreeName(newelem),interface->GetFileName(newelem));
+    
+    // OK, I need to set up this
+    std::vector<std::string> varnamelist=interface->GetVarNameList();
+    int i=0;
+    for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
+        
+        std::string varname = *it;
+        currentIO->SetTreeVar(varname.c_str(), <float>(var[i]));
+        
+        //currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
+        
     }
     
     return 0;
+
+    
+    
+    
 }

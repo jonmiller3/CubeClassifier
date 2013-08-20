@@ -25,8 +25,7 @@
 #include "BaseClassifier.h"
 #include "Interface.h"
 
-#include "TTree.h"
-#include "TFile.h"
+#include "IO.h"
 
 
 struct float_q {
@@ -55,17 +54,11 @@ class Eval:public BaseClassifier {
     float* data;
     long edim;
 
-    // variables for keeping track of output
-    TFile* outfile;
-    TTree* outtree;
-    int outelem;
     
-    // variables for keeping track of input
-    TFile* currenttfile;
-    TTree* currentttree;
+    IO<TTree, TFile>* outIO;
+    IO<TTree, TFile>* currentIO;
+    
     long enumber;
-    int currenttype;
-    int currentelem;
     
     // new method to get new tree
     int CreateNewTree(int,int);
