@@ -12,11 +12,20 @@
 #include <iostream>
 
 #include <string>
-#include <stdio>
 
 
 #include "TTree.h"
 #include "TFile.h"
+
+
+template<typename T> struct type_name
+{
+    static const char* name() { return 0;}
+};
+
+template<> struct type_name<int> { static const char* name() {return "I";} };
+template<> struct type_name<float> { static const char* name() {return "F";} };
+
 
 // I haven't throught through all the template
 // yet, because I don't know how the other
@@ -70,6 +79,8 @@ class IO <TTree, TFile> {
     int element;
     int type;
     
+    float check;
+    
 public:
   
     // I am giving all the funcationality
@@ -77,14 +88,18 @@ public:
     // some other 'general' IO hopefully
     
     // do I need two constructors, one which 'recreates'?
-    IO(std::string filename, std::string treename, int elem, int typ){
-        file= new TFile(filename.c_str());
+    IO(std::string filename, std::string treename, int elem, int typ, int iread){
+        if (iread==0){
+            file= new TFile(filename.c_str());
+        } else {
+            file= new TFile(filename.c_str(),"RECREATE");
+        }
         tree=(TTree*)gDirectory->Get(treename.c_str());
         element=elem;
         type=typ;
         return;
     }
-    
+
     ~IO(){;}
     
     int GetEntry(long i){return tree->GetEntry(i);}
@@ -94,15 +109,44 @@ public:
         tree->SetBranchAddress(name.c_str(),&variable);
         return 0;
     }
+    
+    template <class T>
+    int SetTreeVars(std::string name,T* variable){
+        tree->SetBranchAddress(name.c_str(),variable);
+        return 0;
+    }
+
+    template <class T>
+    int SetOutTreeVar(std::string name,T variable){
+        tree->Branch(name.c_str(),&variable,Form("%s/%s",name.c_str(),type_name<typeof(variable)>::name()));
+        return 0;
+    }
+    
+    template <class T>
+    int SetOutTreeVars(std::string name,T* variable,std::string name2){
+        tree->Branch(name.c_str(),&variable,Form("%s[%s]/%s",name.c_str(),
+                                                 name2.c_str(),type_name<typeof(variable[0])>::name()));
+        return 0;
+    }
+    
     int GetEntries(){return tree->GetEntries();}
     
     int GetElement(){return element;}
     
     int GetType(){return type;}
     
+    int Write(){
+        tree->Write();
+        return 0;
+    }
+    int Fill(){
+        tree->Fill();
+        return 0;
+    }
+    
     int AddFriend(std::string tname, std::string fname){
         
-        tree->AddFriend(tname,fname);
+        tree->AddFriend(tname.c_str(),fname.c_str());
         return 0;
         
     }

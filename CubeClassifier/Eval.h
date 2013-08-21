@@ -61,10 +61,10 @@ class Eval:public BaseClassifier {
     long enumber;
     
     // new method to get new tree
-    int CreateNewTree(int,int);
+    int CreateNewTree(int);
     
     // better descriptor of old method
-    int GetNewTree(int,int);
+    int GetNewTree(int);
     
     // this is just for tests, remove
     float* test_float;
@@ -82,7 +82,7 @@ private:
     Interface* interface;
     
     // seems useful, would be better to do in general?
-    TTree* SelectTree(int);
+    //TTree* SelectTree(int);
     
 public:
     

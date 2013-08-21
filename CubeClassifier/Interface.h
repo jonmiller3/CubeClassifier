@@ -17,7 +17,7 @@ struct filelist_struct {
     std::string name;
     std::string tree;
     int type;
-    int entries;
+    long entries;
     
 };
 
@@ -122,8 +122,8 @@ public:
         }
     }
     
-    int GetTreeEntries(int elem){return filelistvec[elem].entries;}
-    int SetTreeEntries(int elem, int entries){filelistvec[elem].entries=entries; return 0;}
+    long GetTreeEntries(int elem){return filelistvec[elem].entries;}
+    int SetTreeEntries(int elem, long entries){filelistvec[elem].entries=entries; return 0;}
 
 };
 
