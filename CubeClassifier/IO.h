@@ -91,10 +91,12 @@ public:
     IO(std::string filename, std::string treename, int elem, int typ, int iread){
         if (iread==0){
             file= new TFile(filename.c_str());
+            tree=(TTree*)gDirectory->Get(treename.c_str());
         } else {
             file= new TFile(filename.c_str(),"RECREATE");
+            tree=new TTree(treename.c_str(),treename.c_str());
         }
-        tree=(TTree*)gDirectory->Get(treename.c_str());
+        printf("name is %s with tree %s",filename.c_str(),treename.c_str());
         element=elem;
         type=typ;
         return;

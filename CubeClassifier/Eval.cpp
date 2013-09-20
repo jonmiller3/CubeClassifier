@@ -99,8 +99,8 @@ int Eval::LoadCubeMap(){
     // I am assuming that -1 is the type of Classify Control Root Files
     int conelem = interface->GetNextElem(-1, -1);
     
-    IO<TTree, TFile>* controlIO = new IO<TTree, TFile>(interface->GetTreeName(conelem),
-                                                       interface->GetFileName(conelem),conelem,
+    IO<TTree, TFile>* controlIO = new IO<TTree, TFile>(interface->GetFileName(conelem),
+                                                       interface->GetTreeName(conelem),conelem,
                                                        interface->GetType(conelem),0);
     
     
@@ -190,8 +190,8 @@ int Eval::GetNewTree(int newelem){
 //    
 //    int newelem = interface->GetNextElem(ctype, celem);
     
-    currentIO = new IO<TTree, TFile>(interface->GetTreeName(newelem),
-                                     interface->GetFileName(newelem),newelem,
+    currentIO = new IO<TTree, TFile>(interface->GetFileName(newelem),
+                                     interface->GetTreeName(newelem),newelem,
                                      interface->GetType(newelem),0);
     
     std::vector<std::string> varnamelist=interface->GetVarNameList();
@@ -457,8 +457,8 @@ int Eval::CreateNewTree(int celem){
     
     // I get the celem and use it
     
-    outIO = new IO<TTree, TFile>("rtree",
-                                 interface->GetOutFileName(celem),celem,
+    outIO = new IO<TTree, TFile>(interface->GetOutFileName(celem),
+                                 "rtree",celem,
                                  interface->GetType(celem),1);
     
     outIO->AddFriend(interface->GetTreeName(celem),interface->GetFileName(celem));
