@@ -198,5 +198,29 @@
          landmarkName = "IO(std::string filename, std::string treename, int elem, int typ, int iread)"
          landmarkType = "7">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CubeClassifier/IO.h"
+         timestampString = "401553624.979939"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "SetOutTreeVar(std::string name,T* variable)"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "CubeClassifier/IO.h"
+         timestampString = "401553638.256399"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "141"
+         endingLineNumber = "141">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
