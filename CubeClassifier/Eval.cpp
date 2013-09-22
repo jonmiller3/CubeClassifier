@@ -332,14 +332,14 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     
     outIO->SetOutTreeVar("mdim", &mdim);
     outIO->SetOutTreeVar("event", &elemnum);
-    outIO->SetOutTreeVars("numsig", *numsig, "mdim");
-    outIO->SetOutTreeVars("numdata", *numdata, "mdim");
-    outIO->SetOutTreeVars("nummc", *nummc, "mdim");
+    outIO->SetOutTreeVars("numsig", numsig, "mdim");
+    outIO->SetOutTreeVars("numdata", numdata, "mdim");
+    outIO->SetOutTreeVars("nummc", nummc, "mdim");
     
-    outIO->SetOutTreeVars("ratios", *ratios, "mdim");
-    outIO->SetOutTreeVars("ratiom", *ratiom, "mdim");
+    outIO->SetOutTreeVars("ratios", ratios, "mdim");
+    outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
     
-    outIO->SetOutTreeVars("kdim", *kdim, "mdim");
+    outIO->SetOutTreeVars("kdim", kdim, "mdim");
     
     long tent = interface->GetTreeEntries(outIO->GetElement());
     
@@ -365,14 +365,14 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             
             outIO->SetOutTreeVar("mdim", &mdim);
             outIO->SetOutTreeVar("event", &elemnum);
-            outIO->SetOutTreeVars("numsig", *numsig, "mdim");
-            outIO->SetOutTreeVars("numdata", *numdata, "mdim");
-            outIO->SetOutTreeVars("nummc", *nummc, "mdim");
+            outIO->SetOutTreeVars("numsig", numsig, "mdim");
+            outIO->SetOutTreeVars("numdata", numdata, "mdim");
+            outIO->SetOutTreeVars("nummc", nummc, "mdim");
     
-            outIO->SetOutTreeVars("ratios", *ratios, "mdim");
-            outIO->SetOutTreeVars("ratiom", *ratiom, "mdim");
+            outIO->SetOutTreeVars("ratios", ratios, "mdim");
+            outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
     
-            outIO->SetOutTreeVars("kdim", *kdim, "mdim");
+            outIO->SetOutTreeVars("kdim", kdim, "mdim");
             
             // I need to find another approach to get this..
             tent = interface->GetTreeEntries(outIO->GetElement());
