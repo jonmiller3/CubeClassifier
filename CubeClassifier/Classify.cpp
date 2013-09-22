@@ -135,7 +135,7 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i*2+0]]+=data[i*2+1]; // + (*cubeit).second[(int)data[i][0]];
-            if (i%60000==0){
+            if (i%60000==-1){
                 std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
                 std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
                 <<" "<<((*cubeit).second).x[1]<<" "<<((*cubeit).second).x[2]<<std::endl;

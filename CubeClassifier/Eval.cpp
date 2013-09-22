@@ -109,11 +109,12 @@ int Eval::LoadCubeMap(){
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
         
         std::string varname = *it;
-        controlIO->SetTreeVar(varname.c_str(), (var[i]));
+        controlIO->SetTreeVars(varname.c_str(), &(var[i]));
         //ctree->SetBranchAddress(varname.c_str(), &(var[i]));
         
     }    
     
+    // crazy hacks
     float numsig;
     float numdata;
     float nummc;
@@ -121,13 +122,14 @@ int Eval::LoadCubeMap(){
     float ratiom;
     float cubedepth;
     
-    controlIO->SetTreeVar("numsig", numsig);
-    controlIO->SetTreeVar("nummc", nummc);
-    controlIO->SetTreeVar("numdata", numdata);
+    controlIO->SetTreeVar("numsig", &numsig);
+    controlIO->SetTreeVar("nummc", &nummc);
+    controlIO->SetTreeVar("numdata", &numdata);
     
-    controlIO->SetTreeVar("ratios", ratios);
-    controlIO->SetTreeVar("ratiom", ratiom);
-    controlIO->SetTreeVar("cubedepth", cubedepth);
+    controlIO->SetTreeVar("ratios", &ratios);
+    controlIO->SetTreeVar("ratiom", &ratiom);
+    controlIO->SetTreeVar("cubedepth", &cubedepth);
+    
     
     float_q nullfloat5= {{0,0,0,0,0}};
     int tinfo=1;
@@ -144,8 +146,8 @@ int Eval::LoadCubeMap(){
         
         std::vector<int> varj;
         
-        cubedepth+=0.01; // not sure if this is necessary..
-        varj.push_back((int)cubedepth);
+        (cubedepth)+=0.01; // not sure if this is necessary..
+        varj.push_back((int)(cubedepth));
         
         for (int j=0; j<ndim; j++) {
             var[j]+=0.01; // not sure if this is necessary..
@@ -199,7 +201,7 @@ int Eval::GetNewTree(int newelem){
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
         
         std::string varname = *it;
-        currentIO->SetTreeVar(varname.c_str(), (var[i]));
+        currentIO->SetTreeVars(varname.c_str(), &(var[i]));
 
         //currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
         
@@ -226,6 +228,7 @@ int Eval::InputData(long nevents, float* data_in){
     
     if (currentIO==0) {
         beginelem = interface->GetNextElem(4, -1);
+        currentelem=beginelem;
     } else {
         beginelem=currentIO->GetElement();
         currentelem = interface->GetNextElem(4, beginelem);
@@ -247,7 +250,7 @@ int Eval::InputData(long nevents, float* data_in){
         
         if (tinfo==0){
             enumber=-cnum;
-            currentelem = interface->GetNextElem(4, beginelem);
+            currentelem = interface->GetNextElem(4, currentelem);
             GetNewTree(currentelem);
             
             weight=1.0/((float)currentIO->GetEntries());
@@ -314,7 +317,9 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     // general way of doing it?
     // not sure if I should have outIO
     if (outIO==0) CreateNewTree(beginelem);
-    int currentelem=0;
+    // otherwise outIO exists and we continue to write to it
+    // I can probably get this from outIO?
+    int currentelem=beginelem;
 
     
     float ratios[mdim];
@@ -338,8 +343,8 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     
     long tent = interface->GetTreeEntries(outIO->GetElement());
     
-    Printf("this is the number of entries %d",tent);
-    Printf("this is the number of events %d",nevents);
+    Printf("this is the number of entries %d\n",tent);
+    Printf("this is the number of events %d\n",nevents);
     
     long cnum=0;
     
@@ -348,8 +353,8 @@ int Eval::ProcessOutput(int* output_data, long nevents){
         
         
         if (tent==cnum+beginenum){
-            Printf("this is the number of entries %d",tent);
-            Printf("this is the number of events %d",cnum);
+            Printf("this is the number of entries %d\n",tent);
+            Printf("this is the number of events %d\n",cnum);
             
             outIO->Write();
 
@@ -430,7 +435,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     
     beginenum+=cnum;
     if (nevents!=cnum) printf(" oh no, cnum != nevents! \n");
-
+    beginelem=currentelem;
     
     return 0;
     
