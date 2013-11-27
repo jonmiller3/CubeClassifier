@@ -1,5 +1,4 @@
-Variable0 0 1
-Variable1 0 1
-Variable2 0 1
-Variable3 0 1
-Variable4 0 1
+Variable7 0 1
+Variable8 0 1
+Variable9 0 1
+Variable10 0 1

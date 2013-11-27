@@ -13,21 +13,35 @@
 int main (int argc, const char * argv[])
 {
 
-    CreateTestTree* signal = new CreateTestTree("DefaultSignal",5);
-    signal->AddVariables(5);
-    signal->Loop(100000, true);
+    CreateTestTree* signal = new CreateTestTree("DefaultSignal");
+    signal->AddVariables();
+    signal->Loop(100000, 150);
     signal->WriteROOTFile();
     
-    CreateTestTree* background = new CreateTestTree("DefaultBackground",5);
-    background->AddVariables(5);
-    background->Loop(100000, false);
+    std::cout<<" done with Signal! "<<std::endl;
+    
+    CreateTestTree* background = new CreateTestTree("DefaultBackground");
+    background->AddVariables();
+    background->Loop(100000, 100);
     background->WriteROOTFile(); 
     
-    CreateTestTree* test = new CreateTestTree("DefaultTest",5);
-    test->AddVariables(5);
-    test->Loop(100, true);
-    test->Loop(100000, false);
+    std::cout<<" done with Background! "<<std::endl;
+    
+    CreateTestTree* background2 = new CreateTestTree("DefaultBackground2");
+    background2->AddVariables();
+    background2->Loop(100000, 200);
+    background2->WriteROOTFile();
+    
+    std::cout<<" done with Background! "<<std::endl;
+    
+    CreateTestTree* test = new CreateTestTree("DefaultTest");
+    test->AddVariables();
+    test->Loop(100, 150);
+    test->Loop(100000, 100);
+    test->Loop(100000, 200);
     test->WriteROOTFile();
+    
+    std::cout<<" done with Test! "<<std::endl;
     
     return 0;
     

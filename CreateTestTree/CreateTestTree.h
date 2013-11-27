@@ -20,20 +20,27 @@ class CreateTestTree {
     TTree* tree;
     float* var;
     TF1** func;
+    
+    // this is now hardcoded
     int nvar;
     
     TRandom3 rndm;
     
 public:
     
-    CreateTestTree(TString,int);
+    CreateTestTree(TString);
     ~CreateTestTree(){file->Close();delete file; delete tree;}
     void WriteROOTFile();
-    void CreateDefaultSignal(int);
-    void CreateDefaultBackground(int);
-    void AddVariables(int);
+    void AddVariables();
     void AddVariable(int,float*);
-    void Loop(int,bool);
+    void Loop(int,int);
+    void CreateGausVariable(int,double,double,double,double,double);
+    void CreateUniformVariable(int,double,double);
+    
+    double Length(double,double,double,double);
+    double Energy(double,double);
+    
+    double Sanitize(double);
     
 };
 
