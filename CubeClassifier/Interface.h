@@ -12,6 +12,15 @@
 #include <iostream>
 #include <vector>
 
+
+// types
+// -1 classtree
+// -4 evaluation trees
+// 1 null hypothesis
+// 0 signal 1 hypothesis
+// 2+ signal 2+ hypothesis
+
+
 struct filelist_struct {
     
     std::string name;
@@ -106,10 +115,26 @@ public:
     
     // new way to get output tree
     std::string GetOutFileName(int elem){
+        std::string fileoutname;
         std::string filename = filelistvec[elem].name;
-        unsigned keyloc = filename.rfind(".");
-        std::string fileoutname = filename.replace(keyloc,5,"friend.root");
+        if (filename.find("classify_output")==std::string::npos){
+            unsigned keyloc = filename.rfind(".");
+            fileoutname = filename.replace(keyloc,5,"friend.root");
+        } else {
+            fileoutname = filename;
+        }
         return fileoutname;
+    }
+    
+    int FindElem(std::string treename){
+        
+        int maxsize=filelistvec.size();
+        for (int i=0; i<maxsize; i++) {
+            if (filelistvec[i].tree==treename) return i;
+        }
+        
+        return 0;
+        
     }
     
     // find the 'next' file/tree information
