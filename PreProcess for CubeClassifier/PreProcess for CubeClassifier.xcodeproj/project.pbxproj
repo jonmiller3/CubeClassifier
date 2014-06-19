@@ -122,7 +122,7 @@
 		D0AE2DB0181363170048E69A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -159,7 +159,7 @@
 		D0AE2DB1181363170048E69A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -193,8 +193,51 @@
 				DEBUGGING_SYMBOLS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_CFLAGS = (
+					"-m64",
+					"-I/Users/usmjonathanmiller/IceCube/root/include",
+					"-L/Users/usmjonathanmiller/IceCube/root/lib",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lm",
+					"-ldl
+",
+				);
+				OTHER_LDFLAGS = (
+					"-m64",
+					"-L/Users/usmjonathanmiller/IceCube/root/lib",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lm",
+					"-ldl
+",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -202,8 +245,51 @@
 		D0AE2DB4181363170048E69A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_CFLAGS = (
+					"-m64",
+					"-I/Users/usmjonathanmiller/IceCube/root/include",
+					"-L/Users/usmjonathanmiller/IceCube/root/lib",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lm",
+					"-ldl
+",
+				);
+				OTHER_LDFLAGS = (
+					"-m64",
+					"-L/Users/usmjonathanmiller/IceCube/root/lib",
+					"-lCore",
+					"-lCint",
+					"-lRIO",
+					"-lNet",
+					"-lHist",
+					"-lGraf",
+					"-lGraf3d",
+					"-lGpad",
+					"-lTree",
+					"-lRint",
+					"-lPostscript",
+					"-lMatrix",
+					"-lPhysics",
+					"-lMathCore",
+					"-lThread",
+					"-lm",
+					"-ldl
+",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -218,6 +304,7 @@
 				D03597D5181562FB000A0CE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0AE2DAE181363160048E69A /* Build configuration list for PBXProject "PreProcess for CubeClassifier" */ = {
 			isa = XCConfigurationList;

@@ -23,7 +23,6 @@
 #include <map>
 
 #include "BaseClassifier.h"
-#include "Interface.h"
 
 #include "IO.h"
 
@@ -42,7 +41,7 @@ class Eval:public BaseClassifier {
 
 
     // just the same as classify
-    int SetMaxMin(float* max, float* min);
+//    int SetMaxMin(float* max, float* min);
 
     int InputData(long,float*);
     int ProcessOutput(int*,long);
@@ -78,8 +77,6 @@ private:
     int beginelem;
     long beginenum;
     int LoadCubeMap();
-    
-    Interface* interface;
     
     // seems useful, would be better to do in general?
     //TTree* SelectTree(int);

@@ -711,3 +711,21 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
     return 0;  
     
 }
+
+
+
+// very simple, wish there was some nicer way to do this but it goes quickly at least?
+int BaseClassifier::SetMaxMin(float* max, float* min){
+    
+    int ls=interface->GetVarListSize();
+    
+    for (int i=0; i<ls; i++) {
+        
+        max[i]=interface->GetMax(i);
+        min[i]=interface->GetMin(i);
+        
+    }
+    
+    return 0;
+    
+}

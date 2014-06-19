@@ -129,14 +129,17 @@ int main(int argc, const char * argv[])
         float rats=-1;
         float ratm=-1;
         for (int j=0; j<mdim; j++){
+
+	  //std::cout << " lets get numdata "<<numdata[j]<<" "<<numsig[j]<<"\n"; 
             
-            if (numdata[j]>0.0003&&numsig[j]>0.0003) {
+            if (numdata[j]>0.00003&&numsig[j]>0.00003) {
                 nsign=numsig[j];
                 ndata=numdata[j];
                 nmcar=nummc[j];
                 rats=ratios[j];
                 ratm=ratiom[j];
                 pkdim=j;
+		//std::cout << " we found one " <<j<<" "<<ndata<<"\n";
             }
             // selects best ratio/ec number
             // these should be inputs, maybe
@@ -323,10 +326,10 @@ void TMVATest(){
                                                "Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification" );
 
     // hardcoded
-    factory->AddVariable( "Variable7", 'F' );
-    factory->AddVariable( "Variable8", 'F' );
-    factory->AddVariable( "Variable9", 'F' );
     factory->AddVariable( "Variable10", 'F' );
+    factory->AddVariable( "Variable11", 'F' );
+    factory->AddVariable( "Variable12", 'F' );
+    factory->AddVariable( "Variable13", 'F' );
 
     // hardcoded (less important, this is for this test)
     TFile *inputS = TFile::Open(Form("%sDefaultSignal.root",path));

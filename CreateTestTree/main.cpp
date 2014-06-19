@@ -29,7 +29,7 @@ int main (int argc, const char * argv[])
     
     CreateTestTree* background2 = new CreateTestTree("DefaultBackground2");
     background2->AddVariables();
-    background2->Loop(100000, 200);
+    background2->Loop(100000, 190);
     background2->WriteROOTFile();
     
     std::cout<<" done with Background! "<<std::endl;

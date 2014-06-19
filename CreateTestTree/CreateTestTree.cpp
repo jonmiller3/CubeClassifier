@@ -104,25 +104,25 @@ void CreateTestTree::Loop(int nevents, int type){
     // this is where I setup functions
     
     // this is the energy variable (MeV, so 100s)
-    CreateGausVariable(0, 1, type, 30, 100, 200);
+    CreateGausVariable(0, 1, type, 20, 100, 200);
     CreateUniformVariable(1, -100, 100);
     
     // pedestal region 1
     CreateGausVariable(2, 100, 0, 10, 0, 100);
     // pedestal region 2
-    CreateGausVariable(3, 100, 0, 20, 0, 100);
+    CreateGausVariable(3, 100, 0, 15, 0, 100);
     
     // coef for region 1
     CreateGausVariable(4, 1, 1, .2, 0, 2);
     
     // coef for region 2
-    CreateGausVariable(5, 1, 1.5, .5, 0, 2);
+    CreateGausVariable(5, 1, 1.5, .3, 0, 2);
     
    
     //region 1 energy observation
     CreateGausVariable(6, 1, .6, .1, 0, 1);
     //region 2 energy observation
-    CreateGausVariable(7, 1, .3, .3, 0, 1);
+    CreateGausVariable(7, 1, .3, .2, 0, 1);
 
     
     for (int i=0; i<nevents; i++) {

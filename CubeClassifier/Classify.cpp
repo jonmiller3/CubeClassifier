@@ -64,6 +64,8 @@ int Classify::WriteOutput(){
         std::vector<int> classification = ((*cubeit).first);
         float_triple cinformation = ((*cubeit).second);
         
+        //std::cout<<" cinfomration "<<cinformation.x[0]<<std::endl;
+        
         numsig=cinformation.x[0];
         numdata=cinformation.x[1];
         nummc=cinformation.x[2];
@@ -135,7 +137,7 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i*2+0]]+=data[i*2+1]; // + (*cubeit).second[(int)data[i][0]];
-            if (i%60000==-1){
+            if (i%60000==1){
                 std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
                 std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
                 <<" "<<((*cubeit).second).x[1]<<" "<<((*cubeit).second).x[2]<<std::endl;
@@ -167,13 +169,20 @@ Classify::Classify(Interface* inputinterface){
     
     // not sure about this, this forces the whole set of names to be used...
     // but maybe that is right? if you are not interested just don't include them
-    ndim=(interface->GetVarNameList()).size();
+    ndim=(interface->GetVarListSize());
     
-    
+    /*
     currenttfile=0;
     currentttree=0;
     currenttype=-1;
     currentelem=0;
+    */
+     
+    currentIO=0;
+    outIO=0;
+    
+    
+    enumber=0;
     
     var = new float[ndim];
     
@@ -184,13 +193,46 @@ Classify::Classify(Interface* inputinterface){
     
     //maxelem=0;
 
-    CreateNewTree(4);
+    //CreateNewTree(4);
 
+    return;
     
     
 }
 
+// bad name, this should be
+// GetTree or something
+int Classify::CreateNewTree(int celem){
+    
+    //    if (interface->GetType(celem)!=ctype){
+    //        celem++;
+    //        CreateNewTree(ctype, celem);
+    //    }
+    //
+    //    outfile = new TFile((interface->GetOutFileName(celem)).c_str(),"RECREATE");
+    //    outtree = new TTree("rtree","Result of Evalulation");
+    //    outtree->AddFriend((interface->GetTreeName(celem)).c_str(),(interface->GetFileName(celem)).c_str());
+    //
+    //    // I should have a better way of setting the current tree
+    //    GetNewTree(4, celem);
+    //
+    //    return 0;
+    
+    
+    // I get the celem and use it
+    
+    outIO = new IO<TTree, TFile>(interface->GetOutFileName(celem),
+                                 "rtree",celem,
+                                 interface->GetType(celem),1);
+    
+    outIO->AddFriend(interface->GetTreeName(celem),interface->GetFileName(celem));
+    
+    return 0;
+    
+}
 
+
+/*
 int Classify::CreateNewTree(int ctype){
     
     
@@ -224,8 +266,103 @@ int Classify::CreateNewTree(int ctype){
         
     return 0;
 }
+ */
 
-// this is a special 
+// bad name
+int Classify::GetNewTree(int newelem){
+    
+    
+    //    int celem=0;
+    //    if (currentIO==0){
+    //        celem = -1;
+    //    } else {
+    //        int celem = currentIO->GetElement();
+    //    }
+    //
+    //
+    //    int newelem = interface->GetNextElem(ctype, celem);
+    
+    currentIO = new IO<TTree, TFile>(interface->GetFileName(newelem),
+                                     interface->GetTreeName(newelem),newelem,
+                                     interface->GetType(newelem),0);
+    
+    std::vector<std::string> varnamelist=interface->GetVarNameList();
+    int i=0;
+    for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
+        
+        std::string varname = *it;
+        currentIO->SetTreeVars(varname.c_str(), &(var[i]));
+        
+        //currentttree->SetBranchAddress(varname.c_str(), &(var[i]));
+        
+    }
+    
+    interface->SetTreeEntries(newelem, currentIO->GetEntries());
+    
+    return 0;
+}
+
+int Classify::InputData(long nevents, float* data_in){
+    
+    // for now this is just using default, later I will need to set it here
+    float weight=1;
+    int currentelem=0;
+    
+    beginenum=enumber;
+    
+    if (currentIO==0) {
+        beginelem = interface->GetNextElem(0, -1);
+        currentelem=beginelem;
+    } else {
+        beginelem=currentIO->GetElement();
+        currentelem = interface->GetNextElem(0, beginelem);
+    }
+    GetNewTree(currentelem);
+    weight=1.0/((float)currentIO->GetEntries());
+    
+    // let's assume it is root for now
+    // this is maybe not necessary?
+    
+    
+    data = new float[nevents*2];
+    long cnum=0;
+    
+    while (cnum<nevents) {
+        
+        
+        int tinfo = currentIO->GetEntry(cnum+enumber);
+        
+        if (tinfo==0){
+            enumber=-cnum;
+            currentelem = interface->GetNextElem(0, currentelem);
+            GetNewTree(currentelem);
+            
+            weight=1.0/((float)currentIO->GetEntries());
+            
+            tinfo = currentIO->GetEntry(cnum+enumber);
+        }
+        
+        for (int i=0; i<ndim; i++) {
+            data_in[cnum*ndim+i]=var[i];
+        }
+        
+        data[2*cnum+1]=weight;
+        data[2*cnum+0]=(float)currentIO->GetType();
+        
+        cnum++;
+    }
+    
+    test_float = data_in;
+    
+    enumber+=cnum;
+    if (nevents!=cnum) printf(" oh no, cnum != nevents! \n");
+    
+    return 0;
+    
+}
+
+/*
+// this is a special
 // input is number of events
 // output is the data_in that is used in one set of processing
 // I need to keep track of which file is open
@@ -287,7 +424,7 @@ int Classify::InputData(long nevents, float* data_in){
     return 0;
     
 }
-
+*/
 
 
 // obvious, but I need to remember that this should be initalized in the constructor
@@ -298,6 +435,10 @@ long Classify::EventsToProcess(){
     long v1=0;
     long v2=0;
     long v0=0;
+    
+    
+    // in the end I should replace this (maybe I get these values somewhere else)
+    // but I don't think this is where my error is
     
     std::vector<std::string> namelist=interface->GetNameList();
     std::vector<std::string> treelist=interface->GetTreeList();
@@ -335,6 +476,7 @@ long Classify::EventsToProcess(){
 }
 
 // very simple, wish there was some nicer way to do this but it goes quickly at least?
+/*
 int Classify::SetMaxMin(float* max, float* min){
     
     int i=0;
@@ -353,3 +495,4 @@ int Classify::SetMaxMin(float* max, float* min){
     return 0;
     
 }
+ */

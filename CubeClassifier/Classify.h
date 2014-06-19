@@ -24,7 +24,8 @@
 #include <map>
 
 #include "BaseClassifier.h"
-#include "Interface.h"
+#include "IO.h"
+
 
 #include "TTree.h"
 #include "TFile.h"
@@ -51,7 +52,7 @@ class Classify:public BaseClassifier {
     int InputData(long,float*);
     int ProcessOutput(int*,long);
     long EventsToProcess();
-    int SetMaxMin(float* max, float* min);
+    //int SetMaxMin(float* max, float* min);
     
     // this isn't well protected, but this works for now
     float* var;
@@ -59,23 +60,30 @@ class Classify:public BaseClassifier {
     // this is just for tests, remove
     float* test_float;
     
+    IO<TTree, TFile>* outIO;
+    IO<TTree, TFile>* currentIO;
+    
+    
 private:
     int maxelem;
     // I need queue number, max array, min array, data array
     
     // this is used in the output
     int CreateCubeMap(int*,long);
- 
-    Interface* interface;
     
     // variables for keeping track of input
-    TFile* currenttfile;
-    TTree* currentttree;
+    //TFile* currenttfile;
+    //TTree* currentttree;
     long enumber;
-    int currenttype;
-    int currentelem;
+    //int currenttype;
+    //int currentelem;
+    
+    
+    int beginelem;
+    long beginenum;
     
     int CreateNewTree(int);
+    int GetNewTree(int);
     
 public:
     Classify(Interface*);

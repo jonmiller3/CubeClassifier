@@ -9,6 +9,7 @@
 #include "Eval.h"
 #include <iostream>
 
+/*
 // very simple, wish there was some nicer way to do this but it goes quickly at least?
 int Eval::SetMaxMin(float* max, float* min){
     
@@ -24,6 +25,7 @@ int Eval::SetMaxMin(float* max, float* min){
     return 0;
     
 }
+ */
 
 
 Eval::Eval(Interface* inputinterface){
@@ -227,11 +229,11 @@ int Eval::InputData(long nevents, float* data_in){
     beginenum=enumber;
     
     if (currentIO==0) {
-        beginelem = interface->GetNextElem(4, -1);
+        beginelem = interface->GetNextElem(-4, -1);
         currentelem=beginelem;
     } else {
         beginelem=currentIO->GetElement();
-        currentelem = interface->GetNextElem(4, beginelem);
+        currentelem = interface->GetNextElem(-4, beginelem);
     }
     GetNewTree(currentelem);
     weight=1.0/((float)currentIO->GetEntries());
@@ -250,7 +252,7 @@ int Eval::InputData(long nevents, float* data_in){
         
         if (tinfo==0){
             enumber=-cnum;
-            currentelem = interface->GetNextElem(4, currentelem);
+            currentelem = interface->GetNextElem(-4, currentelem);
             GetNewTree(currentelem);
             
             weight=1.0/((float)currentIO->GetEntries());
@@ -297,7 +299,7 @@ long Eval::EventsToProcess(){
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
         int typet = *yt;
         
-        if (typet!=4) continue;
+        if (typet!=-4) continue;
 
         val += ttree->GetEntries();
         
@@ -359,7 +361,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             outIO->Write();
 
             beginenum-=cnum;
-            currentelem=interface->GetNextElem(4, outIO->GetElement());
+            currentelem=interface->GetNextElem(-4, outIO->GetElement());
             
             CreateNewTree(currentelem);
             

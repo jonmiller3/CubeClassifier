@@ -19,6 +19,8 @@
     #define TRUE true
 #endif
 
+#include "Interface.h"
+
 // I think you do it like this:
 #define MAX_GPU_COUNT 16
 
@@ -65,6 +67,8 @@ protected:
     virtual int InputData(long, float*);
     virtual long EventsToProcess(){return 10;}
     
+    
+    /*
     virtual int SetMaxMin(float* max, float* min){
         for (int i=0; i<ndim; i++){
             max[i]=1;
@@ -72,6 +76,7 @@ protected:
         }
         return 0;
     }
+     */
     
     virtual int ProcessOutput(int*, long);
     
@@ -79,11 +84,14 @@ protected:
     // this tells one device to process... theoretically I can 
     int ProcessSet(cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
     
+    
+    Interface* interface;
+    
 // can't access outside, can't access with daughters
 private:
    
     int CompileOCLKernel(cl_device_id, const char*, cl_program*);
-
+    
 
 // can access outside, can access with daughters    
 public:
@@ -91,6 +99,9 @@ public:
     BaseClassifier(){cubesetting=1;}
     BaseClassifier(int nd, int md){cubesetting=2;mdim=md;ndim=nd;}
 
+    int SetMaxMin(float* max, float* min);
+
+    
     int GetQueueNum(){return queuenumber;}
     
     int StartQueue();

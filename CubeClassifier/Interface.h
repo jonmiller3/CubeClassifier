@@ -118,6 +118,7 @@ public:
         int maxsize=filelistvec.size();
         if (celem+1>=maxsize) return -1;
         for (int i=celem+1; i<maxsize; i++) {
+            if (ftype>-1&&filelistvec[i].type>-1) return i;
             if (filelistvec[i].type==ftype) return i;
         }
     }
