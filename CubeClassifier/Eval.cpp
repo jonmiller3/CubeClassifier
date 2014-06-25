@@ -117,16 +117,18 @@ int Eval::LoadCubeMap(){
     }    
     
     // crazy hacks
-    float numsig;
-    float numdata;
-    float nummc;
+    float numc[NUMCLASS];
+
     float ratios;
     float ratiom;
     float cubedepth;
     
-    controlIO->SetTreeVar("numsig", &numsig);
-    controlIO->SetTreeVar("nummc", &nummc);
-    controlIO->SetTreeVar("numdata", &numdata);
+    for (int j=0; j<NUMCLASS; j++) {
+        controlIO->SetTreeVar(Form("num%d",j), &numc[j]);
+    }
+
+    //controlIO->SetTreeVar("nummc", &nummc);
+    //controlIO->SetTreeVar("numdata", &numdata);
     
     controlIO->SetTreeVar("ratios", &ratios);
     controlIO->SetTreeVar("ratiom", &ratiom);
@@ -144,7 +146,7 @@ int Eval::LoadCubeMap(){
         if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneStat()<abs(0.5-ratiom))) continue;
         
         // this should probably be that both need to be above...
-        if (interface->GetPruneStat()>numdata) continue;
+        if (interface->GetPruneStat()>numc[0]) continue;
         
         std::vector<int> varj;
         
@@ -157,12 +159,16 @@ int Eval::LoadCubeMap(){
         }
         
         float_q cmval;
+        
         cmval.x[0]=ratios;
         cmval.x[1]=ratiom;
         
-        cmval.x[2]=numsig;
-        cmval.x[3]=numdata;
-        cmval.x[4]=nummc;
+        for (int j=0; j<NUMCLASS; j++) {
+            cmval.x[2+j]=numc[j];
+        }
+        //cmval.x[2]=numsig;
+        //cmval.x[3]=numdata;
+        //cmval.x[4]=nummc;
         
         
         // maybe I should do a find just in case someone has two of the same thing
@@ -334,12 +340,27 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     
     outIO->SetOutTreeVar("mdim", &mdim);
     outIO->SetOutTreeVar("event", &elemnum);
-    outIO->SetOutTreeVars("numsig", numsig, "mdim");
-    outIO->SetOutTreeVars("numdata", numdata, "mdim");
-    outIO->SetOutTreeVars("nummc", nummc, "mdim");
     
-    outIO->SetOutTreeVars("ratios", ratios, "mdim");
-    outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
+    float_q cubevars[mdim];
+    
+    //for (int l=0; l<NUMCLASS+2; l++) {
+    //    outIO->SetOutTreeVars(Form("cubevars%d",l), cubevars.x[l], "mdim");
+    //}
+    
+    for (int l=0; l<mdim; l++) {
+        
+        for (int m=0; m<NUMCLASS+2; m++) {
+            outIO->SetOutTreeVar(Form("cubevars%d_%d",l,m), &cubevars[l].x[m]);
+        }
+    }
+
+    
+    //outIO->SetOutTreeVars("numsig", numsig, "mdim");
+    //outIO->SetOutTreeVars("numdata", numdata, "mdim");
+    //outIO->SetOutTreeVars("nummc", nummc, "mdim");
+    
+    //outIO->SetOutTreeVars("ratios", ratios, "mdim");
+    //outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
     
     outIO->SetOutTreeVars("kdim", kdim, "mdim");
     
@@ -367,12 +388,23 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             
             outIO->SetOutTreeVar("mdim", &mdim);
             outIO->SetOutTreeVar("event", &elemnum);
-            outIO->SetOutTreeVars("numsig", numsig, "mdim");
-            outIO->SetOutTreeVars("numdata", numdata, "mdim");
-            outIO->SetOutTreeVars("nummc", nummc, "mdim");
+            
+            //outIO->SetOutTreeVars("cubevars", cubevars, "mdim");
+
+            for (int l=0; l<mdim; l++) {
+                
+                for (int m=0; m<NUMCLASS+2; m++) {
+                    outIO->SetOutTreeVar(Form("cubevars%d_%d",l,m), &cubevars[l].x[m]);
+                }
+            }
+            
+            
+            //outIO->SetOutTreeVars("numsig", numsig, "mdim");
+            //outIO->SetOutTreeVars("numdata", numdata, "mdim");
+            //outIO->SetOutTreeVars("nummc", nummc, "mdim");
     
-            outIO->SetOutTreeVars("ratios", ratios, "mdim");
-            outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
+            //outIO->SetOutTreeVars("ratios", ratios, "mdim");
+            //outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
     
             outIO->SetOutTreeVars("kdim", kdim, "mdim");
             
@@ -398,26 +430,39 @@ int Eval::ProcessOutput(int* output_data, long nevents){
                 // how to say the values are uninteresting?
                 
                 
-                ratios[k]=-1;
-                ratiom[k]=-1;
+                for (int l=0; l<NUMCLASS+2; l++) {
+                    
+                    cubevars[k].x[l]=-1;
+                    
+                }
+                //ratios[k]=-1;
+                //ratiom[k]=-1;
                 
                 
-                nummc[k]=-1;
-                numdata[k]=-1;
-                numsig[k]=-1;
+                //nummc[k]=-1;
+                //numdata[k]=-1;
+                //numsig[k]=-1;
             
             
             } else {
                 cubeit=cubemap.find(varj);
 
             
-                ratios[k]=((*cubeit).second).x[0];
-                ratiom[k]=((*cubeit).second).x[1];
+                //ratios[k]=((*cubeit).second).x[0];
+                //ratiom[k]=((*cubeit).second).x[1];
 
-                numsig[k]=((*cubeit).second).x[2];
-                numdata[k]=((*cubeit).second).x[3];
-                nummc[k]=((*cubeit).second).x[4];
+                //numsig[k]=((*cubeit).second).x[2];
+                //numdata[k]=((*cubeit).second).x[3];
+                //nummc[k]=((*cubeit).second).x[4];
 
+                for (int l=0; l<NUMCLASS+2; l++) {
+                    
+                    // there is probably a much faster way to do this
+                    cubevars[k].x[l]=((*cubeit).second).x[l];
+                    
+                }
+                
+                
             }
             
         }

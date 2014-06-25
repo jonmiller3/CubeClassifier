@@ -16,8 +16,8 @@
 // types
 // -1 classtree
 // -4 evaluation trees
-// 1 null hypothesis
-// 0 signal 1 hypothesis
+// 0 null hypothesis
+// 1 signal 1 hypothesis
 // 2+ signal 2+ hypothesis
 
 

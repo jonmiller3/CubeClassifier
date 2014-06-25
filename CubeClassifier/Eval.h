@@ -27,10 +27,6 @@
 #include "IO.h"
 
 
-struct float_q {
-    float x[5];
-};
-
 
 class Eval:public BaseClassifier {
 

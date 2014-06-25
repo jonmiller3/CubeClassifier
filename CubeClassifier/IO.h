@@ -18,6 +18,13 @@
 #include "TFile.h"
 
 
+#define NUMCLASS 3
+
+struct float_q {
+    float x[NUMCLASS+2];
+};
+
+
 template<typename T> struct type_name
 {
     static const char* name() { return 0;}
