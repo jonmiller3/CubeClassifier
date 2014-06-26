@@ -9,24 +9,6 @@
 #include "Eval.h"
 #include <iostream>
 
-/*
-// very simple, wish there was some nicer way to do this but it goes quickly at least?
-int Eval::SetMaxMin(float* max, float* min){
-    
-    int ls=interface->GetVarListSize();
-    
-    for (int i=0; i<ls; i++) {
-        
-        max[i]=interface->GetMax(i);
-        min[i]=interface->GetMin(i);
-        
-    }
-        
-    return 0;
-    
-}
- */
-
 
 Eval::Eval(Interface* inputinterface){
     
@@ -57,42 +39,6 @@ Eval::Eval(Interface* inputinterface){
     return;
 }
 
-//TTree* Eval::SelectTree(int stype){
-//    
-//    TTree* ctree;
-//    bool fflag=false;
-//    
-//    // first find the tree
-//    std::vector<int> typelist=interface->GetTypeList();
-//    
-//    std::vector<std::string> namelist=interface->GetNameList();
-//    std::vector<std::string> treelist=interface->GetTreeList();
-//    std::vector<int>::iterator yt=typelist.begin();
-//    std::vector<std::string>::iterator tt=treelist.begin();
-//    for (std::vector<std::string>::iterator it=namelist.begin(); it!=namelist.end(); ++it,++tt,++yt){
-//        
-//        if (fflag) continue;
-//        
-//        std::string filename=*it;
-//        TFile* tfile= new TFile(filename.c_str());
-//        std::string treename=*tt;
-//        TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
-//        int typet = *yt;
-//        
-//        // -1 will be classify type
-//        if (typet==stype){
-//            
-//            ctree=ttree;
-//            fflag=true;
-//            
-//        }
-//        
-//    }    
-//    
-//    return ctree;
-//    
-//    
-//}
 
 
 // this loads from the interface
@@ -119,23 +65,29 @@ int Eval::LoadCubeMap(){
     // crazy hacks
     float numc[NUMCLASS];
 
-    float ratios;
-    float ratiom;
+    float ratio[NUMCLASS-1];
+    
+    //float ratios;
+    //float ratiom;
     float cubedepth;
     
     for (int j=0; j<NUMCLASS; j++) {
         controlIO->SetTreeVar(Form("num%d",j), &numc[j]);
+        if (j==0) continue;
+        controlIO->SetTreeVar(Form("ratio%d",j), &ratio[j-1]);
     }
 
+    
+    
     //controlIO->SetTreeVar("nummc", &nummc);
     //controlIO->SetTreeVar("numdata", &numdata);
     
-    controlIO->SetTreeVar("ratios", &ratios);
-    controlIO->SetTreeVar("ratiom", &ratiom);
+    //controlIO->SetTreeVar("ratios", &ratios);
+    //controlIO->SetTreeVar("ratiom", &ratiom);
     controlIO->SetTreeVar("cubedepth", &cubedepth);
     
     
-    float_q nullfloat5= {{0,0,0,0,0}};
+    //float_q nullfloat5= {{0,0,0,0,0}};
     int tinfo=1;
     i=0;
     while (tinfo>0) {
@@ -143,8 +95,12 @@ int Eval::LoadCubeMap(){
         if (tinfo<1) continue; // not sure if I need this
         
         // let's put in my cuts
-        if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneStat()<abs(0.5-ratiom))) continue;
-        
+        if (NUMCLASS>2) {
+            if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneStat()<abs(0.5-ratio[1]))) continue;
+        } else {
+            if ((interface->GetPruneSyst()!=0)) continue;
+
+        }
         // this should probably be that both need to be above...
         if (interface->GetPruneStat()>numc[0]) continue;
         
@@ -160,11 +116,17 @@ int Eval::LoadCubeMap(){
         
         float_q cmval;
         
-        cmval.x[0]=ratios;
-        cmval.x[1]=ratiom;
+        for (int j=0; j<NUMCLASS-1; j++) {
+            cmval.x[j]=ratio[j];
+            //std::cout<<" this is the associated ratio "<<cmval.x[j]<<std::endl;
+        }
+        
+        //cmval.x[0]=ratios;
+        //cmval.x[1]=ratiom;
         
         for (int j=0; j<NUMCLASS; j++) {
-            cmval.x[2+j]=numc[j];
+            cmval.x[j+NUMCLASS-1]=numc[j];
+            //std::cout<<" this is the associated numbers "<<cmval.x[j+NUMCLASS-1]<<std::endl;
         }
         //cmval.x[2]=numsig;
         //cmval.x[3]=numdata;
@@ -189,16 +151,6 @@ int Eval::LoadCubeMap(){
 // bad name
 int Eval::GetNewTree(int newelem){
     
-
-//    int celem=0;
-//    if (currentIO==0){
-//        celem = -1;
-//    } else {
-//        int celem = currentIO->GetElement();
-//    }
-//    
-//    
-//    int newelem = interface->GetNextElem(ctype, celem);
     
     currentIO = new IO<TTree, TFile>(interface->GetFileName(newelem),
                                      interface->GetTreeName(newelem),newelem,
@@ -330,37 +282,32 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     int currentelem=beginelem;
 
     
-    float ratios[mdim];
-    float ratiom[mdim];
-    float numsig[mdim];
-    float numdata[mdim];
-    float nummc[mdim];
+    //float ratios[mdim];
+    //float ratiom[mdim];
+    //float numsig[mdim];
+    //float numdata[mdim];
+    //float nummc[mdim];
     int   kdim[mdim];
     int   elemnum;
     
     outIO->SetOutTreeVar("mdim", &mdim);
     outIO->SetOutTreeVar("event", &elemnum);
     
-    float_q cubevars[mdim];
+    float_qc cvars[mdim];
+    float_qr rvars[mdim];
     
-    //for (int l=0; l<NUMCLASS+2; l++) {
-    //    outIO->SetOutTreeVars(Form("cubevars%d",l), cubevars.x[l], "mdim");
-    //}
     
     for (int l=0; l<mdim; l++) {
         
-        for (int m=0; m<NUMCLASS+2; m++) {
-            outIO->SetOutTreeVar(Form("cubevars%d_%d",l,m), &cubevars[l].x[m]);
+        for (int m=0; m<NUMCLASS; m++) {
+            outIO->SetOutTreeVar(Form("cvars%d_%d",l,m), &cvars[l].x[m]);
+            if (m==NUMCLASS-1) continue;
+            outIO->SetOutTreeVar(Form("rvars%d_%d",l,m), &rvars[l].x[m]);
         }
     }
 
     
-    //outIO->SetOutTreeVars("numsig", numsig, "mdim");
-    //outIO->SetOutTreeVars("numdata", numdata, "mdim");
-    //outIO->SetOutTreeVars("nummc", nummc, "mdim");
-    
-    //outIO->SetOutTreeVars("ratios", ratios, "mdim");
-    //outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
+
     
     outIO->SetOutTreeVars("kdim", kdim, "mdim");
     
@@ -389,22 +336,17 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             outIO->SetOutTreeVar("mdim", &mdim);
             outIO->SetOutTreeVar("event", &elemnum);
             
-            //outIO->SetOutTreeVars("cubevars", cubevars, "mdim");
-
             for (int l=0; l<mdim; l++) {
                 
-                for (int m=0; m<NUMCLASS+2; m++) {
-                    outIO->SetOutTreeVar(Form("cubevars%d_%d",l,m), &cubevars[l].x[m]);
+                for (int m=0; m<NUMCLASS; m++) {
+                    outIO->SetOutTreeVar(Form("cvars%d_%d",l,m), &cvars[l].x[m]);
+                    if (m==NUMCLASS-1) continue;
+                    outIO->SetOutTreeVar(Form("rvars%d_%d",l,m), &rvars[l].x[m]);
                 }
             }
             
             
-            //outIO->SetOutTreeVars("numsig", numsig, "mdim");
-            //outIO->SetOutTreeVars("numdata", numdata, "mdim");
-            //outIO->SetOutTreeVars("nummc", nummc, "mdim");
-    
-            //outIO->SetOutTreeVars("ratios", ratios, "mdim");
-            //outIO->SetOutTreeVars("ratiom", ratiom, "mdim");
+
     
             outIO->SetOutTreeVars("kdim", kdim, "mdim");
             
@@ -430,9 +372,11 @@ int Eval::ProcessOutput(int* output_data, long nevents){
                 // how to say the values are uninteresting?
                 
                 
-                for (int l=0; l<NUMCLASS+2; l++) {
+                for (int l=0; l<NUMCLASS; l++) {
                     
-                    cubevars[k].x[l]=-1;
+                    cvars[k].x[l]=-1;
+                    if (l==NUMCLASS-1) continue;
+                    rvars[k].x[l]=-1;
                     
                 }
                 //ratios[k]=-1;
@@ -447,19 +391,17 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             } else {
                 cubeit=cubemap.find(varj);
 
-            
-                //ratios[k]=((*cubeit).second).x[0];
-                //ratiom[k]=((*cubeit).second).x[1];
-
-                //numsig[k]=((*cubeit).second).x[2];
-                //numdata[k]=((*cubeit).second).x[3];
-                //nummc[k]=((*cubeit).second).x[4];
-
-                for (int l=0; l<NUMCLASS+2; l++) {
+                for (int l=0; l<2*NUMCLASS-1; l++) {
                     
+                    //std::cout<<" what is this "<<((*cubeit).second).x[l]<<" and "<<l<<std::endl;
                     // there is probably a much faster way to do this
-                    cubevars[k].x[l]=((*cubeit).second).x[l];
-                    
+                    if (l>NUMCLASS-2) {
+                        cvars[k].x[l-NUMCLASS+1]=((*cubeit).second).x[l];
+                        //std::cout<<" doing cvars "<<std::endl;
+                    } else {
+                        rvars[k].x[l]=((*cubeit).second).x[l];
+                        //std::cout<<" doing rvars "<<std::endl;
+                    }
                 }
                 
                 
@@ -492,19 +434,6 @@ int Eval::ProcessOutput(int* output_data, long nevents){
 // GetTree or something
 int Eval::CreateNewTree(int celem){
     
-//    if (interface->GetType(celem)!=ctype){
-//        celem++;
-//        CreateNewTree(ctype, celem);
-//    }
-//
-//    outfile = new TFile((interface->GetOutFileName(celem)).c_str(),"RECREATE");
-//    outtree = new TTree("rtree","Result of Evalulation");
-//    outtree->AddFriend((interface->GetTreeName(celem)).c_str(),(interface->GetFileName(celem)).c_str());
-//    
-//    // I should have a better way of setting the current tree
-//    GetNewTree(4, celem);
-//    
-//    return 0;
     
     
     // I get the celem and use it

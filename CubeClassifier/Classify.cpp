@@ -22,11 +22,16 @@ int Classify::WriteOutput(){
     
     
     float cvar[ndim+1];
-    float ratios;
-    float ratiom;
-    float numsig;
-    float numdata;
-    float nummc;
+    //float ratios;
+    //float ratiom;
+    //float numsig;
+    //float numdata;
+    //float nummc;
+    
+    //float_q cubevars;
+    //float numc[NUMCLASS];
+    float_qc numc;
+    float_qr ratio;
     
     outIO->SetOutTreeVar("cubedepth", &cvar[0]);
     
@@ -40,28 +45,45 @@ int Classify::WriteOutput(){
         outIO->SetOutTreeVar(varname.c_str(), &cvar[i]);
     }
     
+    for (int j=0; j<NUMCLASS; j++) {
+        outIO->SetOutTreeVar(Form("num%d",j), &numc.x[j]);
+        if (j==NUMCLASS-1) continue;
+        outIO->SetOutTreeVar(Form("ratio%d",j+1), &ratio.x[j]);
+    }
 
-    outIO->SetOutTreeVar("ratios", &ratios);
-    outIO->SetOutTreeVar("ratiom", &ratiom);
     
-    outIO->SetOutTreeVar("numsig", &numsig);
-    outIO->SetOutTreeVar("numdata", &numdata);
-    outIO->SetOutTreeVar("nummc", &nummc);
+    //outIO->SetOutTreeVar("ratios", &ratios);
+    //outIO->SetOutTreeVar("ratiom", &ratiom);
+    
 
+    //outIO->SetOutTreeVar("ratios", &ratios);
+    //outIO->SetOutTreeVar("ratiom", &ratiom);
+    
+    //outIO->SetOutTreeVar("numsig", &numsig);
+    //outIO->SetOutTreeVar("numdata", &numdata);
+    //outIO->SetOutTreeVar("nummc", &nummc);
+
+    
     // I need to set up the tree...
     
     for (cubeit=cubemap.begin(); cubeit!=cubemap.end(); ++cubeit) {
         
-        nummc=0;
-        numdata=0;
-        numsig=0;
+        //nummc=0;
+        //numdata=0;
+        //numsig=0;
+        
+        for (int l=0; l<NUMCLASS; l++) {
+            numc.x[l]=0;
+            if (l==NUMCLASS-1) continue;
+            ratio.x[l]=0;
+        }
         
         std::vector<int> classification = ((*cubeit).first);
-        float_triple cinformation = ((*cubeit).second);
+        float_qc cinformation = ((*cubeit).second);
         
-        numsig=cinformation.x[0];
-        numdata=cinformation.x[1];
-        nummc=cinformation.x[2];
+        numc.x[0]=cinformation.x[0];
+        numc.x[1]=cinformation.x[1];
+        numc.x[2]=cinformation.x[2];
         
         i=0;
         for (std::vector<int>::iterator it = classification.begin(); it!=classification.end(); ++it,++i){
@@ -70,17 +92,26 @@ int Classify::WriteOutput(){
             cvar[i]=(float)cval;
         }
         
-        ratiom=nummc/(nummc+numdata);
+        for (int l=0; l<NUMCLASS-1; l++) {
+            ratio.x[l]=numc.x[l+1]/(numc.x[l+1]+numc.x[0]);
+            
+        }
         
-        ratios=numsig/(numdata+numsig);
+        //ratiom=numc.x[2]/(numc.x[2]+numc.x[0]);
+        
+        //ratios=numc.x[1]/(numc.x[1]+numc.x[0]);
         
         // alternate definition
         //ratios = -expf(numsig)+expf(numdata+numsig);
         
-        if (interface->GetPruneStat()>numdata) continue;
+        if (interface->GetPruneStat()>numc.x[0]) continue;
         
-        if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneSyst()<abs(0.5-ratiom))) continue;
-                
+        if (NUMCLASS>2) {
+            if ((interface->GetPruneSyst()!=0)&&(interface->GetPruneSyst()<abs(0.5-ratio.x[1]))) continue;
+        } else {
+            if ((interface->GetPruneSyst()!=0)) continue;
+            
+        }
         outIO->Fill();
         
     }
@@ -101,7 +132,13 @@ int Classify::ProcessOutput(int* output_data, long nevents){
 
 int Classify::CreateCubeMap(int* cubeset_out,long nevents){
     
-    float_triple nullfloat3 = {{0,0,0}};
+    //float_triple nullfloat3 = {{0,0,0}};
+    
+    float_qc nullfloatqc;
+    for (int l=0; l<NUMCLASS; l++) {
+        nullfloatqc.x[l]=0;
+    }
+    
     //int *varj = (int*)malloc(sizeof(int)*(ndim+1));
     //std::string varjstr;
     
@@ -117,7 +154,7 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             // I don't know about this
             if (cubemap.find(varj)==cubemap.end()){
-                cubemap.insert(cubeit, std::pair< std::vector<int>,float_triple>(varj,nullfloat3) );
+                cubemap.insert(cubeit, std::pair< std::vector<int>,float_qc>(varj,nullfloatqc) );
             }
             
             

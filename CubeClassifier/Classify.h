@@ -30,18 +30,12 @@
 #include "TTree.h"
 #include "TFile.h"
 
-// I need this to inherent..
-
-struct float_triple {
-    float x[3];
-};
-
 
 class Classify:public BaseClassifier {
     
     // these are the cubemap
-    std::map< std::vector<int>,float_triple> cubemap;
-    std::map< std::vector<int>,float_triple>::iterator cubeit;
+    std::map< std::vector<int>,float_qc> cubemap;
+    std::map< std::vector<int>,float_qc>::iterator cubeit;
     
     // array of edim*2 (setting,weight for each element)
     float* data;

@@ -18,12 +18,24 @@
 #include "TFile.h"
 
 
-#define NUMCLASS 3
+#define NUMCLASS 2
 
 struct float_q {
-    float x[NUMCLASS+2];
+    float x[2*NUMCLASS-1];
 };
 
+struct float_qc {
+    float x[NUMCLASS];
+};
+
+struct float_qr {
+    float x[NUMCLASS-1];
+};
+
+
+struct float_triple {
+    float x[3];
+};
 
 template<typename T> struct type_name
 {
