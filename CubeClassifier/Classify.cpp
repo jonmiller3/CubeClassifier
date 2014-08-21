@@ -335,7 +335,7 @@ long Classify::EventsToProcess(){
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
         int typet = *yt;
         
-        if (typet<0||typet>3) continue;
+        if (typet<0) continue;
         
         if (typet==0) v0++;
         if (typet==1) v1++;

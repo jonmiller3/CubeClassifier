@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#define USECPU 0
+
 #ifdef __APPLE__
     #include <OpenCL/OpenCL.h>
 #else
