@@ -384,9 +384,14 @@ int BaseClassifier::ProcessQueue(){
     
     for (int i=0; i<ciDeviceCount; i++){
         char* kernelname;
+        
+        std::string pPath = getenv ("HOME");
+        std::string basename = pPath+"/Dropbox/CubeClassifier";
+        
+        
         if (cubesetting==1){
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcubefull.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcubefull.cl").c_str(), &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcubefull.cl", &program[i]);  
             #endif
@@ -394,14 +399,14 @@ int BaseClassifier::ProcessQueue(){
         } else if (cubesetting==2){
             kernelname="fillcube2full";
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcube2full.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcube2full.cl").c_str(), &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcube2full.cl", &program[i]);
             #endif
         } else if (cubesetting==3){
             kernelname="fillcube3full";
             #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], "/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/fillcube3full.cl", &program[i]);
+                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcube3full.cl").c_str(), &program[i]);
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcube3full.cl", &program[i]);  
             #endif
@@ -576,8 +581,11 @@ int BaseClassifier::StartQueue(){
 	cpPlatform    = NULL;
 	cdDevices     = NULL; // should that be *cdDevices ??
 	ciErrNum      = CL_SUCCESS;
-	ciDeviceCount = 0;
+	
+    ciDeviceCount = 0;
     
+    
+    std::cout<<" starting the queue "<<std::endl;
     
     bEnableProfile = false; // This is to enable/disable OpenCL based profiling
     

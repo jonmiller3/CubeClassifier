@@ -30,9 +30,14 @@ Interface::Interface(int argc, const char* argv[]){
     } else {
         
         mode=0;
-        filelist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultFileList.txt";
-        varlist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultVarList.txt";
-        setlist="/Users/usmjonathanmiller/Dropbox/CubeClassifier/DefaultSettings.txt";
+        
+        std::string pPath = getenv ("HOME");
+        std::string basename = pPath+"/Dropbox/CubeClassifier";
+
+        
+        filelist=basename+"/DefaultFileList.txt";
+        varlist=basename+"/DefaultVarList.txt";
+        setlist=basename+"/DefaultSettings.txt";
 
     }
 

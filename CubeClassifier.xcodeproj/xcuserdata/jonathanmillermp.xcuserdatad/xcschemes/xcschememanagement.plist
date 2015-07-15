@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>CreateTestTree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>CubeClassifier 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>CubeClassifier copy 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>CubeClassifier copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>CubeClassifier.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>StartROOT.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>6D5E7BB416F2AF1E008722A3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6DCA845B1636BFBC0091D31F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6DF37B0316F256E5006C5F17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D00F585D17C2B8DD00AD99C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D00F587B17C2BBE800AD99C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
