@@ -32,37 +32,6 @@
 		D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00F589B17C2ED2000AD99C6 /* IO.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		6D5E7BC016F2AF92008722A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
-			remoteInfo = StartROOT;
-		};
-		6DF37B0716F25763006C5F17 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
-			remoteInfo = StartROOT;
-		};
-		D00F585F17C2B8DD00AD99C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
-			remoteInfo = StartROOT;
-		};
-		D00F587D17C2BBE800AD99C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6DCA84531636BFBC0091D31F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6DF37B0316F256E5006C5F17;
-			remoteInfo = StartROOT;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		6D5E7BB316F2AF1E008722A3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -293,7 +262,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6D5E7BC116F2AF92008722A3 /* PBXTargetDependency */,
 			);
 			name = CreateTestTree;
 			productName = CreateTestTree;
@@ -311,7 +279,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6DF37B0816F25763006C5F17 /* PBXTargetDependency */,
 			);
 			name = CubeClassifier;
 			productName = CubeClassifier;
@@ -329,7 +296,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D00F585E17C2B8DD00AD99C6 /* PBXTargetDependency */,
 			);
 			name = "CubeClassifier copy";
 			productName = CubeClassifier;
@@ -347,7 +313,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D00F587C17C2BBE800AD99C6 /* PBXTargetDependency */,
 			);
 			name = "CubeClassifier copy 2";
 			productName = CubeClassifier;
@@ -436,29 +401,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6D5E7BC116F2AF92008722A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
-			targetProxy = 6D5E7BC016F2AF92008722A3 /* PBXContainerItemProxy */;
-		};
-		6DF37B0816F25763006C5F17 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
-			targetProxy = 6DF37B0716F25763006C5F17 /* PBXContainerItemProxy */;
-		};
-		D00F585E17C2B8DD00AD99C6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
-			targetProxy = D00F585F17C2B8DD00AD99C6 /* PBXContainerItemProxy */;
-		};
-		D00F587C17C2BBE800AD99C6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6DF37B0316F256E5006C5F17 /* StartROOT */;
-			targetProxy = D00F587D17C2BBE800AD99C6 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6D5E7BBC16F2AF1E008722A3 /* Debug */ = {
@@ -597,11 +539,11 @@
 		6DCA84671636BFBC0091D31F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
-				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/root/5.34.26/include/root;
+				LD_RUNPATH_SEARCH_PATHS = /usr/local/Cellar/root/5.34.26;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
+					"/usr/local/Cellar/root/5.34.26/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",
@@ -631,11 +573,11 @@
 		6DCA84681636BFBC0091D31F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/include/";
-				LD_RUNPATH_SEARCH_PATHS = "/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/";
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/root/5.34.26/include/root;
+				LD_RUNPATH_SEARCH_PATHS = /usr/local/Cellar/root/5.34.26;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/usmjonathanmiller/IceCube/i3/ports/root-v5.34.04/lib/**",
+					"/usr/local/Cellar/root/5.34.26/lib/**",
 				);
 				OTHER_LDFLAGS = (
 					"-lGui",

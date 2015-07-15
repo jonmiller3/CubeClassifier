@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-#define USECPU 0
+//#define USECPU
 
 #ifdef __APPLE__
     #include <OpenCL/OpenCL.h>
