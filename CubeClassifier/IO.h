@@ -108,6 +108,15 @@ public:
     
     // do I need two constructors, one which 'recreates'?
     IO(std::string filename, std::string treename, int elem, int typ, int iread){
+        
+        // I am going to make it relative to $HOME
+        // this can be fixed later
+        
+        char* pPath;
+        pPath = getenv ("HOME");
+        std::string basename = Form("%s/",pPath);
+        filename = basename + filename;
+        
         if (iread==0){
             file= new TFile(filename.c_str());
             tree=(TTree*)gDirectory->Get(treename.c_str());

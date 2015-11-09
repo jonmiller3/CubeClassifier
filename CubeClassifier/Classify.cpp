@@ -329,7 +329,16 @@ long Classify::EventsToProcess(){
     std::vector<int>::iterator yt=typelist.begin();
     for (std::vector<std::string>::iterator it=namelist.begin(); it!=namelist.end(); ++it,++tt,++yt){
         
+        // paths are relative to home by default
+        
+        char* pPath;
+        pPath = getenv ("HOME");
+        std::string basename = Form("%s/",pPath);
+        
         std::string filename=*it;
+        
+        filename = basename + filename;
+        
         TFile* tfile= new TFile(filename.c_str());
         std::string treename=*tt;
         TTree* ttree=(TTree*)gDirectory->Get(treename.c_str());
