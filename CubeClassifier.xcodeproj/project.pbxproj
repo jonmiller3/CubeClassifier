@@ -30,6 +30,7 @@
 		D00F589617C2BC4100AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
 		D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 		D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00F589B17C2ED2000AD99C6 /* IO.cpp */; };
+		D042ABC61BF25E7C00C2E532 /* PreProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -115,6 +116,8 @@
 		D037716817BEA9AC00C05518 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D037716A17BEA9AC00C05518 /* Example.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Example.1; sourceTree = "<group>"; };
 		D037719A17BEB3C300C05518 /* results.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = results.root; path = CubeClassifier/results.root; sourceTree = "<group>"; };
+		D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreProcess.cpp; sourceTree = "<group>"; };
+		D042ABC51BF25E7C00C2E532 /* PreProcess.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PreProcess.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +221,8 @@
 				6DCA84711636BFEE0091D31F /* CubeClassifier.1 */,
 				6DCA85DB163976ED0091D31F /* Interface.h */,
 				6DCA85DC1639774A0091D31F /* Interface.cpp */,
+				D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */,
+				D042ABC51BF25E7C00C2E532 /* PreProcess.hpp */,
 			);
 			path = CubeClassifier;
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 				6DCA85EE163AD3320091D31F /* Interface.cpp in Sources */,
 				6DCA85ED163AD32D0091D31F /* Interface.h in Sources */,
 				6DCA84721636BFEE0091D31F /* main.cpp in Sources */,
+				D042ABC61BF25E7C00C2E532 /* PreProcess.cpp in Sources */,
 				6DCA84731636BFEE0091D31F /* normdata.cl in Sources */,
 				6DCA84741636BFEE0091D31F /* fillcube.cl in Sources */,
 				6DCA84751636BFEE0091D31F /* calccuberesult.cl in Sources */,

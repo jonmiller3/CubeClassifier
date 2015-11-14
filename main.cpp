@@ -25,6 +25,7 @@
 #include "BaseClassifier.h"
 #include "Classify.h"
 #include "Eval.h"
+#include "PreProcess.hpp"
 
 #include <map>
 #include <vector>

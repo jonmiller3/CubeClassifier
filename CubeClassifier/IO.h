@@ -17,6 +17,8 @@
 #include "TTree.h"
 #include "TFile.h"
 
+#include "Interface.h"
+
 
 #define NUMCLASS 2
 
@@ -205,6 +207,7 @@ public:
         return 0;
         
     }
+    
 };
 
 
