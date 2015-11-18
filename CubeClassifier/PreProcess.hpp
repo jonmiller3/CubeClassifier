@@ -18,7 +18,9 @@
 #include <cmath>
 #include <algorithm>
 
+#include <fstream>
 #include <sstream>
+#include <iostream>
 #include <string>
 
 
@@ -46,11 +48,13 @@ class PreProcess {
 public:
     
     float GetDifference(std::vector<float>,float);
-    const char* CreateOpenCLBuffer();
+    std::string CreateOpenCLBuffer();
     PreProcess(Interface*);
     long InputData(long);
     int Process(int);
     int GetNewTree(int);
     int SetMaxMin();
+    int WriteOutput(std::string);
+    int WriteOutput(){std::string filename=Form("preprocess.cl"); return WriteOutput(filename);}
     
 };

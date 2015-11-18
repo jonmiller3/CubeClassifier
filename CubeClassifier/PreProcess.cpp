@@ -11,7 +11,7 @@
 PreProcess::PreProcess(Interface* inputinterface){
     
     
-    Interface* interface=inputinterface;
+    interface=inputinterface;
     
     ndim=(interface->GetVarListSize());
     
@@ -23,6 +23,8 @@ PreProcess::PreProcess(Interface* inputinterface){
     
     max = new float[ndim];
     min = new float[ndim];
+    
+    SetMaxMin();
     
     return;
     
@@ -140,18 +142,17 @@ int PreProcess::Process(int nevents=10000){
         // first the nearest neighbor
         
         float diff = GetDifference(it->second,1);
-        
         int div = (max[it_count]-min[it_count])/diff;
         
-        std::vector<int> vdiff;
-        vdiff.push_back(div);
-        diff_set[0]=vdiff;
+        //std::vector<int> vdiff;
+        //vdiff.push_back(div);
+        diff_set[0].push_back(div);
         
         // next the
         for (int i=1; i<cubelevel; i++) {
             
             //can have problems if nevents/std::pow(2.0,(double)i)<2
-            diff = GetDifference(it->second,nevents/std::pow(2.0,(double)i));
+            diff = GetDifference(it->second,nevents/std::pow(2.0,(double)i)-1);
             div = (max[it_count]-min[it_count])/diff;
             diff_set[i].push_back(div);
             
@@ -179,42 +180,85 @@ float PreProcess::GetDifference(std::vector<float> values ,float skip ){
     std::vector<float>::iterator it=values.begin();
     
     it+=(skip);
+    std::cout<<" skip here "<<skip<<" and "<<values.size()<<std::endl;
+    int counter=0;
     
     while (it != values.end()-skip) {
 
-        float diff = std::abs((*it) - (*(it-skip)));
         
-        if (diff<res) res=diff;
+        float diff = std::abs((*it) - (*(it-skip)));
+        if (skip>400) std::cout<<" diff 1 "<<diff<<" "<<counter<<" skip "<<skip<<std::endl;
+        
+        if (diff<res&&diff>0) res=diff;
         
         diff = std::abs((*it) - (*(it+skip)));
+        if (skip>400) std::cout<<" diff 2 "<<diff<<" "<<counter<<" skip "<<skip<<std::endl;
         
-        if (diff<res) res=diff;
+        if (diff<res&&diff>0) res=diff;
     
         it++;
+        counter++;
     
     }
+    
+    std::cout<<" difference for "<<skip<<" "<<res<<std::endl;
     
     return res;
     
 }
 
-const char* PreProcess::CreateOpenCLBuffer(){
+int PreProcess::WriteOutput(std::string filename){
+    
+    
+    std::string output = CreateOpenCLBuffer();
+    
+    char* pPath;
+    pPath = getenv ("HOME");
+    std::string basename = Form("%s/Dropbox/CubeClassifier/",pPath);
+    filename = basename + filename;
+    
+    std::cout<<" test "<<sizeof(output.c_str())<<" "<<output.c_str()<<std::endl;
+    
+    std::ofstream outfile;
+    outfile.open(filename.c_str(),std::ios::out);
+    outfile.write (output.c_str(),output.size());
+    
+    
+    
+    
+    return 0;
+    
+}
+
+std::string PreProcess::CreateOpenCLBuffer(){
     
     std::stringstream bstream;
     
     bstream<<"\n";
+ 
+    
+    bstream<<"\n";
+    bstream<<"\n";
+    bstream<<"//#include <OpenCL/OpenCL.h> \n ";
+    bstream<<"\n";
+    
+    bstream<<"kernel void fillpreprocesscubefull(global const float* input, constant float* max, constant float* min, global int* output)";
+    bstream<<"{\n";
+
     
     // here we make the array (look up?) 
     std::map<int, std::vector<int> >::iterator it_set = diff_set.begin();
 
+    it_set++;
+    bstream<<" int model[";
+    bstream<<(it_set->second).size()*diff_set.size();
+    bstream<<"] = { ";
+    it_set--;
+    
     while (it_set != diff_set.end()) {
 
     
         std::stringstream ss;
-    
-        ss<<" int model[";
-        ss<<(it_set->second).size();
-        ss<<"] = { ";
         
         for(size_t i = 0; i < (it_set->second).size(); ++i)
         {
@@ -222,26 +266,20 @@ const char* PreProcess::CreateOpenCLBuffer(){
                 ss << ",";
             ss << (it_set->second)[i];
         }
-        //std::string s = ss.str();
-    
-        //const char* cs = s.c_str();
-    
-        ss<<" };";
         
-        bstream<<ss;
+        std::string s = ss.str();
+        
+        const char* cs = s.c_str();
+        
+        bstream<<cs;
         
         it_set++;
     
     }
     
+    bstream<<" };";
     
     bstream<<"\n";
-    bstream<<"\n";
-    bstream<<"//#include <OpenCL/OpenCL.h> \n ";
-    bstream<<"\n";
-    
-    bstream<<"kernel void fillcubefull(global const float* input, constant float* max, constant float* min, global int* output)";
-    bstream<<"{\n";
     bstream<<"\n";
     bstream<<"int i = get_global_id(0); int j = get_global_id(1); int k = get_global_id(2); int p = get_global_size(0); int r = get_global_size(1); int q = get_global_size(2);\n";
     bstream<<"\n";
@@ -256,9 +294,10 @@ const char* PreProcess::CreateOpenCLBuffer(){
     
     
     std::string s=bstream.str();
-    const char* res=s.c_str();
+    std::cout<<" test string "<<s.c_str()<<std::endl;
+    //char* res=s.c_str();
     
-    return res;
+    return s;
     
 }
 

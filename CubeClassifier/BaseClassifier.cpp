@@ -410,8 +410,15 @@ int BaseClassifier::ProcessQueue(){
             #else
                 CompileOCLKernel(cdDevices[i], "classifier/src/fillcube3full.cl", &program[i]);  
             #endif
-            CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
-        
+            //CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
+        } else if (cubesetting==-1){
+            kernelname="fillpreprocesscubefull";
+            #ifdef __APPLE__
+                CompileOCLKernel(cdDevices[i], (basename+"/preprocess.cl").c_str(), &program[i]);
+            #else
+                CompileOCLKernel(cdDevices[i], "classifier/src/preprocess.cl", &program[i]);
+            #endif
+            //CompileOCLKernel(cdDevices[i], "preprocess.cl", &program[i]);
         } else {
             std::cout<<" that setting is undefined "<<std::endl;
             return -1;
@@ -436,7 +443,7 @@ int BaseClassifier::ProcessQueue(){
         }
         kernel[i]= clCreateKernel(program[i], kernelname, &ciErrNum);
         if (ciErrNum != CL_SUCCESS) {
-            std::cout<<" problem with creating kernel "<<std::endl;
+            std::cout<<" problem with creating kernel "<<ciErrNum<<std::endl;
             return ciErrNum;
         }
         
@@ -686,8 +693,21 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
 	if (ciErrNum != CL_SUCCESS)
 	{
 		// write out standard error, Build Log and PTX, then return error
+        
         std::cout<<" problem with building program"<<ciErrNum<<std::endl;
-		return ciErrNum;
+		
+        char* build_log; size_t log_size;
+        ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+        build_log = (char* )malloc((log_size+1));
+        
+        // Second call to get the log
+        ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_LOG, log_size, build_log, NULL);
+        build_log[log_size] = '\0';
+        printf("--- Build log ---\n ");
+        fprintf(stderr, "%s\n", build_log);
+        free(build_log);
+        
+        return ciErrNum;
     } else {
         ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_STATUS, sizeof(cl_build_status), &build_status, NULL);
         //shrLog("clGetProgramBuildInfo returned: ");

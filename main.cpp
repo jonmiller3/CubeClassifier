@@ -41,6 +41,11 @@ int main (int argc, const char * argv[])
         
         Interface* iface = new Interface(argc,argv);
 
+        
+        //PreProcess* pp = new PreProcess(iface);
+        //pp->Process(1000);
+        //pp->WriteOutput();
+        
         // just create the class
         Classify* bs = new Classify(iface);
 
