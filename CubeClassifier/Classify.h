@@ -81,7 +81,7 @@ private:
     
 public:
     Classify(Interface*);
-    ~Classify(){}
+    ~Classify(){delete outIO;}
     int Process(){
         
         StartQueue();

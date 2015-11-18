@@ -133,7 +133,7 @@ public:
         return;
     }
 
-    ~IO(){;}
+    ~IO(){file->Close();}
     
     int GetEntry(long i){
         int entry = tree->GetEntry(i);
@@ -201,6 +201,12 @@ public:
     }
     
     int AddFriend(std::string tname, std::string fname){
+        
+        
+        char* pPath;
+        pPath = getenv ("HOME");
+        std::string basename = Form("%s/",pPath);
+        fname = basename + fname;
         
         printf("addfriend: name is %s with tree %s\n",fname.c_str(),tname.c_str());
         tree->AddFriend(tname.c_str(),fname.c_str());
