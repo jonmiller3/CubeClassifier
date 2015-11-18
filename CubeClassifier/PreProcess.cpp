@@ -262,7 +262,7 @@ std::string PreProcess::CreateOpenCLBuffer(){
         
         for(size_t i = 0; i < (it_set->second).size(); ++i)
         {
-            if(i != 0)
+            if(i != 0||it_set!=diff_set.begin())
                 ss << ",";
             ss << (it_set->second)[i];
         }

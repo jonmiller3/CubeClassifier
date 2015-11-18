@@ -34,12 +34,13 @@ protected:
     float* max_in;
     float* min_in;
     
-    cl_command_queue commandQueue;
+    cl_command_queue commandQueue[MAX_GPU_COUNT];
     
     // new CL variables
     cl_context       cxGPUContext;
     cl_kernel        kernel[MAX_GPU_COUNT];
-    cl_program       program[MAX_GPU_COUNT];
+    cl_program       program;
+    cl_bool          cDevicesAvailable[MAX_GPU_COUNT];
     
     char (*cDevicesName)[256];
     
@@ -82,7 +83,7 @@ protected:
     
     // not sure if this should be private or virtual
     // this tells one device to process... theoretically I can 
-    int ProcessSet(cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
+    int ProcessSet(cl_command_queue, cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
     
     
     Interface* interface;

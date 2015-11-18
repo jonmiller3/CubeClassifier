@@ -124,7 +124,7 @@ int BaseClassifier::InputData(long nevents, float* data_in){
     
 }
 
-int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel kernel, long ne, cl_event gpudone_event, float* data_in, int* data_out, size_t  mem_size_output_data, size_t  mem_size_input_data){
+int BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, char* device_name, cl_kernel kernel, long ne, cl_event gpudone_event, float* data_in, int* data_out, size_t  mem_size_output_data, size_t  mem_size_input_data){
     
 
     
@@ -201,7 +201,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
                                    NULL); // event
      */
     
-    ciErrNum = clEnqueueWriteBuffer(commandQueue, input_data,  // que and clmem
+    ciErrNum = clEnqueueWriteBuffer(cQueue, input_data,  // que and clmem
                                     CL_TRUE, input_offset, // blocking? offset
                                     input_size, data_in, // size? and input mem
                                     0, NULL, NULL); // event wait list, events in wait list, event
@@ -308,8 +308,8 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     //                                0, NULL, NULL);
     
     // for CPU
-    clFinish(commandQueue);
-    ciErrNum=clEnqueueNDRangeKernel(commandQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
+    clFinish(cQueue);
+    ciErrNum=clEnqueueNDRangeKernel(cQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
                                     0, NULL, NULL);
     
     // should be go?
@@ -328,7 +328,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     //clFlush(commandQueue);
     
     // lets just do it all here now....
-    clFinish(commandQueue);
+    clFinish(cQueue);
     printf(" ready to download ");
     
     // Download result from GPU.
@@ -339,7 +339,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
     //                                  mem_size_output_data, NULL, NULL);
     
 	//ciErrNum = clEnqueueReadBuffer(commandQueue, dest_out, CL_FALSE, 0, mem_size_output_data, data_out, NULL, NULL, &GPUExecution);
-    ciErrNum = clEnqueueReadBuffer(commandQueue, output_data, CL_FALSE, 0, mem_size_output_data, data_out, NULL, NULL, &gpudone_event);
+    ciErrNum = clEnqueueReadBuffer(cQueue, output_data, CL_FALSE, 0, mem_size_output_data, data_out, NULL, NULL, &gpudone_event);
 	if (ciErrNum != CL_SUCCESS)
 	{
         std::cout<<" Error: in reading buffer "<<std::endl;
@@ -347,7 +347,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
 		return -1;
 	}
     
-    clFinish(commandQueue);
+    clFinish(cQueue);
 
     printf("done writing");
 	// Set callback that will launch another CPU thread to finish the work when the download from GPU has finished
@@ -361,17 +361,7 @@ int BaseClassifier::ProcessSet(cl_device_id device, char* device_name, cl_kernel
 // this looks like it should be in classify... but it also looks like it should be in baseclassifier
 int BaseClassifier::ProcessQueue(){
     
-    // 
-
-    commandQueue = 0;
-
-    commandQueue = clCreateCommandQueue(cxGPUContext, cdDevices[0], (bEnableProfile ? CL_QUEUE_PROFILING_ENABLE : 0), &ciErrNum);
-    if (ciErrNum != CL_SUCCESS)
-    {
-        std::cout<<" problem creating max command queue "<<ciErrNum<<std::endl;       
-	    //cutIncrementBarrier(&barrier);
-		return ciErrNum;
-    }
+    //
     
     //I would set max/min here
     // Queue is started, and compiled
@@ -382,48 +372,63 @@ int BaseClassifier::ProcessQueue(){
     
     printf("setting basics\n");
     
+    
+    char* kernelname;
+    
+    std::string pPath = getenv ("HOME");
+    std::string basename = pPath+"/Dropbox/CubeClassifier";
+    
+    
+    if (cubesetting==1){
+        #ifdef __APPLE__
+            CompileOCLKernel(cdDevices[0], (basename+"/CubeClassifier/fillcubefull.cl").c_str(), &program);
+        #else
+            CompileOCLKernel(cdDevices[0], "classifier/src/fillcubefull.cl", &program);
+        #endif
+        kernelname="fillcubefull";
+    } else if (cubesetting==2){
+        kernelname="fillcube2full";
+        #ifdef __APPLE__
+            CompileOCLKernel(cdDevices[0], (basename+"/CubeClassifier/fillcube2full.cl").c_str(), &program);
+        #else
+            CompileOCLKernel(cdDevices[0], "classifier/src/fillcube2full.cl", &program);
+        #endif
+    } else if (cubesetting==3){
+        kernelname="fillcube3full";
+        #ifdef __APPLE__
+            CompileOCLKernel(cdDevices[0], (basename+"/CubeClassifier/fillcube3full.cl").c_str(), &program);
+        #else
+            CompileOCLKernel(cdDevices[0], "classifier/src/fillcube3full.cl", &program);
+        #endif
+        //CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
+    } else if (cubesetting==-1){
+        kernelname="fillpreprocesscubefull";
+        #ifdef __APPLE__
+            CompileOCLKernel(cdDevices[0], (basename+"/preprocess.cl").c_str(), &program);
+        #else
+            CompileOCLKernel(cdDevices[0], "classifier/src/preprocess.cl", &program);
+        #endif
+        //CompileOCLKernel(cdDevices[i], "preprocess.cl", &program[i]);
+    } else {
+        std::cout<<" that setting is undefined "<<std::endl;
+        return -1;
+    }
+    std::cout<<" compiled the kernel "<<std::endl;
+    
     for (int i=0; i<ciDeviceCount; i++){
-        char* kernelname;
         
-        std::string pPath = getenv ("HOME");
-        std::string basename = pPath+"/Dropbox/CubeClassifier";
+        if (!cDevicesAvailable[i]) continue;
+        commandQueue[i] = 0;
         
-        
-        if (cubesetting==1){
-            #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcubefull.cl").c_str(), &program[i]);
-            #else
-                CompileOCLKernel(cdDevices[i], "classifier/src/fillcubefull.cl", &program[i]);  
-            #endif
-            kernelname="fillcubefull";
-        } else if (cubesetting==2){
-            kernelname="fillcube2full";
-            #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcube2full.cl").c_str(), &program[i]);
-            #else
-                CompileOCLKernel(cdDevices[i], "classifier/src/fillcube2full.cl", &program[i]);
-            #endif
-        } else if (cubesetting==3){
-            kernelname="fillcube3full";
-            #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], (basename+"/CubeClassifier/fillcube3full.cl").c_str(), &program[i]);
-            #else
-                CompileOCLKernel(cdDevices[i], "classifier/src/fillcube3full.cl", &program[i]);  
-            #endif
-            //CompileOCLKernel(cdDevices[i], "fillcube3full.cl", &program[i]);
-        } else if (cubesetting==-1){
-            kernelname="fillpreprocesscubefull";
-            #ifdef __APPLE__
-                CompileOCLKernel(cdDevices[i], (basename+"/preprocess.cl").c_str(), &program[i]);
-            #else
-                CompileOCLKernel(cdDevices[i], "classifier/src/preprocess.cl", &program[i]);
-            #endif
-            //CompileOCLKernel(cdDevices[i], "preprocess.cl", &program[i]);
-        } else {
-            std::cout<<" that setting is undefined "<<std::endl;
-            return -1;
+        commandQueue[i] = clCreateCommandQueue(cxGPUContext, cdDevices[i], (bEnableProfile ? CL_QUEUE_PROFILING_ENABLE : 0), &ciErrNum);
+        if (ciErrNum != CL_SUCCESS)
+        {
+            std::cout<<" problem creating max command queue "<<ciErrNum<<std::endl;
+            //cutIncrementBarrier(&barrier);
+            return ciErrNum;
         }
-        // this will be done in general
+        
+               // this will be done in general
         cl_mem input_max = clCreateBuffer(cxGPUContext, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
                                        mem_size_const_in, max_in, &ciErrNum);
         if (ciErrNum != CL_SUCCESS)
@@ -441,7 +446,7 @@ int BaseClassifier::ProcessQueue(){
             //shrLog("Error: clCreateBuffer\n");
             return ciErrNum;
         }
-        kernel[i]= clCreateKernel(program[i], kernelname, &ciErrNum);
+        kernel[i]= clCreateKernel(program, kernelname, &ciErrNum);
         if (ciErrNum != CL_SUCCESS) {
             std::cout<<" problem with creating kernel "<<ciErrNum<<std::endl;
             return ciErrNum;
@@ -472,7 +477,7 @@ int BaseClassifier::ProcessQueue(){
                                          mem_size_const_in, NULL, NULL);
         
         // Copy only assigned rows (h_A) from CPU host to GPU device    
-        ciErrNum = clEnqueueCopyBuffer(commandQueue, 
+        ciErrNum = clEnqueueCopyBuffer(commandQueue[i],
                                        input_max, // src_buffer
                                        dest_max, // dst_buffer
                                        0, // src_offset
@@ -488,7 +493,7 @@ int BaseClassifier::ProcessQueue(){
             return -1;
         }
         // Copy only assigned rows (h_A) from CPU host to GPU device    
-        ciErrNum = clEnqueueCopyBuffer(commandQueue, 
+        ciErrNum = clEnqueueCopyBuffer(commandQueue[i],
                                        input_min, // src_buffer
                                        dest_min, // dst_buffer
                                        0, // src_offset
@@ -507,7 +512,12 @@ int BaseClassifier::ProcessQueue(){
     }
 
     // not sure what this does, but I think it means 'do what I have told you to do'
-    clFlush(commandQueue);
+    for (int i=0; i<ciDeviceCount; i++) {
+        if (!cDevicesAvailable[i]) continue;
+
+        clFlush(commandQueue[i]);
+    }
+    
    
     bool finishproc = FALSE;
     // this will be a method in Eval, Classify, and BaseClassify
@@ -522,6 +532,8 @@ int BaseClassifier::ProcessQueue(){
         finishproc=FALSE;
     
         for (int i=0; i<ciDeviceCount; i++) {
+            if (!cDevicesAvailable[i]) continue;
+
 
             if (eventstobeproc==0){
                 std::cout<<" all events processed, continueing"<<std::endl;
@@ -555,7 +567,7 @@ int BaseClassifier::ProcessQueue(){
             // returns != 0 if fails
         
             eventstobeproc-=number_events;
-            ProcessSet(cdDevices[i], cDevicesName[i], kernel[i], number_events, gpudone_event, data_in, data_out, mem_size_output_data, mem_size_input_data);
+            ProcessSet(commandQueue[i],cdDevices[i], cDevicesName[i], kernel[i], number_events, gpudone_event, data_in, data_out, mem_size_output_data, mem_size_input_data);
             // maybe this last one needs to be done later
             
             /// this causes it to break right now
@@ -641,6 +653,10 @@ int BaseClassifier::StartQueue(){
 		for (int i=0; i<(int)ciDeviceCount; i++) {
 			clGetDeviceInfo(cdDevices[i], CL_DEVICE_NAME, sizeof(cDevicesName[i]), &cDevicesName[i], NULL);
             std::cout<<"> OpenCL Device "<<cDevicesName[i]<<", cl_device_id: "<<cdDevices[i]<<std::endl;
+            clGetDeviceInfo(cdDevices[i], CL_DEVICE_AVAILABLE, sizeof(cl_bool), &cDevicesAvailable[i], NULL);
+            std::cout<<"> OpenCL Device number "<<i<<", available "<<cDevicesAvailable[i]<<std::endl;
+
+
 		}
 	}
     
@@ -680,7 +696,7 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
         std::cout<<"Error: Failed to create program\n"<<std::endl;
 		return ciErrNum;
     } else {
-        std::cout<<"clCreateProgramWithSource "<<source<<" succeeded, program_length="<<program_length<<std::endl;
+        std::cout<<" clCreateProgramWithSource "<<source<<" succeeded, program_length="<<program_length<<std::endl;
     }
 	free(source);
     
@@ -694,19 +710,27 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
 	{
 		// write out standard error, Build Log and PTX, then return error
         
+        /*
         std::cout<<" problem with building program"<<ciErrNum<<std::endl;
 		
         char* build_log; size_t log_size;
         ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+        if (ciErrNum != CL_SUCCESS) {
+            std::cout<<" get buidl info failed "<<ciErrNum<<std::endl;
+        }
         build_log = (char* )malloc((log_size+1));
         
         // Second call to get the log
         ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_LOG, log_size, build_log, NULL);
+        if (ciErrNum != CL_SUCCESS) {
+            std::cout<<" get buidl info failed "<<ciErrNum<<std::endl;
+        }
         build_log[log_size] = '\0';
         printf("--- Build log ---\n ");
-        fprintf(stderr, "%s\n", build_log);
+        printf("%s\n", build_log);
         free(build_log);
-        
+        */
+         
         return ciErrNum;
     } else {
         ciErrNum = clGetProgramBuildInfo(*cpProgram, cdDevice, CL_PROGRAM_BUILD_STATUS, sizeof(cl_build_status), &build_status, NULL);
