@@ -21,6 +21,14 @@
 
 
 #define NUMCLASS 2
+#define NUMPARAMETERS 2
+
+struct float_d {
+    // type
+    // weight
+    // parameters
+    float x[NUMPARAMETERS+2];
+};
 
 struct float_q {
     float x[2*NUMCLASS-1];

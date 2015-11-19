@@ -20,6 +20,8 @@
 #include "TROOT.h"
 #include "TPluginManager.h"
 
+#include "TMath.h"
+
 const char *path="/Users/usmjonathanmiller/Dropbox/CubeClassifier/CubeClassifier/";
 
 
@@ -208,8 +210,8 @@ void Test(std::string name, std::string cuts){
     h1->SetLineWidth(2);
     h3->SetLineColor(4);
 
-    cout<<" here is H1 "<<h1->Integral()<<" here is H2 "<<h2->Integral()<<" here is H3 "<<h3->Integral()<<endl;
-    cout<<" here is the S/sqrt(S+B) "<<h1->Integral()/TMath::Sqrt(h1->Integral()+h3->Integral())<<endl;
+    std::cout<<" here is H1 "<<h1->Integral()<<" here is H2 "<<h2->Integral()<<" here is H3 "<<h3->Integral()<<std::endl;
+    std::cout<<" here is the S/sqrt(S+B) "<<h1->Integral()/TMath::Sqrt(h1->Integral()+h3->Integral())<<std::endl;
     
     h1->DrawNormalized();
     h2->DrawNormalized("same");

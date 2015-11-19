@@ -46,7 +46,7 @@ class Eval:public BaseClassifier {
     float* var;
 
     // array of length 2xedim?
-    float* data;
+    float_d* data;
     long edim;
 
     

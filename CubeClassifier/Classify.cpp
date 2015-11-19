@@ -159,12 +159,12 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             
             cubeit=cubemap.find(varj);
-            ((*cubeit).second).x[(int)data[i*2+0]]+=data[i*2+1]; // + (*cubeit).second[(int)data[i][0]];
+            ((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
             if (i%60000==1){
                 std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
                 std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
                 <<" "<<((*cubeit).second).x[1]<<" "<<((*cubeit).second).x[2]<<std::endl;
-                std::cout<<" here it is (2) "<<data[i*2+0]<<" "<<data[i*2+1]<<std::endl;
+                std::cout<<" here it is (2) "<<data[i].x[0]<<" "<<data[i].x[1]<<std::endl;
                 std::cout<<" here it is (1) "<<test_float[i*5+0]<<" "<<test_float[i*5+1]
                 <<" "<<test_float[i*5+2]<<" "<<test_float[i*5+3]<<" i is "<<i<<std::endl;
             }
@@ -271,7 +271,7 @@ int Classify::InputData(long nevents, float* data_in){
     // this is maybe not necessary?
     
     
-    data = new float[nevents*2];
+    data = new float_d[nevents];
     long cnum=0;
     
     while (cnum<nevents) {
@@ -293,8 +293,8 @@ int Classify::InputData(long nevents, float* data_in){
             data_in[cnum*ndim+i]=var[i];
         }
         
-        data[2*cnum+1]=weight;
-        data[2*cnum+0]=(float)currentIO->GetType();
+        data[cnum].x[1]=weight;
+        data[cnum].x[0]=(float)currentIO->GetType();
         
         cnum++;
     }

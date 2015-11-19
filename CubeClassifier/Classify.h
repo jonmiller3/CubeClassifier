@@ -38,7 +38,7 @@ class Classify:public BaseClassifier {
     std::map< std::vector<int>,float_qc>::iterator cubeit;
     
     // array of edim*2 (setting,weight for each element)
-    float* data;
+    float_d* data;
     
     long edim;
     

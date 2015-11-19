@@ -200,7 +200,7 @@ int Eval::InputData(long nevents, float* data_in){
     // this is maybe not necessary?
     
     
-    data = new float[nevents*2];    
+    data = new float_d[nevents];
     long cnum=0;
     
     while (cnum<nevents) {
@@ -222,8 +222,8 @@ int Eval::InputData(long nevents, float* data_in){
             data_in[cnum*ndim+i]=var[i];
         }
         
-        data[2*cnum+1]=weight;
-        data[2*cnum+0]=(float)currentIO->GetType();
+        data[cnum].x[1]=weight;
+        data[cnum].x[0]=(float)currentIO->GetType();
                 
         cnum++;
     }
