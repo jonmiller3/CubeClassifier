@@ -50,6 +50,7 @@ class Classify:public BaseClassifier {
     
     // this isn't well protected, but this works for now
     float* var;
+    int nvars;
     
     // this is just for tests, remove
     float* test_float;

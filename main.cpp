@@ -72,7 +72,7 @@ int main (int argc, const char * argv[])
         
         printf("I have processed the eval queue");
         
-        
+        delete ebs;
     }
 
     return 0;

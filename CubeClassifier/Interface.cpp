@@ -108,6 +108,7 @@ void Interface::ReadVariableList(){
         
         double ssmax;
         double ssmin;
+        int ssparameter;
         std::string ssname;
         
         std::string line;
@@ -121,6 +122,7 @@ void Interface::ReadVariableList(){
         ss>>ssname;
         ss>>ssmin;
         ss>>ssmax;
+        ss>>ssparameter;
         
         // old way
         varnamelist.push_back(ssname);
@@ -132,7 +134,8 @@ void Interface::ReadVariableList(){
         vl_struct.max=ssmax;
         vl_struct.min=ssmin;
         vl_struct.varname=ssname;
-                
+        vl_struct.parameter=ssparameter;
+        
         varlistvec.push_back(vl_struct);
         
     }

@@ -48,6 +48,7 @@ class Eval:public BaseClassifier {
     // array of length 2xedim?
     float_d* data;
     long edim;
+    int nvars;
 
     
     IO<TTree, TFile>* outIO;

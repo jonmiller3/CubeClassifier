@@ -23,6 +23,8 @@
 #define NUMCLASS 2
 #define NUMPARAMETERS 2
 
+//((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
+
 struct float_d {
     // type
     // weight
@@ -31,21 +33,23 @@ struct float_d {
 };
 
 struct float_q {
-    float x[2*NUMCLASS-1];
+    float x[NUMCLASS];
 };
 
 struct float_qc {
     float x[NUMCLASS];
+    float y[NUMPARAMETERS-2];    
 };
 
 struct float_qr {
     float x[NUMCLASS-1];
 };
 
-
+/*
 struct float_triple {
     float x[3];
 };
+ */
 
 template<typename T> struct type_name
 {

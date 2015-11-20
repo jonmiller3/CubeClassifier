@@ -18,19 +18,12 @@ int Classify::WriteOutput(){
 
 
     if (outIO==0) CreateNewTree(interface->FindElem("classtree"));
-
-    
     
     float cvar[ndim+1];
-    //float ratios;
-    //float ratiom;
-    //float numsig;
-    //float numdata;
-    //float nummc;
     
     //float_q cubevars;
     //float numc[NUMCLASS];
-    float_qc numc;
+    float_q numc;
     float_qr ratio;
     
     outIO->SetOutTreeVar("cubedepth", &cvar[0]);
@@ -50,19 +43,6 @@ int Classify::WriteOutput(){
         if (j==NUMCLASS-1) continue;
         outIO->SetOutTreeVar(Form("ratio%d",j+1), &ratio.x[j]);
     }
-
-    
-    //outIO->SetOutTreeVar("ratios", &ratios);
-    //outIO->SetOutTreeVar("ratiom", &ratiom);
-    
-
-    //outIO->SetOutTreeVar("ratios", &ratios);
-    //outIO->SetOutTreeVar("ratiom", &ratiom);
-    
-    //outIO->SetOutTreeVar("numsig", &numsig);
-    //outIO->SetOutTreeVar("numdata", &numdata);
-    //outIO->SetOutTreeVar("nummc", &nummc);
-
     
     // I need to set up the tree...
     
@@ -81,9 +61,10 @@ int Classify::WriteOutput(){
         std::vector<int> classification = ((*cubeit).first);
         float_qc cinformation = ((*cubeit).second);
         
-        numc.x[0]=cinformation.x[0];
-        numc.x[1]=cinformation.x[1];
-        numc.x[2]=cinformation.x[2];
+        for (int l=0; l<NUMCLASS; l++) {
+            numc.x[l]=cinformation.x[l];
+        }
+
         
         i=0;
         for (std::vector<int>::iterator it = classification.begin(); it!=classification.end(); ++it,++i){
@@ -132,11 +113,13 @@ int Classify::ProcessOutput(int* output_data, long nevents){
 
 int Classify::CreateCubeMap(int* cubeset_out,long nevents){
     
-    //float_triple nullfloat3 = {{0,0,0}};
-    
     float_qc nullfloatqc;
     for (int l=0; l<NUMCLASS; l++) {
         nullfloatqc.x[l]=0;
+    }
+
+    for (int l=2; l<NUMPARAMETERS; l++) {
+        nullfloatqc.y[l]=0;
     }
     
     //int *varj = (int*)malloc(sizeof(int)*(ndim+1));
@@ -160,6 +143,9 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
+            for (int j=2; j<NUMPARAMETERS; j++) {
+                ((*cubeit).second).y[j-2]+=data[i].x[j];
+            }
             if (i%60000==1){
                 std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;
                 std::cout<<" here it is (3) "<<((*cubeit).second).x[0]
@@ -192,20 +178,17 @@ Classify::Classify(Interface* inputinterface){
     
     // not sure about this, this forces the whole set of names to be used...
     // but maybe that is right? if you are not interested just don't include them
-    ndim=(interface->GetVarListSize());
-    
+    ndim=(interface->GetVarNumber());
+    nvars=(interface->GetVarListSize());
      
     currentIO=0;
     outIO=0;
     
-    
     enumber=0;
     
-    var = new float[ndim];
+    var = new float[nvars];
     
-
     return;
-    
     
 }
 
@@ -290,6 +273,7 @@ int Classify::InputData(long nevents, float* data_in){
         }
         
         for (int i=0; i<ndim; i++) {
+            if (interface->GetVarParameter(i)>0) continue;
             data_in[cnum*ndim+i]=var[i];
         }
         

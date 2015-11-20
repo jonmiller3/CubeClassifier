@@ -25,8 +25,9 @@ Eval::Eval(Interface* inputinterface){
     
     // not sure about this, this forces the whole set of names to be used...
     // but maybe that is right? if you are not interested just don't include them
-    ndim=(interface->GetVarListSize());
-    
+    ndim=(interface->GetVarNumber());
+    nvars=(interface->GetVarListSize());
+
 
     currentIO=0;
     outIO=0;
@@ -34,7 +35,7 @@ Eval::Eval(Interface* inputinterface){
     
     enumber=0;
     
-    var = new float[ndim];
+    var = new float[nvars];
 
     return;
 }
@@ -217,8 +218,9 @@ int Eval::InputData(long nevents, float* data_in){
             
             tinfo = currentIO->GetEntry(cnum+enumber);
         }
-        
+       
         for (int i=0; i<ndim; i++) {
+            if (interface->GetVarParameter(i)>0) continue;
             data_in[cnum*ndim+i]=var[i];
         }
         

@@ -34,6 +34,7 @@ struct varlist_struct {
     std::string varname;
     double max;
     double min;
+    int parameter;
     
 };
 
@@ -72,6 +73,9 @@ private:
     void ReadVariableList();
     
 public:
+ 
+    int GetVarParameter(int i){return varlistvec[i].parameter;}
+    
     Interface(int,const char*[]);
     Interface(){
         mode=0;
@@ -112,6 +116,17 @@ public:
     double GetMax(int elem){return varlistvec[elem].max;}
     double GetMin(int elem){return varlistvec[elem].min;}
     int GetVarListSize(){return varlistvec.size();}
+
+    int GetVarNumber(){
+        int res=0;
+        std::vector<varlist_struct>::iterator it=varlistvec.begin();
+        while (it!=varlistvec.end()) {
+            if ((*it).parameter<1) {
+                res++;
+            }
+            it++;
+        }
+        return res;}
     
     // new way to get output tree
     std::string GetOutFileName(int elem){
@@ -125,7 +140,7 @@ public:
         }
         return fileoutname;
     }
-    
+        
     int FindElem(std::string treename){
         
         int maxsize=filelistvec.size();
