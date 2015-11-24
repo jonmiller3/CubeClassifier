@@ -21,6 +21,8 @@
 
 
 #define NUMCLASS 2
+
+// 1 is type, 2 is weight, 3+ is additional
 #define NUMPARAMETERS 2
 
 //((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
@@ -29,11 +31,13 @@ struct float_d {
     // type
     // weight
     // parameters
-    float x[NUMPARAMETERS+2];
+    float x[NUMPARAMETERS];
 };
 
 struct float_q {
     float x[NUMCLASS];
+        // parameters
+    float y[NUMPARAMETERS-2];
 };
 
 struct float_qc {

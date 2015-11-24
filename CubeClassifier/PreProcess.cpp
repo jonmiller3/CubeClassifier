@@ -93,6 +93,7 @@ long PreProcess::InputData(long nevents){
 
 int PreProcess::SetData(int par,int i,int j){
     
+    if (par>0) return 0;
     if (data_in.find(j)==data_in.end()){
         std::vector<float> vvar;
         vvar.push_back(var[i]);

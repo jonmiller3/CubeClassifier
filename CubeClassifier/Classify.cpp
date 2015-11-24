@@ -19,7 +19,7 @@ int Classify::WriteOutput(){
 
     if (outIO==0) CreateNewTree(interface->FindElem("classtree"));
     
-    float cvar[ndim+1];
+    float cvar[nvars+1];
     
     //float_q cubevars;
     //float numc[NUMCLASS];
@@ -51,6 +51,11 @@ int Classify::WriteOutput(){
         outIO->SetOutTreeVar(Form("ratio%d",j+1), &ratio.x[j]);
     }
     
+    
+    for (int j=0; j<NUMPARAMETERS-2; j++) {
+        outIO->SetOutTreeVar(Form("par%d",j), &numc.y[j]);
+    }
+    
     // I need to set up the tree...
     
     for (cubeit=cubemap.begin(); cubeit!=cubemap.end(); ++cubeit) {
@@ -72,6 +77,9 @@ int Classify::WriteOutput(){
             numc.x[l]=cinformation.x[l];
         }
 
+        for (int l=0; l<NUMPARAMETERS-2; l++) {
+            numc.y[l]=cinformation.y[l];
+        }
         
         i=0;
         for (std::vector<int>::iterator it = classification.begin(); it!=classification.end(); ++it){
@@ -92,6 +100,8 @@ int Classify::WriteOutput(){
         
         // alternate definition
         //ratios = -expf(numsig)+expf(numdata+numsig);
+        
+        
         
         if (interface->GetPruneStat()>numc.x[0]) continue;
         
