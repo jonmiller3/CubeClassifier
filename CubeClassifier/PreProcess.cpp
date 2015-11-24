@@ -294,8 +294,9 @@ std::string PreProcess::CreateOpenCLBuffer(){
     bstream<<"float trange = max[j]-min[j]; float difference = input[i*r+j]-min[j]; \n";
     bstream<<"\n";
     // this is the part where I need to have it look up in the array with j/k
-    bstream<<"int mult = model[q*j+k];";
+    bstream<<"int mult = model[r*k+j];";
     bstream<<"\n";
+    //bstream<<"printf('go %i %i %i ',mult,i,j);\n";
     bstream<<"output[i*r*q+r*k+j]=(int)(difference/trange*mult);\n";
     bstream<<"\n";
     bstream<<"}";

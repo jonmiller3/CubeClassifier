@@ -22,6 +22,8 @@ kernel void fillcubefull(global const float* input, constant float* max, constan
     // input is a value that is x1,y1,z1 and so on
     //output[(i*r+j)*q+k]=0;;
     
+    //printf("here it is %i %i %i \n",mult,i,j);
+    
     output[i*r*q+r*k+j]=(int)(difference/trange*mult);
     
     //output[(i*r+j)*q+k]=k;
