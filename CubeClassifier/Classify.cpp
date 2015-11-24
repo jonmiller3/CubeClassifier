@@ -32,12 +32,19 @@ int Classify::WriteOutput(){
     
     std::vector<std::string> varnamelist=interface->GetVarNameList();
     
-    for (std::vector<std::string>::iterator it = varnamelist.begin(); it!=varnamelist.end(); ++it,++i ) {
+    for (std::vector<std::string>::iterator it = varnamelist.begin(); it!=varnamelist.end(); ) {
         
+        if (interface->GetVarParameter(i-1)>0) {
+            it++;
+            continue;
+        }
         std::string varname = *it; 
         outIO->SetOutTreeVar(varname.c_str(), &cvar[i]);
+        i++;
+        it++;
     }
     
+    // I think in this case I shouldn't do the ratio but should just do the PARAMETER
     for (int j=0; j<NUMCLASS; j++) {
         outIO->SetOutTreeVar(Form("num%d",j), &numc.x[j]);
         if (j==NUMCLASS-1) continue;
@@ -67,10 +74,11 @@ int Classify::WriteOutput(){
 
         
         i=0;
-        for (std::vector<int>::iterator it = classification.begin(); it!=classification.end(); ++it,++i){
+        for (std::vector<int>::iterator it = classification.begin(); it!=classification.end(); ++it){
             
             int cval=*it;
             cvar[i]=(float)cval;
+            i++;
         }
         
         for (int l=0; l<NUMCLASS-1; l++) {
@@ -273,11 +281,21 @@ int Classify::InputData(long nevents, float* data_in){
         }
         
         for (int i=0; i<ndim; i++) {
-            if (interface->GetVarParameter(i)>0) continue;
-            data_in[cnum*ndim+i]=var[i];
+            int par=interface->GetVarParameter(i);
+            if (par>0) {
+                data[cnum].x[par]=var[i];
+            } else {
+                data_in[cnum*ndim+i]=var[i];
+            }
         }
         
-        data[cnum].x[1]=weight;
+        // if there is a weight variable
+        // then it should be multiplied here
+        if (interface->GetWeightSetting()>0){
+            data[cnum].x[1]*=weight;
+        } else {
+            data[cnum].x[1]=weight;
+        }
         data[cnum].x[0]=(float)currentIO->GetType();
         
         cnum++;

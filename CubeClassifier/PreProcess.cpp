@@ -8,29 +8,20 @@
 
 #include "PreProcess.hpp"
 
-PreProcess::PreProcess(Interface* inputinterface){
-    
-    
-    interface=inputinterface;
-    
-    ndim=(interface->GetVarListSize());
-    
-    cubelevel=interface->GetCubeLevel();
+PreProcess::PreProcess(Interface* inputinterface):Base(inputinterface){
 
-    currentIO=0;
-        
-    var = new float[ndim];
-    
-    max = new float[ndim];
-    min = new float[ndim];
+
+    max = new float[nvars];
+    min = new float[nvars];
     
     SetMaxMin();
+     
     
     return;
     
 }
 
-
+/*
 long PreProcess::InputData(long nevents){
     
     // for now this is just using default, later I will need to set it here
@@ -75,14 +66,18 @@ long PreProcess::InputData(long nevents){
             tinfo = currentIO->GetEntry(cnum);
         }
         
-        for (int i=0; i<ndim; i++) {
-            if (data_in.find(i)==data_in.end()){
+        int j=0;
+        for (int i=0; i<nvars; i++) {
+            int par=interface->GetVarParameter(i);
+            if (par>0) continue;
+            if (data_in.find(j)==data_in.end()){
                 std::vector<float> vvar;
                 vvar.push_back(var[i]);
-                data_in[i] = vvar;
+                data_in[j] = vvar;
             } else {
-                data_in[i].push_back(var[i]);
+                data_in[j].push_back(var[i]);
             }
+            j++;
         }
         
         
@@ -94,8 +89,22 @@ long PreProcess::InputData(long nevents){
     return 0;
     
 }
+ */
 
+int PreProcess::SetData(int par,int i,int j){
+    
+    if (data_in.find(j)==data_in.end()){
+        std::vector<float> vvar;
+        vvar.push_back(var[i]);
+        data_in[j] = vvar;
+    } else {
+        data_in[j].push_back(var[i]);
+    }
+    
+    return 0;
+}
 
+/*
 int PreProcess::GetNewTree(int newelem){
     
     
@@ -117,6 +126,7 @@ int PreProcess::GetNewTree(int newelem){
     
     return 0;
 }
+ */
 
 int PreProcess::Process(int nevents=10000){
     
@@ -187,12 +197,10 @@ float PreProcess::GetDifference(std::vector<float> values ,float skip ){
 
         
         float diff = std::abs((*it) - (*(it-skip)));
-        if (skip>400) std::cout<<" diff 1 "<<diff<<" "<<counter<<" skip "<<skip<<std::endl;
         
         if (diff<res&&diff>0) res=diff;
         
         diff = std::abs((*it) - (*(it+skip)));
-        if (skip>400) std::cout<<" diff 2 "<<diff<<" "<<counter<<" skip "<<skip<<std::endl;
         
         if (diff<res&&diff>0) res=diff;
     
@@ -301,15 +309,16 @@ std::string PreProcess::CreateOpenCLBuffer(){
     
 }
 
+
 int PreProcess::SetMaxMin(){
     
-    int ls=interface->GetVarListSize();
-    
-    for (int i=0; i<ls; i++) {
-        
-        max[i]=interface->GetMax(i);
-        min[i]=interface->GetMin(i);
-        
+    int j=0;
+    for (int i=0; i<ndim; i++) {
+        int par=interface->GetVarParameter(i);
+        if (par>0) continue;
+        max[j]=interface->GetMax(i);
+        min[j]=interface->GetMin(i);
+        j++;
     }
     
     return 0;

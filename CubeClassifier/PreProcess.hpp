@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 
-#endif /* PreProcess_hpp */
 
 #include <vector>
 #include <map>
@@ -27,21 +26,18 @@
 #include "IO.h"
 #include "Interface.h"
 
+#include "Base.hpp"
+
 // I keep thinking that maybe I should inheret from BaseClassifier
 // or BaseClassifier and PreProcess should inheret from BaseClass ?
-class PreProcess {
-    
-    IO<TTree, TFile>* currentIO;
-    Interface* interface;
+class PreProcess:public Base {
     
     std::map<int,std::vector<float> > data_in;
 
     std::map<int,std::vector<int> > diff_set;
+
     
-    float* var;
-    int ndim;
-    int cubelevel;
-    
+
     float* max;
     float* min;
     
@@ -50,11 +46,14 @@ public:
     float GetDifference(std::vector<float>,float);
     std::string CreateOpenCLBuffer();
     PreProcess(Interface*);
-    long InputData(long);
+    //long InputData(long);
     int Process(int);
-    int GetNewTree(int);
+    //int GetNewTree(int);
     int SetMaxMin();
     int WriteOutput(std::string);
+    int SetData(int,int,int);
     int WriteOutput(){std::string filename=Form("preprocess.cl"); return WriteOutput(filename);}
     
 };
+
+#endif /* PreProcess_hpp */

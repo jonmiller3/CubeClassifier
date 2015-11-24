@@ -57,6 +57,7 @@ int Eval::LoadCubeMap(){
     int i=0;
     for (std::vector<std::string>::iterator it=varnamelist.begin(); it!=varnamelist.end(); ++it,i++) {
         
+        if (interface->GetVarParameter(i)>0) continue;
         std::string varname = *it;
         controlIO->SetTreeVars(varname.c_str(), &(var[i]));
         //ctree->SetBranchAddress(varname.c_str(), &(var[i]));
@@ -220,11 +221,19 @@ int Eval::InputData(long nevents, float* data_in){
         }
        
         for (int i=0; i<ndim; i++) {
-            if (interface->GetVarParameter(i)>0) continue;
-            data_in[cnum*ndim+i]=var[i];
+            int par=interface->GetVarParameter(i);
+            if (par>0) {
+                data[cnum].x[par]=var[i];
+            } else {
+                data_in[cnum*ndim+i]=var[i];
+            }
         }
         
-        data[cnum].x[1]=weight;
+        if (interface->GetWeightSetting()>0){
+            data[cnum].x[1]*=weight;
+        } else {
+            data[cnum].x[1]=weight;
+        }
         data[cnum].x[0]=(float)currentIO->GetType();
                 
         cnum++;

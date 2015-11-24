@@ -31,6 +31,7 @@
 		D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 		D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00F589B17C2ED2000AD99C6 /* IO.cpp */; };
 		D042ABC61BF25E7C00C2E532 /* PreProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */; settings = {ASSET_TAGS = (); }; };
+		D089CF151C040C510038793C /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D089CF131C040C510038793C /* Base.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +119,8 @@
 		D037719A17BEB3C300C05518 /* results.root */ = {isa = PBXFileReference; lastKnownFileType = file; name = results.root; path = CubeClassifier/results.root; sourceTree = "<group>"; };
 		D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreProcess.cpp; sourceTree = "<group>"; };
 		D042ABC51BF25E7C00C2E532 /* PreProcess.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PreProcess.hpp; sourceTree = "<group>"; };
+		D089CF131C040C510038793C /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base.cpp; path = ../Base.cpp; sourceTree = "<group>"; };
+		D089CF141C040C510038793C /* Base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Base.hpp; path = ../Base.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +200,8 @@
 		6DCA845F1636BFBC0091D31F /* CubeClassifier */ = {
 			isa = PBXGroup;
 			children = (
+				D089CF131C040C510038793C /* Base.cpp */,
+				D089CF141C040C510038793C /* Base.hpp */,
 				D00F589B17C2ED2000AD99C6 /* IO.cpp */,
 				D00F589C17C2ED2000AD99C6 /* IO.h */,
 				6DCA84691636BFEE0091D31F /* main.cpp */,
@@ -379,6 +384,7 @@
 				6DCA84771636BFEE0091D31F /* Data.cpp in Sources */,
 				6DCA85E8163A96740091D31F /* fillcube2.cl in Sources */,
 				6DCA85EA163A96820091D31F /* fillcube3.cl in Sources */,
+				D089CF151C040C510038793C /* Base.cpp in Sources */,
 				6DCA85F0163DB8EE0091D31F /* fillcubefull.cl in Sources */,
 				6DCA85F3163DB9E70091D31F /* fillcube3full.cl in Sources */,
 				6DCA85F4163DB9E90091D31F /* fillcube2full.cl in Sources */,

@@ -43,7 +43,7 @@ int main (int argc, const char * argv[])
 
         
         PreProcess* pp = new PreProcess(iface);
-        pp->Process(1000);
+        pp->Process(10000);
         pp->WriteOutput();
         
         // just create the class
