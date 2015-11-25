@@ -120,6 +120,21 @@ int Classify::WriteOutput(){
     
 }
 
+int Classify::SetMaxMin(float* max, float* min){
+    
+    int j=0;
+    for (int i=0; i<nvars; i++) {
+        int par=interface->GetVarParameter(i);
+        if (par>0) continue;
+        max[j]=interface->GetMax(i);
+        min[j]=interface->GetMin(i);
+        j++;
+    }
+    
+    return 0;
+    
+}
+
 
 int Classify::ProcessOutput(int* output_data, long nevents){
     
@@ -290,7 +305,7 @@ int Classify::InputData(long nevents, float* data_in){
             tinfo = currentIO->GetEntry(cnum+enumber);
         }
         
-        for (int i=0; i<ndim; i++) {
+        for (int i=0; i<nvars; i++) {
             int par=interface->GetVarParameter(i);
             if (par>0) {
                 data[cnum].x[par]=var[i];

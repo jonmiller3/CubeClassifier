@@ -249,6 +249,21 @@ int Eval::InputData(long nevents, float* data_in){
 }
 
 
+int Eval::SetMaxMin(float* max, float* min){
+    
+    int j=0;
+    for (int i=0; i<nvars; i++) {
+        int par=interface->GetVarParameter(i);
+        if (par>0) continue;
+        max[j]=interface->GetMax(i);
+        min[j]=interface->GetMin(i);
+        j++;
+    }
+    
+    return 0;
+    
+}
+
 // obvious, but I need to remember that this should be initalized in the constructor
 // this is the old way, but it shouldn't be calling any problems so I can leave it
 long Eval::EventsToProcess(){    

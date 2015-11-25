@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-//#define USECPU
+#define USECPU
 
 #ifdef __APPLE__
     #include <OpenCL/OpenCL.h>
@@ -65,6 +65,7 @@ int main (int argc, const char * argv[])
         //delete iface;
         
         printf("now begin test of eval");
+        c
         
         Eval* ebs = new Eval(iface);
         

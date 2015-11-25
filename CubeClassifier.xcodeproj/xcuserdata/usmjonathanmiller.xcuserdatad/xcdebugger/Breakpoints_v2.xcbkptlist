@@ -6,15 +6,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/BaseClassifier.cpp"
-            timestampString = "429219707.30327"
+            timestampString = "470183552.526756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "BaseClassifier::ProcessQueue()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/BaseClassifier.cpp"
-            timestampString = "469499942.353719"
+            timestampString = "470183552.526756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "544"
+            endingLineNumber = "544"
             landmarkName = "BaseClassifier::ProcessQueue()"
             landmarkType = "5">
          </BreakpointContent>
@@ -54,15 +54,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/BaseClassifier.cpp"
-            timestampString = "469499942.353719"
+            timestampString = "470183552.526756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "455"
-            endingLineNumber = "455"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "BaseClassifier::ProcessQueue()"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/Eval.cpp"
-            timestampString = "470006203.769027"
+            timestampString = "470164149.082361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "Eval::ProcessOutput(int* output_data, long nevents)"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/Eval.cpp"
-            timestampString = "470006203.769027"
+            timestampString = "470164149.082361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "Eval::ProcessOutput(int* output_data, long nevents)"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/IO.h"
-            timestampString = "470095079.044714"
+            timestampString = "470166358.108715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "IO(std::string filename, std::string treename, int elem, int typ, int iread)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/IO.h"
-            timestampString = "470095079.044714"
+            timestampString = "470166358.108715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "SetOutTreeVar(std::string name,T* variable)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/IO.h"
-            timestampString = "470095079.044714"
+            timestampString = "470166358.108715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187">
+            startingLineNumber = "188"
+            endingLineNumber = "188">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/IO.h"
-            timestampString = "470095079.044714"
+            timestampString = "470166358.108715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "SetOutTreeVars(std::string name,T variable,std::string name2)"
             landmarkType = "7">
          </BreakpointContent>
@@ -248,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/Classify.cpp"
-            timestampString = "470095079.044714"
+            timestampString = "470164149.082361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "Classify::CreateCubeMap(int* cubeset_out,long nevents)"
             landmarkType = "5">
          </BreakpointContent>
@@ -472,11 +472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/Classify.cpp"
-            timestampString = "470096417.772077"
+            timestampString = "470164149.082361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "Classify::InputData(long nevents, float* data_in)"
             landmarkType = "5">
          </BreakpointContent>
@@ -488,12 +488,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CubeClassifier/Classify.cpp"
-            timestampString = "470096423.181965"
+            timestampString = "470164149.082361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "Classify::InputData(long nevents, float* data_in)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CubeClassifier/BaseClassifier.cpp"
+            timestampString = "470183552.526756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
+            landmarkName = "BaseClassifier::ProcessQueue()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CubeClassifier/BaseClassifier.cpp"
+            timestampString = "470183552.526756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "609"
+            endingLineNumber = "609"
+            landmarkName = "BaseClassifier::ProcessQueue()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CubeClassifier/BaseClassifier.cpp"
+            timestampString = "470183552.526756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
+            landmarkName = "BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, char* device_name, cl_kernel kernel, long ne, cl_event gpudone_event, float* data_in, int* data_out, size_t mem_size_output_data, size_t mem_size_input_data)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CubeClassifier/BaseClassifier.cpp"
+            timestampString = "470183552.526756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
+            landmarkName = "BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, char* device_name, cl_kernel kernel, long ne, cl_event gpudone_event, float* data_in, int* data_out, size_t mem_size_output_data, size_t mem_size_input_data)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

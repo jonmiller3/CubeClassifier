@@ -39,6 +39,8 @@ class Eval:public BaseClassifier {
     // just the same as classify
 //    int SetMaxMin(float* max, float* min);
 
+    int SetMaxMin(float*, float*);
+
     int InputData(long,float*);
     int ProcessOutput(int*,long);
     long EventsToProcess();

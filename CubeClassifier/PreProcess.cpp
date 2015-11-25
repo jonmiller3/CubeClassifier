@@ -243,16 +243,16 @@ std::string PreProcess::CreateOpenCLBuffer(){
     
     std::stringstream bstream;
     
-    bstream<<"\n";
+    bstream<<"\n ";
  
     
-    bstream<<"\n";
-    bstream<<"\n";
+    bstream<<"\n ";
+    bstream<<"\n ";
     bstream<<"//#include <OpenCL/OpenCL.h> \n ";
-    bstream<<"\n";
+    bstream<<"\n ";
     
     bstream<<"kernel void fillpreprocesscubefull(global const float* input, constant float* max, constant float* min, global int* output)";
-    bstream<<"{\n";
+    bstream<<"{\n ";
 
     
     // here we make the array (look up?) 
@@ -286,21 +286,21 @@ std::string PreProcess::CreateOpenCLBuffer(){
     
     }
     
-    bstream<<" };";
+    bstream<<" }; ";
     
-    bstream<<"\n";
-    bstream<<"\n";
-    bstream<<"int i = get_global_id(0); int j = get_global_id(1); int k = get_global_id(2); int p = get_global_size(0); int r = get_global_size(1); int q = get_global_size(2);\n";
-    bstream<<"\n";
-    bstream<<"float trange = max[j]-min[j]; float difference = input[i*r+j]-min[j]; \n";
-    bstream<<"\n";
+    bstream<<"\n ";
+    bstream<<"\n ";
+    bstream<<"int i = get_global_id(0); int j = get_global_id(1); int k = get_global_id(2); int p = get_global_size(0); int r = get_global_size(1); int q = get_global_size(2);\n ";
+    bstream<<"\n ";
+    bstream<<"float trange = max[j]-min[j]; float difference = input[i*r+j]-min[j]; \n ";
+    bstream<<"\n ";
     // this is the part where I need to have it look up in the array with j/k
-    bstream<<"int mult = model[r*k+j];";
-    bstream<<"\n";
-    //bstream<<"printf('go %i %i %i ',mult,i,j);\n";
-    bstream<<"output[i*r*q+r*k+j]=(int)(difference/trange*mult);\n";
-    bstream<<"\n";
-    bstream<<"}";
+    bstream<<"int mult = model[r*k+j]; ";
+    bstream<<"\n ";
+    bstream<<"printf(\"go %i %i %i \",mult,i,j);\n";
+    bstream<<"output[i*r*q+r*k+j]=(int)(difference/trange*mult);\n ";
+    bstream<<"\n ";
+    bstream<<"} ";
     
     
     std::string s=bstream.str();

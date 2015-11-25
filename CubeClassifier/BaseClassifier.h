@@ -86,6 +86,9 @@ protected:
     int ProcessSet(cl_command_queue, cl_device_id, char*, cl_kernel, long, cl_event, float*, int*, size_t, size_t);
     
     
+    virtual int SetMaxMin(float* max, float* min);
+
+    
     Interface* interface;
     
 // can't access outside, can't access with daughters
@@ -99,9 +102,6 @@ public:
     
     BaseClassifier(){cubesetting=1;}
     BaseClassifier(int nd, int md){cubesetting=2;mdim=md;ndim=nd;}
-
-    int SetMaxMin(float* max, float* min);
-
     
     int GetQueueNum(){return queuenumber;}
     

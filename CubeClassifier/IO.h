@@ -23,7 +23,8 @@
 #define NUMCLASS 2
 
 // 1 is type, 2 is weight, 3+ is additional
-#define NUMPARAMETERS 2
+#define NUMPARAMETERS 3
+
 
 //((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
 

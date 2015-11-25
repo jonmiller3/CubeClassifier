@@ -57,7 +57,7 @@ class Classify:public BaseClassifier {
     
     IO<TTree, TFile>* outIO;
     IO<TTree, TFile>* currentIO;
-    
+    int SetMaxMin(float*, float*);
     
 private:
     int maxelem;

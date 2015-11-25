@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-//#define USECPU
+#define USECPU
 
 #ifdef __APPLE__
     #include <OpenCL/OpenCL.h>
@@ -229,6 +229,9 @@ int BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, cha
         std::cout<<" problem with work item size "<<ciErrNum<<std::endl;
     }
     
+    printf("what is max %lu",workitem_size);
+
+    
     size_t maxworkitem_size;
     ciErrNum = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(maxworkitem_size), &maxworkitem_size, NULL);
         if (ciErrNum != CL_SUCCESS)
@@ -307,11 +310,36 @@ int BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, cha
     //ciErrNum=clEnqueueNDRangeKernel(commandQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
     //                                0, NULL, NULL);
     
+    
+#ifdef USECPU
+    globalWorkSize[0]=20;
+    globalWorkSize[1]=5;
+    globalWorkSize[2]=5;
+    
+    localWorkSize[0]=1;
+    localWorkSize[1]=1;
+    localWorkSize[2]=1;
+#else
+    printf(" running on GPU \n ");
+#endif
+    
     // for CPU
-    clFinish(cQueue);
+    ciErrNum=clFinish(cQueue);
+    if (ciErrNum != CL_SUCCESS)
+    {
+        std::cout<<" Error: in Finishing before kernel "<<ciErrNum<<std::endl;
+        return -1;
+    }
+#ifdef USECPU
+ 
+    ciErrNum=clEnqueueNDRangeKernel(cQueue, kernel, 1, 0, globalWorkSize, localWorkSize,
+                                    0, NULL, NULL);
+
+#else
+    
     ciErrNum=clEnqueueNDRangeKernel(cQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
                                     0, NULL, NULL);
-    
+#endif
     // should be go?
     //clEnqueueNDRangeKernel(commandQueue, kernel, 3, 0, globalWorkSize, localWorkSize,
     //                           0, NULL, &gpudone_event);
@@ -328,7 +356,14 @@ int BaseClassifier::ProcessSet(cl_command_queue cQueue, cl_device_id device, cha
     //clFlush(commandQueue);
     
     // lets just do it all here now....
-    clFinish(cQueue);
+    ciErrNum=clFinish(cQueue);
+    if (ciErrNum != CL_SUCCESS)
+    {
+        std::cout<<" Error: in Finishing after kernel "<<ciErrNum<<std::endl;
+        return -1;
+    }
+    
+    
     printf(" ready to download ");
     
     // Download result from GPU.
@@ -515,7 +550,12 @@ int BaseClassifier::ProcessQueue(){
     for (int i=0; i<ciDeviceCount; i++) {
         if (!cDevicesAvailable[i]) continue;
 
-        clFlush(commandQueue[i]);
+        ciErrNum=clFlush(commandQueue[i]);
+        if (ciErrNum != CL_SUCCESS)
+        {
+            std::cout<<" Error: Failure to flush "<<std::endl;
+            return -1;
+        }
     }
     
    
@@ -771,13 +811,13 @@ int BaseClassifier::CompileOCLKernel(cl_device_id cdDevice,
 // very simple, wish there was some nicer way to do this but it goes quickly at least?
 int BaseClassifier::SetMaxMin(float* max, float* min){
     
-    int ls=interface->GetVarListSize();
-    
-    for (int i=0; i<ls; i++) {
-        
-        max[i]=interface->GetMax(i);
-        min[i]=interface->GetMin(i);
-        
+    int j=0;
+    for (int i=0; i<ndim; i++) {
+        int par=interface->GetVarParameter(i);
+        if (par>0) continue;
+        max[j]=interface->GetMax(i);
+        min[j]=interface->GetMin(i);
+        j++;
     }
     
     return 0;

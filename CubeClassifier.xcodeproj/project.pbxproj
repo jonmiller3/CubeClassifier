@@ -30,8 +30,8 @@
 		D00F589617C2BC4100AD99C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BB816F2AF1E008722A3 /* main.cpp */; };
 		D00F589717C2BC4600AD99C6 /* CreateTestTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7BC216F2B309008722A3 /* CreateTestTree.cpp */; };
 		D00F589D17C2ED2000AD99C6 /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00F589B17C2ED2000AD99C6 /* IO.cpp */; };
-		D042ABC61BF25E7C00C2E532 /* PreProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */; settings = {ASSET_TAGS = (); }; };
-		D089CF151C040C510038793C /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D089CF131C040C510038793C /* Base.cpp */; settings = {ASSET_TAGS = (); }; };
+		D042ABC61BF25E7C00C2E532 /* PreProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D042ABC41BF25E7C00C2E532 /* PreProcess.cpp */; };
+		D089CF151C040C510038793C /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D089CF131C040C510038793C /* Base.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -335,7 +335,7 @@
 		6DCA84531636BFBC0091D31F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = UTFSM;
 			};
 			buildConfigurationList = 6DCA84561636BFBC0091D31F /* Build configuration list for PBXProject "CubeClassifier" */;
@@ -495,11 +495,15 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -530,11 +534,14 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
