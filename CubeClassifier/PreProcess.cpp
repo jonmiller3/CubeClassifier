@@ -297,8 +297,9 @@ std::string PreProcess::CreateOpenCLBuffer(){
     // this is the part where I need to have it look up in the array with j/k
     bstream<<"int mult = model[r*k+j]; ";
     bstream<<"\n ";
-    bstream<<"printf(\"go %i %i %i \",mult,i,j);\n";
+    //bstream<<"printf(\"go %i %i %i %i %i %i \",mult,i,j,p,r,q);\n";
     bstream<<"output[i*r*q+r*k+j]=(int)(difference/trange*mult);\n ";
+    //bstream<<"printf(\" out %i \",output[i*r*q+r*k+j]);\n";
     bstream<<"\n ";
     bstream<<"} ";
     

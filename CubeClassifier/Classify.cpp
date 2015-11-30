@@ -73,12 +73,14 @@ int Classify::WriteOutput(){
         std::vector<int> classification = ((*cubeit).first);
         float_qc cinformation = ((*cubeit).second);
         
+        double totalclass=0;
         for (int l=0; l<NUMCLASS; l++) {
             numc.x[l]=cinformation.x[l];
+            totalclass+=numc.x[l];
         }
 
         for (int l=0; l<NUMPARAMETERS-2; l++) {
-            numc.y[l]=cinformation.y[l];
+            numc.y[l]=cinformation.y[l]/totalclass;
         }
         
         i=0;
@@ -150,8 +152,8 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
     for (int l=0; l<NUMCLASS; l++) {
         nullfloatqc.x[l]=0;
     }
-
-    for (int l=2; l<NUMPARAMETERS; l++) {
+    
+    for (int l=0; l<NUMPARAMETERS-2; l++) {
         nullfloatqc.y[l]=0;
     }
     
@@ -176,8 +178,8 @@ int Classify::CreateCubeMap(int* cubeset_out,long nevents){
             
             cubeit=cubemap.find(varj);
             ((*cubeit).second).x[(int)data[i].x[0]]+=data[i].x[1]; // + (*cubeit).second[(int)data[i][0]];
-            for (int j=2; j<NUMPARAMETERS; j++) {
-                ((*cubeit).second).y[j-2]+=data[i].x[j];
+            for (int j=0; j<NUMPARAMETERS-2; j++) {
+                ((*cubeit).second).y[j]+=data[i].x[j+2];
             }
             if (i%60000==1){
                 std::cout<<" here it is (4) "<<varj[0]<<varj[1]<<varj[2]<<varj[3]<<varj[4]<<std::endl;

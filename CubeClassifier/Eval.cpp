@@ -317,29 +317,34 @@ int Eval::ProcessOutput(int* output_data, long nevents){
     // I can probably get this from outIO?
     int currentelem=beginelem;
 
-    
-    //float ratios[mdim];
-    //float ratiom[mdim];
-    //float numsig[mdim];
-    //float numdata[mdim];
-    //float nummc[mdim];
     int   kdim[mdim];
     int   elemnum;
     
+    int nclass = NUMCLASS*mdim;
+    int npar = NUMPARAMETERS;
+    
+    
     outIO->SetOutTreeVar("mdim", &mdim);
     outIO->SetOutTreeVar("event", &elemnum);
+    outIO->SetOutTreeVar("npar", &npar);
+    outIO->SetOutTreeVar("nclass", &nclass);
     
-    float_qc cvars[mdim];
+    float* cvars = new float[nclass];
     float_qr rvars[mdim];
     
     
     for (int l=0; l<mdim; l++) {
         
+        outIO->SetOutTreeVars(Form("cvars"), cvars, "nclass");
+
+        
+        /*
         for (int m=0; m<NUMCLASS; m++) {
             outIO->SetOutTreeVar(Form("cvars%d_%d",l,m), &cvars[l].x[m]);
             if (m==NUMCLASS-1) continue;
             outIO->SetOutTreeVar(Form("rvars%d_%d",l,m), &rvars[l].x[m]);
         }
+         */
     }
 
     
@@ -370,21 +375,27 @@ int Eval::ProcessOutput(int* output_data, long nevents){
             CreateNewTree(currentelem);
             
             outIO->SetOutTreeVar("mdim", &mdim);
+            outIO->SetOutTreeVar("npar", &npar);
+            outIO->SetOutTreeVar("nclass", &nclass);
             outIO->SetOutTreeVar("event", &elemnum);
+            outIO->SetOutTreeVars("kdim", kdim, "mdim");
             
             for (int l=0; l<mdim; l++) {
-                
+            
+                outIO->SetOutTreeVars(Form("cvars"), cvars, "nclass");
+
+                /*
                 for (int m=0; m<NUMCLASS; m++) {
                     outIO->SetOutTreeVar(Form("cvars%d_%d",l,m), &cvars[l].x[m]);
                     if (m==NUMCLASS-1) continue;
                     outIO->SetOutTreeVar(Form("rvars%d_%d",l,m), &rvars[l].x[m]);
                 }
+                 */
+                
             }
             
             
 
-    
-            outIO->SetOutTreeVars("kdim", kdim, "mdim");
             
             // I need to find another approach to get this..
             tent = interface->GetTreeEntries(outIO->GetElement());
@@ -410,7 +421,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
                 
                 for (int l=0; l<NUMCLASS; l++) {
                     
-                    cvars[k].x[l]=-1;
+                    cvars[k*NUMCLASS+l]=-1;
                     if (l==NUMCLASS-1) continue;
                     rvars[k].x[l]=-1;
                     
@@ -432,7 +443,7 @@ int Eval::ProcessOutput(int* output_data, long nevents){
                     //std::cout<<" what is this "<<((*cubeit).second).x[l]<<" and "<<l<<std::endl;
                     // there is probably a much faster way to do this
                     if (l>NUMCLASS-2) {
-                        cvars[k].x[l-NUMCLASS+1]=((*cubeit).second).x[l];
+                        cvars[k*NUMCLASS+l-NUMCLASS+1]=((*cubeit).second).x[l];
                         //std::cout<<" doing cvars "<<std::endl;
                     } else {
                         rvars[k].x[l]=((*cubeit).second).x[l];

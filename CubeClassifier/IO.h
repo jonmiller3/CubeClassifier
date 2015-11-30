@@ -196,7 +196,17 @@ public:
     
     template <class T>
     int SetOutTreeVars(std::string name,T variable,std::string name2){
-        std::string bname = Form("%s[%s]/%s",name.c_str(),name2.c_str(),type_name<typeof(*variable)>::name());
+        std::string bname;
+        //if (type_name<typeof(*variable)>::name()==NULL) {
+        const char* tname = type_name<typeof(variable)>::name();
+        
+        // hack
+        if (tname==NULL) tname=type_name<typeof(*variable)>::name();
+        
+        bname = Form("%s[%s]/%s",name.c_str(),name2.c_str(),tname);
+        //} else {
+        //    bname = Form("%s[%s]/%s",name.c_str(),name2.c_str(),type_name<typeof(*variable)>::name());
+        //}
         tree->Branch(name.c_str(),variable,bname.c_str());
         printf("set up var %s with branch %s \n",name.c_str(),bname.c_str());
         return 0;

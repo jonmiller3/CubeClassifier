@@ -564,6 +564,7 @@
 					"$(inherited)",
 					"/usr/local/Cellar/root/5.34.26/lib/**",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = (
 					"-lGui",
 					"-lCore",
@@ -598,6 +599,7 @@
 					"$(inherited)",
 					"/usr/local/Cellar/root/5.34.26/lib/**",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = (
 					"-lGui",
 					"-lCore",
